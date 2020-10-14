@@ -1,0 +1,50 @@
+version: "3.4"
+
+services:
+  db:
+    image: mariadb
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - internal
+    volumes:
+      - database:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: laravel
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    depends_on:
+      - db
+    networks:
+      - internal
+    ports:
+      - 82:80
+    environment:
+      UPLOAD_LIMIT: 100M
+
+  client:
+    build:
+      context: ./client
+      target: development
+    tty: true # https://github.com/facebook/create-react-app/issues/8688
+    networks:
+      - internal
+    ports:
+      - 80:3000
+    volumes:
+      - ./client:/app:rw,cached
+
+networks:
+  internal:
+    external: false
+
+volumes:
+  database:

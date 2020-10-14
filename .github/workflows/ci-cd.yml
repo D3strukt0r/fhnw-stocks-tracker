@@ -1,0 +1,469 @@
+name: CI/CD
+
+env:
+  # IMAGE_NAME_API_PHP: fhnw-stocks-tracker-api-php
+  # IMAGE_NAME_API_NGINX: fhnw-stocks-tracker-api-nginx
+  IMAGE_NAME_CLIENT: fhnw-stocks-tracker-client
+
+on:
+  push:
+    branches:
+      - "**"
+    tags:
+      - "*.*.*"
+    paths:
+      - .github/workflows/ci-cd.yml
+      - "client/docker/**"
+      - "client/public/**"
+      - "client/src/**"
+      - client/.dockerignore
+      - client/.yarnrc.yml
+      - client/Dockerfile
+      - client/package.json
+      - client/tsconfig.json
+      - client/yarn.lock
+
+  pull_request:
+
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    # https://github.com/marketplace/actions/build-and-push-docker-images#local-registry
+    services:
+      registry:
+        image: registry:2
+        ports:
+          - 5000:5000
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # TODO: Test api here
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: "14"
+
+      # https://github.com/actions/cache/blob/main/examples.md#node---yarn-2
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
+      - name: Cache local yarn repository
+        id: yarn-cache
+        uses: actions/cache@v2
+        with:
+          # A list of files, directories, and wildcard patterns to cache and restore. See @actions/glob for supported patterns.
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          # An explicit key for restoring and saving the cache
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          # An ordered list of keys to use for restoring the cache if no cache hit occurred for key
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Install dependencies
+        working-directory: ./client
+        run: yarn install --immutable
+
+      - name: Build
+        working-directory: ./client
+        run: yarn run build
+
+      - name: Run tests
+        working-directory: ./client
+        run: yarn run test
+
+      - name: Setup QEMU
+        id: qemu
+        uses: docker/setup-qemu-action@v1
+        # with:
+        #   # QEMU static binaries Docker image
+        #   image: tonistiigi/binfmt:latest # optional, default is "tonistiigi/binfmt"
+        #   # Platforms to install (e.g. arm64,riscv64,arm)
+        #   platforms: all # optional, default is "all"
+
+      - name: Setup Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+        with:
+          # Buildx version.
+          # version: latest # optional
+          # Sets the builder driver to be used
+          # driver: docker-container # optional, default is "docker-container"
+          # List of additional driver-specific options (eg. image=moby/buildkit:master)
+          driver-opts: network=host # optional
+          # Flags for buildkitd daemon (since buildx v0.3.0)
+          # buildkitd-flags: # optional
+          # Sets up docker build command as an alias to docker buildx
+          # install: false # optional, default is "false"
+          # Switch to this builder instance
+          # use: true # optional, default is "true"
+          # Optional address for docker socket or context from docker context ls
+          # endpoint: # optional
+
+      # https://github.com/marketplace/actions/build-and-push-docker-images#leverage-github-cache
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          # A list of files, directories, and wildcard patterns to cache and restore. See @actions/glob for supported patterns.
+          path: /tmp/.buildx-cache
+          # An explicit key for restoring and saving the cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          # An ordered list of keys to use for restoring the cache if no cache hit occurred for key
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
+      # - name: Build (Docker)
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     # Builder instance (see setup-buildx action)
+      #     # builder: # optional
+      #     # Build's context is the set of files located in the specified PATH or URL
+      #     # context: . # optional, default is git context
+      #     # Path to the Dockerfile
+      #     # file: ./Dockerfile # optional, default is "Dockerfile"
+      #     # List of build-time variables
+      #     # build-args: # optional
+      #     # List of metadata for an image
+      #     # labels: # optional
+      #     # List of tags
+      #     tags: localhost:5000/name/app:latest # optional
+      #     # Always attempt to pull a newer version of the image
+      #     # pull: false # optional, default is "false"
+      #     # Sets the target stage to build
+      #     # target: # optional
+      #     # List of extra privileged entitlement (eg. network.host,security.insecure)
+      #     # allow: # optional
+      #     # Do not use cache when building the image
+      #     # no-cache: false # optional, default is "false"
+      #     # List of target platforms for build
+      #     platforms: linux/amd64,linux/arm64,linux/ppc64le,linux/s390x,linux/386,linux/arm/v7,linux/arm/v6 # optional
+      #     # Load is a shorthand for --output=type=docker
+      #     # load: false # optional, default is "false"
+      #     # Push is a shorthand for --output=type=registry
+      #     push: true # optional, default is "false"
+      #     # List of output destinations (format: type=local,dest=path)
+      #     # outputs: # optional
+      #     # List of external cache sources (eg. type=local,src=path/to/dir)
+      #     cache-from: type=local,src=/tmp/.buildx-cache # optional
+      #     # List of cache export destinations (eg. type=local,dest=path/to/dir)
+      #     cache-to: type=local,dest=/tmp/.buildx-cache # optional
+      #     # List of secrets to expose to the build (eg. key=value, GIT_AUTH_TOKEN=mytoken)
+      #     # secrets: # optional
+
+      - name: Build Client (Docker)
+        uses: docker/build-push-action@v2
+        with:
+          # Builder instance (see setup-buildx action)
+          # builder: # optional
+          # Build's context is the set of files located in the specified PATH or URL
+          context: ./client # optional, default is git context
+          # Path to the Dockerfile
+          file: ./client/Dockerfile # optional, default is "Dockerfile"
+          # List of build-time variables
+          # build-args: # optional
+          # List of metadata for an image
+          # labels: # optional
+          # List of tags
+          tags: localhost:5000/stocks-tracker/client:latest # optional
+          # Always attempt to pull a newer version of the image
+          # pull: false # optional, default is "false"
+          # Sets the target stage to build
+          # target: # optional
+          # List of extra privileged entitlement (eg. network.host,security.insecure)
+          # allow: # optional
+          # Do not use cache when building the image
+          # no-cache: false # optional, default is "false"
+          # List of target platforms for build
+          platforms: linux/amd64,linux/arm64,linux/ppc64le,linux/s390x,linux/386,linux/arm/v7,linux/arm/v6 # optional
+          # Load is a shorthand for --output=type=docker
+          # load: false # optional, default is "false"
+          # Push is a shorthand for --output=type=registry
+          push: true # optional, default is "false"
+          # List of output destinations (format: type=local,dest=path)
+          # outputs: # optional
+          # List of external cache sources (eg. type=local,src=path/to/dir)
+          cache-from: type=local,src=/tmp/.buildx-cache/client # optional
+          # List of cache export destinations (eg. type=local,dest=path/to/dir)
+          cache-to: type=local,dest=/tmp/.buildx-cache/client # optional
+          # List of secrets to expose to the build (eg. key=value, GIT_AUTH_TOKEN=mytoken)
+          # secrets: # optional
+
+      - name: Inspect
+        run: |
+          # docker buildx imagetools inspect localhost:5000/name/app1:latest
+          # docker buildx imagetools inspect localhost:5000/name/app2:latest
+          docker buildx imagetools inspect localhost:5000/stocks-tracker/client:latest
+
+  deploy:
+    needs: test
+
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop') && github.repository == 'D3strukt0r/fhnw-stocks-tracker'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # https://github.com/actions/starter-workflows/blob/main/ci/docker-publish.yml
+      # https://github.com/docker/build-push-action#complete-workflow
+      - name: Prepare
+        id: prep
+        run: |
+          # DOCKER_IMAGE_API_PHP="$(echo "${{ secrets.DOCKER_USERNAME }}/$IMAGE_NAME_API_PHP" | tr '[A-Z]' '[a-z]')"
+          # DOCKER_IMAGE_API_NGINX="$(echo "${{ secrets.DOCKER_USERNAME }}/$IMAGE_NAME_API_NGINX" | tr '[A-Z]' '[a-z]')"
+          DOCKER_IMAGE_CLIENT="$(echo "${{ secrets.DOCKER_USERNAME }}/$IMAGE_NAME_CLIENT" | tr '[A-Z]' '[a-z]')"
+
+          # Strip git ref prefix from version
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+
+          # Rename branches which stand for latest or similar
+          if [ "$VERSION" = '${{ github.event.repository.default_branch }}' ]; then
+            VERSION=latest
+          elif [ "$VERSION" = 'develop' ]; then
+            VERSION=nightly
+          else
+            # Rename my/branch to my-branch
+            VERSION=$(echo "$VERSION" | sed -r 's#/+#-#g')
+          fi
+
+          # Strip "v" prefix from tag name
+          if [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            VERSION=$(echo $VERSION | sed -e 's/^v//')
+          fi
+
+          # Create tags
+          # TAGS_API_PHP="${DOCKER_IMAGE_API_PHP}:${VERSION}"
+          # if [[ $VERSION =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
+          #   MINOR=${VERSION%.*}
+          #   MAJOR=${MINOR%.*}
+          #   TAGS_API_PHP="$TAGS_API_PHP,${DOCKER_IMAGE_API_PHP}:${MINOR},${DOCKER_IMAGE_API_PHP}:${MAJOR},${DOCKER_IMAGE_API_PHP}:latest"
+          # # elif [ "${{ github.event_name }}" = 'push' ]; then
+          # #   TAGS_API_PHP="$TAGS_API_PHP,${DOCKER_IMAGE_API_PHP}:sha-${GITHUB_SHA::8}"
+          # fi
+          # TAGS_API_NGINX="${DOCKER_IMAGE_API_NGINX}:${VERSION}"
+          # if [[ $VERSION =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
+          #   MINOR=${VERSION%.*}
+          #   MAJOR=${MINOR%.*}
+          #   TAGS_API_NGINX="$TAGS_API_NGINX,${DOCKER_IMAGE_API_NGINX}:${MINOR},${DOCKER_IMAGE_API_NGINX}:${MAJOR},${DOCKER_IMAGE_API_NGINX}:latest"
+          # # elif [ "${{ github.event_name }}" = 'push' ]; then
+          # #   TAGS_API_NGINX="$TAGS_API_NGINX,${DOCKER_IMAGE_API_NGINX}:sha-${GITHUB_SHA::8}"
+          # fi
+          TAGS_CLIENT="${DOCKER_IMAGE_CLIENT}:${VERSION}"
+          if [[ $VERSION =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
+            MINOR=${VERSION%.*}
+            MAJOR=${MINOR%.*}
+            TAGS_CLIENT="$TAGS_CLIENT,${DOCKER_IMAGE_CLIENT}:${MINOR},${DOCKER_IMAGE_CLIENT}:${MAJOR},${DOCKER_IMAGE_CLIENT}:latest"
+          # elif [ "${{ github.event_name }}" = 'push' ]; then
+          #   TAGS_CLIENT="$TAGS_CLIENT,${DOCKER_IMAGE_CLIENT}:sha-${GITHUB_SHA::8}"
+          fi
+
+          echo "::set-output name=version::${VERSION}"
+          # echo "::set-output name=tagsApiPhp::${TAGS_API_PHP}"
+          # echo "::set-output name=tagsApiNginx::${TAGS_API_NGINX}"
+          echo "::set-output name=tagsClient::${TAGS_CLIENT}"
+          echo "::set-output name=created::$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+      - name: Setup QEMU
+        id: qemu
+        uses: docker/setup-qemu-action@v1
+        # with:
+        #   # QEMU static binaries Docker image
+        #   image: tonistiigi/binfmt:latest # optional, default is "tonistiigi/binfmt"
+        #   # Platforms to install (e.g. arm64,riscv64,arm)
+        #   platforms: all # optional, default is "all"
+
+      - name: Setup Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+        with:
+          # Buildx version.
+          version: latest # optional
+          # Sets the builder driver to be used
+          # driver: docker-container # optional, default is "docker-container"
+          # List of additional driver-specific options (eg. image=moby/buildkit:master)
+          # driver-opts: | # optional
+          #   image=moby/buildkit:master
+          #   network=host
+          # Flags for buildkitd daemon (since buildx v0.3.0)
+          # buildkitd-flags: # optional
+          # Sets up docker build command as an alias to docker buildx
+          # install: false # optional, default is "false"
+          # Switch to this builder instance
+          # use: true # optional, default is "true"
+          # Optional address for docker socket or context from docker context ls
+          # endpoint: # optional
+
+      # https://github.com/marketplace/actions/build-and-push-docker-images#leverage-github-cache
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          # A list of files, directories, and wildcard patterns to cache and restore. See @actions/glob for supported patterns.
+          path: /tmp/.buildx-cache
+          # An explicit key for restoring and saving the cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          # An ordered list of keys to use for restoring the cache if no cache hit occurred for key
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          # Server address of Docker registry. If not set then will default to Docker Hub
+          # registry: # optional, default is docker registry
+          # Username used to log against the Docker registry
+          username: ${{ secrets.DOCKER_USERNAME }}
+          # Password or personal access token used to log against the Docker registry
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          # Log out from the Docker registry at the end of a job
+          # logout: true # optional, default is "true"
+
+      # - name: Build and push API PHP
+      #   id: docker_build_api_php
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     # Builder instance (see setup-buildx action)
+      #     # builder:
+      #     # Build's context is the set of files located in the specified PATH or URL
+      #     context: ./api # default is "<Git context>"
+      #     # Path to the Dockerfile
+      #     file: ./api/Dockerfile # default is "Dockerfile"
+      #     # List of build-time variables
+      #     # build-args: # optional
+      #     # List of metadata for an image
+      #     # https://github.com/opencontainers/image-spec/blob/master/annotations.md
+      #     labels: | # optional
+      #       maintainer=Manuele Vaccari <manuele.vaccari@gmail.com>
+      #       org.opencontainers.image.created=${{ steps.prep.outputs.created }}
+      #       org.opencontainers.image.url=${{ github.event.repository.html_url }}
+      #       org.opencontainers.image.source=${{ github.event.repository.clone_url }}
+      #       org.opencontainers.image.version=${{ steps.prep.outputs.version }}
+      #       org.opencontainers.image.revision=${{ github.sha }}
+      #       org.opencontainers.image.title=${{ github.event.repository.name }}
+      #       org.opencontainers.image.description=${{ github.event.repository.description }}
+      #       org.opencontainers.image.licenses=${{ github.event.repository.license.spdx_id }}
+      #     # List of tags
+      #     tags: ${{ steps.prep.outputs.tagsApiPhp }}
+      #     # Always attempt to pull a newer version of the image
+      #     # pull: false # optional, default is "false"
+      #     # Sets the target stage to build
+      #     target: php # optional
+      #     # List of extra privileged entitlement (eg. network.host,security.insecure)
+      #     # allow: # optional
+      #     # Do not use cache when building the image
+      #     # no-cache: false # optional, default is "false"
+      #     # List of target platforms for build
+      #     platforms: linux/amd64,linux/arm64,linux/ppc64le,linux/s390x,linux/386,linux/arm/v7,linux/arm/v6 # optional
+      #     # Load is a shorthand for --output=type=docker
+      #     # load: false # optional, default is "false"
+      #     # Push is a shorthand for --output=type=registry
+      #     push: ${{ github.event_name != 'pull_request' }} # optional, default is "false"
+      #     # List of output destinations (format: type=local,dest=path)
+      #     # outputs: # optional
+      #     # List of external cache sources (eg. type=local,src=path/to/dir)
+      #     cache-from: type=local,src=/tmp/.buildx-cache/api # optional
+      #     # List of cache export destinations (eg. type=local,dest=path/to/dir)
+      #     cache-to: type=local,dest=/tmp/.buildx-cache/api # optional
+      #     # List of secrets to expose to the build (eg. key=value, GIT_AUTH_TOKEN=mytoken)
+      #     # secrets: # optional
+
+      # - name: Build and push API Nginx
+      #   id: docker_build_api_nginx
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     # Builder instance (see setup-buildx action)
+      #     # builder:
+      #     # Build's context is the set of files located in the specified PATH or URL
+      #     context: ./api # default is "<Git context>"
+      #     # Path to the Dockerfile
+      #     file: ./api/Dockerfile # default is "Dockerfile"
+      #     # List of build-time variables
+      #     # build-args: # optional
+      #     # List of metadata for an image
+      #     # https://github.com/opencontainers/image-spec/blob/master/annotations.md
+      #     labels: | # optional
+      #       maintainer=Manuele Vaccari <manuele.vaccari@gmail.com>
+      #       org.opencontainers.image.created=${{ steps.prep.outputs.created }}
+      #       org.opencontainers.image.url=${{ github.event.repository.html_url }}
+      #       org.opencontainers.image.source=${{ github.event.repository.clone_url }}
+      #       org.opencontainers.image.version=${{ steps.prep.outputs.version }}
+      #       org.opencontainers.image.revision=${{ github.sha }}
+      #       org.opencontainers.image.title=${{ github.event.repository.name }}
+      #       org.opencontainers.image.description=${{ github.event.repository.description }}
+      #       org.opencontainers.image.licenses=${{ github.event.repository.license.spdx_id }}
+      #     # List of tags
+      #     tags: ${{ steps.prep.outputs.tagsApiNginx }}
+      #     # Always attempt to pull a newer version of the image
+      #     # pull: false # optional, default is "false"
+      #     # Sets the target stage to build
+      #     target: nginx # optional
+      #     # List of extra privileged entitlement (eg. network.host,security.insecure)
+      #     # allow: # optional
+      #     # Do not use cache when building the image
+      #     # no-cache: false # optional, default is "false"
+      #     # List of target platforms for build
+      #     platforms: linux/amd64,linux/arm64,linux/ppc64le,linux/s390x,linux/386,linux/arm/v7,linux/arm/v6 # optional
+      #     # Load is a shorthand for --output=type=docker
+      #     # load: false # optional, default is "false"
+      #     # Push is a shorthand for --output=type=registry
+      #     push: ${{ github.event_name != 'pull_request' }} # optional, default is "false"
+      #     # List of output destinations (format: type=local,dest=path)
+      #     # outputs: # optional
+      #     # List of external cache sources (eg. type=local,src=path/to/dir)
+      #     cache-from: type=local,src=/tmp/.buildx-cache/api # optional
+      #     # List of cache export destinations (eg. type=local,dest=path/to/dir)
+      #     cache-to: type=local,dest=/tmp/.buildx-cache/api # optional
+      #     # List of secrets to expose to the build (eg. key=value, GIT_AUTH_TOKEN=mytoken)
+      #     # secrets: # optional
+
+      - name: Build and push client
+        id: docker_build_client
+        uses: docker/build-push-action@v2
+        with:
+          # Builder instance (see setup-buildx action)
+          # builder:
+          # Build's context is the set of files located in the specified PATH or URL
+          context: ./client # default is "<Git context>"
+          # Path to the Dockerfile
+          file: ./client/Dockerfile # default is "Dockerfile"
+          # List of build-time variables
+          # build-args: # optional
+          # List of metadata for an image
+          # https://github.com/opencontainers/image-spec/blob/master/annotations.md
+          labels: | # optional
+            maintainer=Manuele Vaccari <manuele.vaccari@gmail.com>
+            org.opencontainers.image.created=${{ steps.prep.outputs.created }}
+            org.opencontainers.image.url=${{ github.event.repository.html_url }}
+            org.opencontainers.image.source=${{ github.event.repository.clone_url }}
+            org.opencontainers.image.version=${{ steps.prep.outputs.version }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.title=${{ github.event.repository.name }}
+            org.opencontainers.image.description=${{ github.event.repository.description }}
+            org.opencontainers.image.licenses=${{ github.event.repository.license.spdx_id }}
+          # List of tags
+          tags: ${{ steps.prep.outputs.tagsClient }}
+          # Always attempt to pull a newer version of the image
+          # pull: false # optional, default is "false"
+          # Sets the target stage to build
+          # target: # optional
+          # List of extra privileged entitlement (eg. network.host,security.insecure)
+          # allow: # optional
+          # Do not use cache when building the image
+          # no-cache: false # optional, default is "false"
+          # List of target platforms for build
+          platforms: linux/amd64,linux/arm64,linux/ppc64le,linux/s390x,linux/386,linux/arm/v7,linux/arm/v6 # optional
+          # Load is a shorthand for --output=type=docker
+          # load: false # optional, default is "false"
+          # Push is a shorthand for --output=type=registry
+          push: ${{ github.event_name != 'pull_request' }} # optional, default is "false"
+          # List of output destinations (format: type=local,dest=path)
+          # outputs: # optional
+          # List of external cache sources (eg. type=local,src=path/to/dir)
+          cache-from: type=local,src=/tmp/.buildx-cache/client # optional
+          # List of cache export destinations (eg. type=local,dest=path/to/dir)
+          cache-to: type=local,dest=/tmp/.buildx-cache/client # optional
+          # List of secrets to expose to the build (eg. key=value, GIT_AUTH_TOKEN=mytoken)
+          # secrets: # optional

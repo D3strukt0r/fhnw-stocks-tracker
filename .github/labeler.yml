@@ -1,0 +1,29 @@
+# Add 'repo' label to any root file changes
+repo:
+  - ./*
+
+# Add 'docker' label to any change to files within the docker dir and docker relevant files
+docker:
+  - "**/docker/**/*"
+  - "**/.dockerignore"
+  - docker-compose.build.yml
+  - docker-compose.yml
+  - "**/Dockerfile"
+
+# Add 'client' label to any change to files within the client dir
+client:
+  - client/**/*
+
+# Add 'api' label to any change to files within the api dir
+api:
+  - api/**/*
+
+# Add 'source' label to any change to files within the source dir
+source:
+  - client/src/**/*
+  - "!client/src/**/*.test.js"
+  # - api/src/**/*
+
+# Add 'test' label to any change to files within the test dir
+test:
+  - client/src/**/*.test.js
