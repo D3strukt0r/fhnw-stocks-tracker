@@ -132,7 +132,7 @@ jobs:
       - name: Build (Docker)
         working-directory: ./api
         run: |
-          .\gradlew.bat bootBuildImage --imageName=d3strukt0r/fhnw-stocks-tracker-api
+          ./gradlew bootBuildImage --imageName=d3strukt0r/fhnw-stocks-tracker-api
 
       - name: Build Client (Docker)
         uses: docker/build-push-action@v2
@@ -289,10 +289,17 @@ jobs:
           # Log out from the Docker registry at the end of a job
           # logout: true # optional, default is "true"
 
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: '15' # The JDK version to make available on the path.
+          java-package: jdk # (jre, jdk, or jdk+fx) - defaults to jdk
+          architecture: x64 # (x64 or x86) - defaults to x64
+
       - name: Build and push API
         working-directory: ./api
         run: |
-          .\gradlew.bat bootBuildImage --imageName=${{ secrets.DOCKER_USERNAME }}/$IMAGE_NAME_API:${{ steps.prep.outputs.version }}
+          ./gradlew bootBuildImage --imageName=${{ secrets.DOCKER_USERNAME }}/$IMAGE_NAME_API:${{ steps.prep.outputs.version }}
           docker push ${{ secrets.DOCKER_USERNAME }}/$IMAGE_NAME_API:${{ steps.prep.outputs.version }}
 
       - name: Build and push client
