@@ -284,6 +284,7 @@ Procfile text
 # End of https://www.richie-bendall.ml/gitattributes-generator/
 
 Dockerfile eol=lf
+gradlew eol=lf
 
 .github export-ignore
 .idea export-ignore
