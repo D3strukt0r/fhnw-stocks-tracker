@@ -17,6 +17,10 @@ public class StockService {
     @Autowired
     private StockRepository stockRepository;
 
+    public Stock createStock(@Valid Stock stock) throws Exception {
+        return stockRepository.save(stock);
+    }
+
     public Stock editStock(@Valid Stock stock) throws Exception {
         Optional<Stock> dbStock = stockRepository.findById(stock.getId());
         if(stock.getId() != null && dbStock != null && dbStock.isPresent()) {

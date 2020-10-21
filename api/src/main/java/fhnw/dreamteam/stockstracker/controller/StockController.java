@@ -22,7 +22,7 @@ public class StockController {
     @PostMapping(path = "/stock", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Stock> postCustomer(@RequestBody Stock stock) {
         try {
-            stock = stockService.editStock(stock);
+            stock = stockService.createStock(stock);
         } catch (ConstraintViolationException e) {
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getConstraintViolations().iterator().next().getMessage());
         } catch (Exception e) {
