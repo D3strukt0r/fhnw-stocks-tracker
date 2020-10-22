@@ -18,7 +18,7 @@ import static java.util.Collections.emptyList;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
         /*Agent agent = agentRepository.findByEmail(username);
         if (agent == null) {
             throw new UsernameNotFoundException(username);

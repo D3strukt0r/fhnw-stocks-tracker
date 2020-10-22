@@ -42,7 +42,7 @@ public class StockController {
     }
 
     /*@GetMapping(path = "/customer/{customerId}", produces = "application/json")
-    public ResponseEntity<Stock> getCustomer(@PathVariable(value = "customerId") String customerId) {
+    public ResponseEntity<Stock> getCustomer(@PathVariable(value = "customerId") final String customerId) {
         Stock customer = null;
         try {
             customer = stockService.findCustomerById(Long.parseLong(customerId));
@@ -53,7 +53,7 @@ public class StockController {
     }
 
     @PutMapping(path = "/customer/{customerId}", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Stock> putCustomer(@RequestBody Stock customer, @PathVariable(value = "customerId") String customerId) {
+    public ResponseEntity<Stock> putCustomer(@RequestBody final Stock customer, @PathVariable(value = "customerId") final String customerId) {
         try {
             customer.setId(Long.parseLong(customerId));
             customer = stockService.editCustomer(customer);
@@ -64,7 +64,7 @@ public class StockController {
     }
 
     @DeleteMapping(path = "/customer/{customerId}")
-    public ResponseEntity<Void> deleteCustomer(@PathVariable(value = "customerId") String customerId) {
+    public ResponseEntity<Void> deleteCustomer(@PathVariable(value = "customerId") final String customerId) {
         try {
             stockService.deleteCustomer(Long.parseLong(customerId));
         } catch (Exception e) {

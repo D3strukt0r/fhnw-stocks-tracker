@@ -16,7 +16,11 @@ public class TokenUser extends User {
     private String remember;
 
     @JsonCreator
-    public TokenUser(@JsonProperty(value = "email", required = true) String email, @JsonProperty(value = "password", required = true) String password, @JsonProperty(value = "remember", required = true) String remember){
+    public TokenUser(
+        @JsonProperty(value = "email", required = true) final String email,
+        @JsonProperty(value = "password", required = true) final String password,
+        @JsonProperty(value = "remember", required = true) final String remember
+    ) {
         super(email, password, emptyList());
         this.email = email;
         this.remember = remember;
@@ -29,5 +33,4 @@ public class TokenUser extends User {
     public String getRemember() {
         return remember;
     }
-
 }

@@ -22,7 +22,11 @@ public class TokenSecurityConfiguration {
     private EntityManagerFactory entityManagerFactorySecurity;
 
     @Autowired
-    public TokenSecurityConfiguration(DataSource dataSource, JpaVendorAdapter vendorAdapter, EntityManagerFactory entityManagerFactory) {
+    public TokenSecurityConfiguration(
+        final DataSource dataSource,
+        final JpaVendorAdapter vendorAdapter,
+        final EntityManagerFactory entityManagerFactory
+    ) {
         this.entityManagerFactory = entityManagerFactory;
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactoryBean.setDataSource(dataSource);

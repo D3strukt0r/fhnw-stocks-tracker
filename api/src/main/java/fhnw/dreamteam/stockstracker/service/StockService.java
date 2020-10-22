@@ -13,17 +13,16 @@ import java.util.Optional;
 @Service
 @Validated
 public class StockService {
-
     @Autowired
     private StockRepository stockRepository;
 
-    public Stock createStock(@Valid Stock stock) throws Exception {
+    public Stock createStock(@Valid final Stock stock) throws Exception {
         return stockRepository.save(stock);
     }
 
-    public Stock editStock(@Valid Stock stock) throws Exception {
+    public Stock editStock(@Valid final Stock stock) throws Exception {
         Optional<Stock> dbStock = stockRepository.findById(stock.getId());
-        if(stock.getId() != null && dbStock != null && dbStock.isPresent()) {
+        if (stock.getId() != null && dbStock != null && dbStock.isPresent()) {
             dbStock.get().setName(stock.getName());
             return stockRepository.save(dbStock.get());
         } else {
@@ -31,12 +30,11 @@ public class StockService {
         }
     }
 
-    public void deleteCustomer(Long customerId)
-    {
+    public void deleteCustomer(final Long customerId) {
         stockRepository.deleteById(customerId);
     }
 
-    /*public Stock findStockById(Long stockId) throws Exception {
+    /*public Stock findStockById(final Long stockId) throws Exception {
         List<Stock> stockList = stockRepository.findById(stockId);
         if(stockList.isEmpty()){
             throw new Exception("No customer with ID "+stockId+" found.");

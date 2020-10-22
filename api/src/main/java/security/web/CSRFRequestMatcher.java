@@ -16,8 +16,8 @@ public class CSRFRequestMatcher implements RequestMatcher {
     private final HashSet<String> allowedMethods = new HashSet<>(Arrays.asList("GET", "HEAD", "TRACE", "OPTIONS"));
 
     @Override
-    public boolean matches(HttpServletRequest request) {
-        if(this.allowedMethods.contains(request.getMethod())||request.getCookies()==null){
+    public boolean matches(final HttpServletRequest request) {
+        if (this.allowedMethods.contains(request.getMethod()) || request.getCookies() == null) {
             return false;
         }
         return true;

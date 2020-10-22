@@ -26,15 +26,16 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
     private TokenService tokenService;
     private TokenUser user = null;
 
-    public TokenLoginFilter(AuthenticationManager authenticationManager, TokenService tokenService) {
+    public TokenLoginFilter(
+        final AuthenticationManager authenticationManager,
+        final TokenService tokenService
+    ) {
         super.setAuthenticationManager(authenticationManager);
         this.tokenService = tokenService;
     }
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request,
-                                                HttpServletResponse response) {
-
+    public Authentication attemptAuthentication(final HttpServletRequest request, final HttpServletResponse response) {
         try {
             this.user = new ObjectMapper().readValue(request.getInputStream(), TokenUser.class);
         } catch (IOException e) {
@@ -42,32 +43,33 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
         }
 
         return this.getAuthenticationManager().authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        user.getEmail(),
-                        user.getPassword())
+            new UsernamePasswordAuthenticationToken(
+                user.getEmail(),
+                user.getPassword())
         );
     }
 
     @Override
-    protected void successfulAuthentication(HttpServletRequest request,
-                                            HttpServletResponse response,
-                                            FilterChain chain,
-                                            Authentication auth) throws IOException, ServletException {
-
+    protected void successfulAuthentication(
+        final HttpServletRequest request,
+        final HttpServletResponse response,
+        final FilterChain chain,
+        final Authentication auth
+    ) throws IOException, ServletException {
         Date date = null;
         Cookie cookie = null;
 
-        if(Boolean.parseBoolean(this.user.getRemember())) {
+        if (Boolean.parseBoolean(this.user.getRemember())) {
             date = new Date(System.currentTimeMillis() + TokenSecurityProperties.REMEMBER_EXPIRATION_TIME);
-        }else{
+        } else {
             date = new Date(System.currentTimeMillis() + TokenSecurityProperties.SESSION_EXPIRATION_TIME);
         }
         String cookieToken = this.tokenService.issueToken(this.user.getEmail(), TokenSecurityProperties.COOKIE_TYPE, date);
         cookie = new Cookie(TokenSecurityProperties.COOKIE_NAME, cookieToken);
         cookie.setHttpOnly(true);
         cookie.setPath("/");
-        if(Boolean.parseBoolean(this.user.getRemember())) {
-            cookie.setMaxAge(Math.toIntExact(TokenSecurityProperties.REMEMBER_EXPIRATION_TIME /1000));
+        if (Boolean.parseBoolean(this.user.getRemember())) {
+            cookie.setMaxAge(Math.toIntExact(TokenSecurityProperties.REMEMBER_EXPIRATION_TIME / 1000));
         }
         response.addCookie(cookie);
 

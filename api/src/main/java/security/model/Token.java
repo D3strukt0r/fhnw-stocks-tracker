@@ -10,11 +10,11 @@ import javax.persistence.Id;
 
 @Entity
 public class Token {
-
     @Id
     private String token;
 
-    public Token() {}
+    public Token() {
+    }
 
     public Token(String token) {
         this.token = token;

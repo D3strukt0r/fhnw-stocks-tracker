@@ -12,13 +12,13 @@ import javax.validation.constraints.NotEmpty;
 
 @Entity
 public class Stock {
-
     @Id
     @GeneratedValue
     private Long id;
 
     @NotEmpty(message = "Please provide a name.")
     private String name;
+
     @ManyToOne
     @JsonIgnore
     private Currency currency;
@@ -27,7 +27,7 @@ public class Stock {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -35,7 +35,7 @@ public class Stock {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -43,7 +43,7 @@ public class Stock {
         return currency;
     }
 
-    public void setCurrency(Currency agent) {
+    public void setCurrency(final Currency agent) {
         this.currency = agent;
     }
 

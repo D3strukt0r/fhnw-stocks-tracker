@@ -7,8 +7,9 @@ package security.web;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.security.SecurityException;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,18 +28,22 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class TokenAuthenticationFilter extends BasicAuthenticationFilter {
-
     private TokenService tokenService;
 
-    public TokenAuthenticationFilter(AuthenticationManager authenticationManager, TokenService tokenService) {
+    public TokenAuthenticationFilter(
+        final AuthenticationManager authenticationManager,
+        final TokenService tokenService
+    ) {
         super(authenticationManager);
         this.tokenService = tokenService;
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain chain) throws IOException, ServletException {
+    protected void doFilterInternal(
+        final HttpServletRequest request,
+        final HttpServletResponse response,
+        final FilterChain chain
+    ) throws IOException, ServletException {
         String header = request.getHeader(TokenSecurityProperties.HEADER_NAME);
 
         if (header == null || !header.startsWith(TokenSecurityProperties.BEARER_TOKEN_PREFIX)) {
@@ -53,14 +58,13 @@ public class TokenAuthenticationFilter extends BasicAuthenticationFilter {
             UsernamePasswordAuthenticationToken authentication = getAuthentication(request);
             SecurityContextHolder.getContext().setAuthentication(authentication);
             chain.doFilter(request, response);
-        } catch (UsernameNotFoundException | ExpiredJwtException | UnsupportedJwtException | MalformedJwtException |
-            SignatureException | IllegalArgumentException e) {
+        } catch (UsernameNotFoundException | ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SecurityException | IllegalArgumentException e) {
             response.sendRedirect("/logout");
         }
 
     }
 
-    private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
+    private UsernamePasswordAuthenticationToken getAuthentication(final HttpServletRequest request) {
         String token = request.getHeader(TokenSecurityProperties.HEADER_NAME);
         String type = null;
 

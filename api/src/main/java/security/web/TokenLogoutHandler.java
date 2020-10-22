@@ -18,13 +18,17 @@ public class TokenLogoutHandler implements LogoutHandler {
 
     private TokenService tokenService;
 
-    public TokenLogoutHandler(TokenService tokenService) {
+    public TokenLogoutHandler(final TokenService tokenService) {
         super();
         this.tokenService = tokenService;
     }
 
     @Override
-    public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+    public void logout(
+        final HttpServletRequest request,
+        final HttpServletResponse response,
+        final Authentication authentication
+    ) {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : request.getCookies()) {
