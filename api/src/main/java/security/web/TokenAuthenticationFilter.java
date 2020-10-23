@@ -28,8 +28,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class TokenAuthenticationFilter extends BasicAuthenticationFilter {
+    /**
+     * The token.
+     */
     private TokenService tokenService;
 
+    /**
+     * The authentication filter.
+     *
+     * @param authenticationManager The authentication manager.
+     * @param tokenService          The token service.
+     */
     public TokenAuthenticationFilter(
         final AuthenticationManager authenticationManager,
         final TokenService tokenService
@@ -38,6 +47,13 @@ public class TokenAuthenticationFilter extends BasicAuthenticationFilter {
         this.tokenService = tokenService;
     }
 
+    /**
+     * Do the filtering.
+     *
+     * @param request  The request.
+     * @param response The reponse.
+     * @param chain    The filter chain.
+     */
     @Override
     protected void doFilterInternal(
         final HttpServletRequest request,
@@ -58,10 +74,16 @@ public class TokenAuthenticationFilter extends BasicAuthenticationFilter {
             UsernamePasswordAuthenticationToken authentication = getAuthentication(request);
             SecurityContextHolder.getContext().setAuthentication(authentication);
             chain.doFilter(request, response);
-        } catch (UsernameNotFoundException | ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SecurityException | IllegalArgumentException e) {
+        } catch (
+            UsernameNotFoundException
+            | ExpiredJwtException
+            | UnsupportedJwtException
+            | MalformedJwtException
+            | SecurityException
+            | IllegalArgumentException e
+        ) {
             response.sendRedirect("/logout");
         }
-
     }
 
     private UsernamePasswordAuthenticationToken getAuthentication(final HttpServletRequest request) {

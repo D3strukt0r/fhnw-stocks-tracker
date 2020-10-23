@@ -29,13 +29,29 @@ import security.web.TokenLogoutHandler;
 @EnableWebSecurity
 @EnableTokenSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    /**
+     * The user details.
+     */
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
+
+    /**
+     * The password encode.
+     */
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    /**
+     * The token.
+     */
     @Autowired
     private TokenService tokenService;
 
+    /**
+     * Configure the security policy.
+     *
+     * @param http The http instance.
+     */
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http
@@ -57,11 +73,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addLogoutHandler(new TokenLogoutHandler(tokenService));
     }
 
+    /**
+     * Configure the authentication.
+     *
+     * @param auth The authentication instance.
+     */
     @Override
     public void configure(final AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
 
+    /**
+     * Get the authentication manager.
+     *
+     * @return Returns the authentication manager.
+     */
     @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {

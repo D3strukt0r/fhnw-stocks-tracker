@@ -9,16 +9,51 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConfigurationProperties(prefix="security.token")
+@ConfigurationProperties(prefix = "security.token")
 public class TokenSecurityProperties {
+    /**
+     * The secret.
+     */
     private static String SECRET = "";
+
+    /**
+     * The cookie type.
+     */
     public static String COOKIE_TYPE = "cookie";
+
+    /**
+     * The bearer type.
+     */
     public static String BEARER_TYPE = "bearer";
+
+    /**
+     * The time the remember me cookie expires.
+     */
     public static long REMEMBER_EXPIRATION_TIME =  864_000_000; // 10 days
+
+    /**
+     * The time the session cookie expires.
+     */
     public static long SESSION_EXPIRATION_TIME =  86_400_000; // 1 day
+
+    /**
+     * The time the bearer token expires.
+     */
     public static long BEARER_EXPIRATION_TIME =  864_000_000; // 10 days
+
+    /**
+     * The bearer token prefix.
+     */
     public static String BEARER_TOKEN_PREFIX = "Bearer ";
+
+    /**
+     * The authorization header name.
+     */
     public static String HEADER_NAME = "Authorization";
+
+    /**
+     * The authorisation cookie name.
+     */
     public static String COOKIE_NAME = "AUTHORISATION";
 
     public String getSecret() {

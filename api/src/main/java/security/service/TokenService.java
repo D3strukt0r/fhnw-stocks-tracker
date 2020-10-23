@@ -22,11 +22,33 @@ import java.util.Date;
 
 @Service
 public class TokenService {
+    /**
+     * The entity manager for security.
+     */
     private EntityManager entityManagerSecurity;
+
+    /**
+     * The user details service.
+     */
     private UserDetailsService userDetailsService;
+
+    /**
+     * The algorithm to use for the JWT token.
+     */
     private static final SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS512;
+
+    /**
+     * The key.
+     */
     private Key signingKey;
 
+    /**
+     * Create a token.
+     *
+     * @param entityManagerSecurity The entity manager.
+     * @param userDetailsServiceImpl The user details.
+     * @param tokenSecurityProperties The token properties.
+     */
     @Autowired
     public TokenService(
         final EntityManager entityManagerSecurity,
@@ -35,10 +57,22 @@ public class TokenService {
     ) {
         this.entityManagerSecurity = entityManagerSecurity;
         this.userDetailsService = userDetailsServiceImpl;
-        this.signingKey = new SecretKeySpec(tokenSecurityProperties.getSecret().getBytes(), SIGNATURE_ALGORITHM.getJcaName());
+        this.signingKey = new SecretKeySpec(
+            tokenSecurityProperties.getSecret().getBytes(),
+            SIGNATURE_ALGORITHM.getJcaName()
+        );
     }
 
-    public String issueToken(String subject, String type, Date expirationTime) {
+    /**
+     * Create a new token.
+     *
+     * @param subject        The subject.
+     * @param type           The type of the token.
+     * @param expirationTime The time the token expires.
+     *
+     * @return Returns the token.
+     */
+    public String issueToken(final String subject, final String type, final Date expirationTime) {
         return Jwts.builder()
             .setSubject(subject)
             .setExpiration(expirationTime)
@@ -47,7 +81,15 @@ public class TokenService {
             .compact();
     }
 
-    public String verifyAndGetSubject(final String token, final String type){
+    /**
+     * Verify the token and return the subject.
+     *
+     * @param token The token.
+     * @param type  The type of the token.
+     *
+     * @return Returns the subject or null.
+     */
+    public String verifyAndGetSubject(final String token, final String type) {
         if (this.isTokenBlacklisted(token)) {
             return null;
         }
@@ -69,10 +111,22 @@ public class TokenService {
         return null;
     }
 
+    /**
+     * Whether the token has been blacklisted.
+     *
+     * @param token The token.
+     *
+     * @return Returns true or false correspondingly.
+     */
     private boolean isTokenBlacklisted(final String token) {
         return entityManagerSecurity.find(Token.class, token) != null;
     }
 
+    /**
+     * Blacklist a token.
+     *
+     * @param token The token.
+     */
     public void blacklistToken(final String token) {
         if (!isTokenBlacklisted(token)) {
             entityManagerSecurity.getTransaction().begin();
@@ -80,5 +134,4 @@ public class TokenService {
             entityManagerSecurity.getTransaction().commit();
         }
     }
-
 }

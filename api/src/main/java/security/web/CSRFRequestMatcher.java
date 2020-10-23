@@ -12,9 +12,16 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 public class CSRFRequestMatcher implements RequestMatcher {
-
+    /**
+     * The list of allowed methods.
+     */
     private final HashSet<String> allowedMethods = new HashSet<>(Arrays.asList("GET", "HEAD", "TRACE", "OPTIONS"));
 
+    /**
+     * Check if request matches allowed methods.
+     *
+     * @param request The request.
+     */
     @Override
     public boolean matches(final HttpServletRequest request) {
         if (this.allowedMethods.contains(request.getMethod()) || request.getCookies() == null) {

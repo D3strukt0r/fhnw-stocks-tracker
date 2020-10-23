@@ -18,9 +18,23 @@ import java.util.Properties;
 
 @Configuration
 public class TokenSecurityConfiguration {
+    /**
+     * The entity manager factory.
+     */
     private EntityManagerFactory entityManagerFactory;
+
+    /**
+     * The entity manager factory for security.
+     */
     private EntityManagerFactory entityManagerFactorySecurity;
 
+    /**
+     * Setup the security.
+     *
+     * @param dataSource           The data source.
+     * @param vendorAdapter        The vendor adapter
+     * @param entityManagerFactory The entity manager factory.
+     */
     @Autowired
     public TokenSecurityConfiguration(
         final DataSource dataSource,
@@ -37,11 +51,21 @@ public class TokenSecurityConfiguration {
         this.entityManagerFactorySecurity = entityManagerFactoryBean.getObject();
     }
 
+    /**
+     * Create the entity manager.
+     *
+     * @return Returns the entity manager.
+     */
     @Bean
     public EntityManager entityManagerSecurity() {
         return entityManagerFactorySecurity.createEntityManager();
     }
 
+    /**
+     * Additional properties for the entity manager factory.
+     *
+     * @return Returns the properties.
+     */
     private Properties additionalProperties() {
         Properties properties = new Properties();
         properties.putAll(entityManagerFactory.getProperties());

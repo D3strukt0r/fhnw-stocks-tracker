@@ -23,9 +23,22 @@ import java.io.IOException;
 import java.util.Date;
 
 public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
+    /**
+     * The token service.
+     */
     private TokenService tokenService;
+
+    /**
+     * The user.
+     */
     private TokenUser user = null;
 
+    /**
+     * The login filter.
+     *
+     * @param authenticationManager The authentication manager.
+     * @param tokenService The token service.
+     */
     public TokenLoginFilter(
         final AuthenticationManager authenticationManager,
         final TokenService tokenService
@@ -34,6 +47,14 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
         this.tokenService = tokenService;
     }
 
+    /**
+     * Attempt an authentication.
+     *
+     * @param request  The request.
+     * @param response The response.
+     *
+     * @return Returns the authenticated object with the credentials.
+     */
     @Override
     public Authentication attemptAuthentication(final HttpServletRequest request, final HttpServletResponse response) {
         try {
@@ -49,6 +70,14 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
         );
     }
 
+    /**
+     * What to do on a successful authentication.
+     *
+     * @param request  The request.
+     * @param response The response.
+     * @param chain    The filter chain.
+     * @param auth     The authentication.
+     */
     @Override
     protected void successfulAuthentication(
         final HttpServletRequest request,
@@ -64,7 +93,10 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
         } else {
             date = new Date(System.currentTimeMillis() + TokenSecurityProperties.SESSION_EXPIRATION_TIME);
         }
-        String cookieToken = this.tokenService.issueToken(this.user.getEmail(), TokenSecurityProperties.COOKIE_TYPE, date);
+        String cookieToken = this.tokenService.issueToken(
+            this.user.getEmail(),
+            TokenSecurityProperties.COOKIE_TYPE, date
+        );
         cookie = new Cookie(TokenSecurityProperties.COOKIE_NAME, cookieToken);
         cookie.setHttpOnly(true);
         cookie.setPath("/");
@@ -74,7 +106,13 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
         response.addCookie(cookie);
 
         date = new Date(System.currentTimeMillis() + TokenSecurityProperties.BEARER_EXPIRATION_TIME);
-        String bearerToken = this.tokenService.issueToken(this.user.getEmail(), TokenSecurityProperties.BEARER_TYPE, date);
-        response.addHeader(TokenSecurityProperties.HEADER_NAME, TokenSecurityProperties.BEARER_TOKEN_PREFIX + bearerToken);
+        String bearerToken = this.tokenService.issueToken(
+            this.user.getEmail(),
+            TokenSecurityProperties.BEARER_TYPE, date
+        );
+        response.addHeader(
+            TokenSecurityProperties.HEADER_NAME,
+            TokenSecurityProperties.BEARER_TOKEN_PREFIX + bearerToken
+        );
     }
 }

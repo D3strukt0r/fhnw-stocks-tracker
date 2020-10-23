@@ -15,14 +15,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class TokenLogoutHandler implements LogoutHandler {
-
+    /**
+     * The token service.
+     */
     private TokenService tokenService;
 
+    /**
+     * Constructor for the logout handler.
+     *
+     * @param tokenService The token service.
+     */
     public TokenLogoutHandler(final TokenService tokenService) {
         super();
         this.tokenService = tokenService;
     }
 
+    /**
+     * Logout the user.
+     */
     @Override
     public void logout(
         final HttpServletRequest request,
