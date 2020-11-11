@@ -1,12 +1,14 @@
-package fhnw.dreamteam.userstracker.service;
+package fhnw.dreamteam.stockstracker.service;
 
-import fhnw.dreamteam.userstracker.data.models.User;
-import fhnw.dreamteam.userstracker.data.repository.UserRepository;
+import fhnw.dreamteam.stockstracker.data.models.User;
+import fhnw.dreamteam.stockstracker.data.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
+import javax.validation.Validator;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,17 +21,31 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    /**
-     * Create a new {@link User}.
-     *
-     * @param user The user to be added
-     *
-     * @return Returns the newly added user.
-     *
-     * @throws Exception
-     */
-    public User createUser(@Valid final User user) throws Exception {
-        return userRepository.save(user);
+    @Autowired
+    Validator validator;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    public User createOrUpdateUser(@Valid final User user) throws Exception {
+        if (user.getId() == null) {
+            if (userRepository.findByEmail(user.getEmail()) != null) {
+                throw new Exception("Email address " + user.getEmail() + " already assigned to another user.");
+            }
+            if (userRepository.findByUsername(user.getUsername()) != null) {
+                throw new Exception("Username " + user.getEmail() + " already assigned to another user.");
+            }
+        } else {
+            if (userRepository.findByEmailAndIdNot(user.getEmail(), user.getId()) != null) {
+                throw new Exception("Email address " + user.getEmail() + " already assigned another user.");
+            }
+            if (userRepository.findByUsernameAndIdNot(user.getUsername(), user.getId()) != null) {
+                throw new Exception("Username " + user.getEmail() + " already assigned another user.");
+            }
+        }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setUsername(passwordEncoder.encode(user.getUsername()));
+        userRepository.save(user);
+        return userRepository.findByEmail(user.getEmail());
     }
 
     /**
@@ -43,7 +59,7 @@ public class UserService {
     public User editUser(@Valid final User user) throws Exception {
         Optional<User> dbUser = userRepository.findById(user.getId());
         if (user.getId() != null && dbUser != null && dbUser.isPresent()) {
-            dbUser.get().setName(user.getName());
+            dbUser.get().setUsername(user.getUsername());
             return userRepository.save(dbUser.get());
         } else {
             throw new Exception("User could not be found.");

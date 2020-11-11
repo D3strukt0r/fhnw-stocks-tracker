@@ -42,4 +42,7 @@ public class Stock {
     @ManyToOne
     @JsonIgnore
     private User user;
+
+    public Stock() {
+    }
 }

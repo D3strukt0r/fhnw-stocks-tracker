@@ -1,5 +1,7 @@
 package fhnw.dreamteam.stockstracker;
 
+import fhnw.dreamteam.stockstracker.data.seeddata.Seeder;
+import fhnw.dreamteam.stockstracker.data.seeddata.UserSeed;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -12,5 +14,8 @@ public class StocksTrackerApplication {
      */
     public static void main(final String[] args) {
         SpringApplication.run(StocksTrackerApplication.class, args);
+
+        // run seed data
+        Seeder.seedData();
     }
 }

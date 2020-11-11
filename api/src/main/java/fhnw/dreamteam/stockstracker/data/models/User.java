@@ -13,6 +13,7 @@ import java.util.List;
 @Entity
 public class User {
 
+
     @Id
     @GeneratedValue
     @Getter
@@ -42,6 +43,11 @@ public class User {
     @NotEmpty(message = "Please provide an e-mail.")
     private String email;
 
+    @Getter
+    @Setter
+    @NotEmpty(message = "Please provide a mobile number.")
+    private String mobile;
+
     @Setter
     @org.springframework.data.annotation.Transient //will not be serialized
     private String password;
@@ -51,6 +57,15 @@ public class User {
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     private List<Stock> stocks;
+
+    public User(@NotEmpty(message = "Please enter a username.") String username, @NotEmpty(message = "Please provide your firstname.") String firstname, @NotEmpty(message = "Please provide your lastname.") String lastname, @Email(message = "Please provide a valid e-mail.") @NotEmpty(message = "Please provide an e-mail.") String email, @NotEmpty(message = "Please provide a mobile number.") String mobile, String password) {
+        this.username = username;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.mobile = mobile;
+        this.password = password;
+    }
 
 
     public String getPassword() {

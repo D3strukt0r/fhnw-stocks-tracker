@@ -15,12 +15,6 @@ import static java.util.Collections.emptyList;
 
 public class TokenUser extends User {
     /**
-     * The email.
-     */
-    @Getter
-    private String email;
-
-    /**
      * Whether to remember the login.
      */
     @Getter
@@ -29,18 +23,17 @@ public class TokenUser extends User {
     /**
      * The user with token.
      *
-     * @param email    The email.
+     * @param username The username.
      * @param password The password.
      * @param remember Whether to remember.
      */
     @JsonCreator
     public TokenUser(
-        @JsonProperty(value = "email", required = true) final String email,
+        @JsonProperty(value = "username", required = true) final String username,
         @JsonProperty(value = "password", required = true) final String password,
         @JsonProperty(value = "remember", required = true) final String remember
     ) {
-        super(email, password, emptyList());
-        this.email = email;
+        super(username, password, emptyList());
         this.remember = remember;
     }
 }
