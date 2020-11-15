@@ -12,7 +12,7 @@ import java.util.List;
 
 @Entity
 public class User {
-
+    public User() { }
 
     @Id
     @GeneratedValue

@@ -97,7 +97,7 @@ public class UserService {
      *
      * @return Returns all users.
      */
-    public List<User> findAllUsers() {
+    public List<User> getAll() {
         return userRepository.getAllBy();
     }
 }

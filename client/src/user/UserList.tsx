@@ -14,7 +14,6 @@ import {
     TextInput,
 } from 'react-admin';
 
-import Aside from './Aside';
 import UserEditEmbedded from './UserEditEmbedded';
 export const UserIcon = PeopleIcon;
 
@@ -39,10 +38,7 @@ const rowClick = memoize(permissions => (id, basePath, record) => {
 const UserList = ({ permissions, ...props }) => (
     <List
         {...props}
-        filters={<UserFilter permissions={permissions} />}
-        filterDefaultValues={{ role: 'user' }}
-        sort={{ field: 'name', order: 'ASC' }}
-        aside={<Aside />}
+        sort={{ field: 'username', order: 'ASC' }}
         bulkActionButtons={<UserBulkActionButtons />}
     >
         {useMediaQuery(theme => theme.breakpoints.down('sm')) ? (
@@ -59,7 +55,7 @@ const UserList = ({ permissions, ...props }) => (
                 optimized
             >
                 <TextField source="id" />
-                <TextField source="name" />
+                <TextField source="username" />
                 {permissions === 'admin' && <TextField source="role" />}
             </Datagrid>
         )}

@@ -28,7 +28,7 @@ const SwitchLanguage = forwardRef((props, ref) => {
             <ListItemIcon className={classes.icon}>
                 <Language />
             </ListItemIcon>
-            Switch Language
+            Switch Language - Change this to Edit Profile
         </MenuItem>
     );
 });

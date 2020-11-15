@@ -5,6 +5,7 @@
 
 package fhnw.dreamteam.stockstracker.config;
 
+import fhnw.dreamteam.stockstracker.data.seeddata.Seeder;
 import fhnw.dreamteam.stockstracker.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -58,11 +59,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER).and()
             // If the X-Forwarded-Proto header is present, redirect to HTTPS (Heroku)
             .requiresChannel().requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null).requiresSecure().and()
-            .csrf()
+            /*.csrf()
                 .requireCsrfProtectionMatcher(new CSRFRequestMatcher())
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
+                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()*/
+            .csrf().disable()
             .authorizeRequests()
-                .antMatchers("/", "/assets/**", "/login/**").permitAll()
+                .antMatchers("/", "/assets/**", "/login/**", "/api/user").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/user").permitAll()
                 .antMatchers(HttpMethod.GET, "/logout").permitAll()
                 .anyRequest().authenticated().and()
                     .addFilter(new TokenLoginFilter(authenticationManagerBean(), tokenService))

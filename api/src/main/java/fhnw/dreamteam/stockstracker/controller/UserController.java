@@ -1,7 +1,9 @@
 package fhnw.dreamteam.stockstracker.controller;
 
+import fhnw.dreamteam.stockstracker.data.dtos.UserList;
 import fhnw.dreamteam.stockstracker.data.models.Stock;
 import fhnw.dreamteam.stockstracker.data.models.User;
+import fhnw.dreamteam.stockstracker.data.seeddata.Seeder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import fhnw.dreamteam.stockstracker.service.UserService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api")
@@ -30,6 +34,12 @@ public class UserController {
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
         }
+    }
+
+    @GetMapping(path = "/user", produces = "application/json")
+    public UserList getStocks() {
+        UserList userList = new UserList(userService.getAll());
+        return userList;
     }
 }
 

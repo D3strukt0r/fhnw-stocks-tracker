@@ -1,27 +1,42 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Route } from 'react-router-dom';
-import { Admin, Resource } from 'react-admin';
+import { Admin, Resource, fetchUtils } from 'react-admin';
 
 import authProvider from './authProvider';
 import CustomRouteLayout from './customRouteLayout';
 import CustomRouteNoLayout from './customRouteNoLayout';
-import dataProvider from './dataProvider';
+import springRestProvider from './dataProvider';
 import i18nProvider from './i18nProvider';
 import Layout from './Layout';
 
+import {ACCESS_TOKEN, API_PROXY_URL} from "./constants";
+
 import comments from './comments';
 import posts from './posts';
-import users from './users';
+import users from './user';
 import tags from './tags';
 
 import * as serviceWorker from "./serviceWorker";
+
+const httpClient = (url: string, options = {}) => {
+    if (localStorage.getItem(ACCESS_TOKEN)) {
+        if (!options.headers) {
+            options.headers = new Headers({Accept: 'application/json'});
+        }
+        // add your own headers here
+        options.headers.set('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN));
+    }
+    return fetchUtils.fetchJson(url, options);
+}
+
+const springDataProvider = springRestProvider(API_PROXY_URL, httpClient);
 
 ReactDOM.render(
     <React.StrictMode>
         <Admin
             authProvider={authProvider}
-            dataProvider={dataProvider}
+            dataProvider={springDataProvider}
             i18nProvider={i18nProvider}
             title="Example Admin"
             layout={Layout}
@@ -42,7 +57,7 @@ ReactDOM.render(
             {(permissions) => [
                 <Resource name="posts" {...posts} />,
                 <Resource name="comments" {...comments} />,
-                permissions ? <Resource name="users" {...users} /> : null,
+                <Resource name="user" {...users} />,
                 <Resource name="tags" {...tags} />,
             ]}
         </Admin>

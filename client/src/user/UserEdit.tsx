@@ -18,7 +18,6 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 
 import UserTitle from './UserTitle';
-import Aside from './Aside';
 
 const useToolbarStyles = makeStyles({
     toolbar: {
@@ -56,7 +55,6 @@ const EditActions = ({ basePath, data, hasShow }) => (
 const UserEdit = ({ permissions, ...props }) => (
     <Edit
         title={<UserTitle />}
-        aside={<Aside />}
         actions={<EditActions />}
         {...props}
     >

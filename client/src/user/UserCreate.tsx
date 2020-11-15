@@ -11,8 +11,6 @@ import {
     required,
 } from 'react-admin';
 
-import Aside from './Aside';
-
 const UserEditToolbar = ({
     permissions,
     hasList,
@@ -39,15 +37,20 @@ const UserEditToolbar = ({
 );
 
 const UserCreate = ({ permissions, ...props }) => (
-    <Create {...props} aside={<Aside />}>
+    <Create {...props}>
         <TabbedForm
             toolbar={<UserEditToolbar permissions={permissions} {...props} />}
         >
             <FormTab label="user.form.summary" path="">
                 <TextInput
                     source="name"
-                    defaultValue="Slim Shady"
                     autoFocus
+                    validate={required()}
+                />
+            </FormTab>
+            <FormTab label="user.form.summary" path="">
+                <TextInput
+                    source="name"
                     validate={required()}
                 />
             </FormTab>
@@ -58,8 +61,7 @@ const UserCreate = ({ permissions, ...props }) => (
                         choices={[
                             { id: '', name: 'None' },
                             { id: 'admin', name: 'Admin' },
-                            { id: 'user', name: 'User' },
-                            { id: 'user_simple', name: 'UserSimple' },
+                            { id: 'user', name: 'User' }
                         ]}
                     />
                 </FormTab>
