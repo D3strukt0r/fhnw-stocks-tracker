@@ -26,7 +26,11 @@ public class StocksTrackerApplication {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 // allow for development from the local client
-                registry.addMapping("/**").allowedOrigins("http://localhost:3000");
+                registry
+                    .addMapping("/**")
+                    .allowedOrigins("http://localhost:3000")
+                    .allowedOrigins("http://localhost:8082")
+                    .allowedOrigins("http://127.0.0.1:8082");
             }
         };
     }

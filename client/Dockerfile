@@ -2,34 +2,7 @@
 # https://docs.docker.com/compose/compose-file/#target
 
 # https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
-ARG NODE_VERSION=14
 ARG NGINX_VERSION=1.19
-
-# ---------
-# Development stage
-# ---------
-FROM --platform=${BUILDPLATFORM:-linux/amd64} node:${NODE_VERSION}-alpine AS development
-
-WORKDIR /app
-
-# Prevent the reinstallation of node modules at every changes in the source code
-COPY .yarn ./.yarn
-COPY .yarnrc.yml package.json yarn.lock ./
-RUN set -eux; \
-	yarn install --immutable
-
-COPY . .
-
-CMD ["yarn", "run", "start"]
-
-# ---------
-# Build stage
-# ---------
-# Depends on the "development" stage above
-FROM development AS build
-
-RUN set -eux; \
-    yarn run build
 
 # -----------
 # Nginx stage
@@ -59,7 +32,7 @@ RUN set -eux; \
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Setup Nginx
-COPY --from=build /app/build ./
+COPY ./public .
 
 COPY docker/nginx.conf       /etc/nginx/nginx.template
 COPY docker/default.conf     /etc/nginx/conf.d/default.template

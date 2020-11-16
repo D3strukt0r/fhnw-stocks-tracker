@@ -15,4 +15,5 @@
 **/Thumbs.db
 .env.*.local
 .env.local
-build/
+.idea/
+.vscode/

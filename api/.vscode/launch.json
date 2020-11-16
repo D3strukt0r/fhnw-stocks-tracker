@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-StocksTrackerApplication<stocks-tracker>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "fhnw.dreamteam.stockstracker.StocksTrackerApplication",
+            "projectName": "stocks-tracker",
+            "args": ""
+        }
+    ]
+}
