@@ -28,9 +28,7 @@ public class StocksTrackerApplication {
                 // allow for development from the local client
                 registry
                     .addMapping("/**")
-                    .allowedOrigins("http://localhost:3000")
-                    .allowedOrigins("http://localhost:8082")
-                    .allowedOrigins("http://127.0.0.1:8082");
+                    .allowedOrigins("http://localhost:63343");
             }
         };
     }

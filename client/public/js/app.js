@@ -1,9 +1,6 @@
 const DEBUG = false;
 const API_URL = "http://localhost:8080/api"
 const ACCESS_TOKEN = 'accessToken';
-const TOKEN_ROLES_ATTRIBUTE = 'auth';
-const ROLE_ADMIN = 'ROLE_ADMIN';
-const ROLE_USER = 'ROLE_USER';
 
 /**
  * API Request functionality
@@ -67,9 +64,6 @@ const fetchJson = (url, options = {}) => {
         });
 };
 
-// http://localhost:8082/stocks.html
-// httpClient("http://localhost:8080/api/user")
-
 /**
  * @param {String} url The url to fetch information from
  * @param {Object} options Options to pass to fetch()
@@ -87,18 +81,13 @@ const httpClient = (url, options = {}) => {
 };
 
 const DataRequestType = {
-    GET_MANY_REFERENCE: 'GET_MANY_REFERENCE',
     GET_LIST: 'GET_LIST',
     GET_ONE: 'GET_ONE',
-    GET_MANY: 'GET_MANY',
     UPDATE: 'UPDATE',
-    UPDATE_MANY: 'UPDATE_MANY',
     CREATE: 'CREATE',
     DELETE: 'DELETE',
-    DELETE_MANY: 'DELETE_MANY'
 }
 
-// apiDataProvider(DataRequestType.GET_LIST, 'user', {}).then(response => console.log(response))
 /**
  * Maps react-admin queries to a REST API implemented using Java Spring Boot and Swagger
  *
@@ -123,29 +112,7 @@ const dataProvider = (apiUrl, client = fetchJson) => {
         switch (type) {
             case DataRequestType.GET_MANY_REFERENCE:
             case DataRequestType.GET_LIST: {
-                // const {page, perPage} = params.pagination;
-                // const {field, order} = params.sort;
-                // const filterStr =
-                //     Object.keys(params.filter)
-                //         .map(k => "&" + encodeURIComponent(k) + "=" + encodeURIComponent(params.filter[k]))
-                //         .join("");
-
-                // let sortStr = params.hasOwnProperty("sort") ? `&sort=${field},${order}` : "";
-
-                // let manyReferenceFilter = params.hasOwnProperty("target") ? '&' + [params.target] + '=' + params.id : "";
-
-                // url = `${apiUrl}/${resource}?page=${page - 1}&size=${perPage}` + sortStr + filterStr + manyReferenceFilter;
                 url = `${apiUrl}/${resource}`
-                break;
-            }
-            case DataRequestType.GET_ONE:
-                url = `${apiUrl}/${resource}/${params.id}`;
-                break;
-            case DataRequestType.GET_MANY: {
-                const idStr = params.ids
-                    .map(id => `id=${id}`)
-                    .join("&");
-                url = `${apiUrl}/${resource}?${idStr}`;
                 break;
             }
             case DataRequestType.UPDATE:
@@ -179,17 +146,6 @@ const dataProvider = (apiUrl, client = fetchJson) => {
         const {json} = response;
         switch (type) {
             case DataRequestType.GET_LIST:
-            case DataRequestType.GET_MANY:
-            case DataRequestType.GET_MANY_REFERENCE:
-                if (!json.hasOwnProperty("totalElements")) {
-                    throw new Error(
-                        "The numberOfElements property must be must be present in the Json response"
-                    );
-                }
-                return {
-                    data: json.data,
-                    total: parseInt(json.totalElements, 10)
-                };
             case DataRequestType.CREATE:
             case DataRequestType.UPDATE:
             case DataRequestType.GET_ONE:
@@ -208,32 +164,6 @@ const dataProvider = (apiUrl, client = fetchJson) => {
      * @returns {Promise} the Promise for a data response
      */
     return (type, resource, params) => {
-        // simple-rest doesn't handle filters on UPDATE route, so we fallback to calling UPDATE n times instead
-        if (type === DataRequestType.UPDATE_MANY) {
-            return Promise.all(
-                params.ids.map(id =>
-                    client(`${apiUrl}/${resource}/${id}`, {
-                        method: "PUT",
-                        body: JSON.stringify(params.data)
-                    })
-                )
-            ).then(responses => ({
-                data: responses.map(response => response.json)
-            }));
-        }
-        // simple-rest doesn't handle filters on DELETE route, so we fallback to calling DELETE n times instead
-        if (type === DataRequestType.DELETE_MANY) {
-            return Promise.all(
-                params.ids.map(id =>
-                    client(`${apiUrl}/${resource}/${id}`, {
-                        method: "DELETE"
-                    })
-                )
-            ).then(responses => ({
-                data: responses.map(response => response.json)
-            }));
-        }
-
         const {url, options} = convertDataRequestToHTTP(type, resource, params);
         return client(url, options).then(response =>
             convertHTTPResponse(response, type, resource, params)
@@ -247,6 +177,15 @@ const apiDataProvider = dataProvider(API_URL, httpClient);
 /**
  * TODO: Authentication functionality
  */
+const register = (form) => {
+    const params = {};
+    params.data = form.serialize();
+    debugger;
+    apiDataProvider(DataRequestType.CREATE, "user", params).then(response => {
+        debugger;
+        return response;
+    })
+}
 const login = ({ username, password }) => {
     if (username === 'login' && password === 'password') {
         localStorage.removeItem('not_authenticated');
