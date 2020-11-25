@@ -34,6 +34,21 @@
 <body class="bg-gradient-primary">
 
     <div class="container">
+        <div class="alert alert-success alert-dismissible fade show my-5" role="alert" id="success-alert">
+            <h4 class="alert-heading">Success</h4>
+            <p class="text-break">User successfully created</p>
+            <button type="button" class="close" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="alert alert-danger alert-dismissible fade show my-5" role="alert" id="error-alert">
+            <h4 class="alert-heading">Error</h4>
+            <p class="text-break" id="error-message"></p>
+            <button type="button" class="close" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
 
         <div class="card o-hidden border-0 shadow-lg my-5">
             <div class="card-body p-0">
@@ -47,26 +62,30 @@
                             <form class="user">
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input name="Firstname" type="text" class="form-control form-control-user" id="exampleFirstName"
-                                            placeholder="First Name">
+                                        <input name="firstname" type="text" class="form-control form-control-user"
+                                            placeholder="First Name" required>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input name="Lastname" type="text" class="form-control form-control-user" id="exampleLastName"
-                                            placeholder="Last Name">
+                                        <input name="lastname" type="text" class="form-control form-control-user"
+                                            placeholder="Last Name" required>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" class="form-control form-control-user" id="exampleInputEmail"
-                                        placeholder="Email Address">
+                                    <input name="email" type="email" class="form-control form-control-user"
+                                           placeholder="Email Address" required>
+                                </div>
+                                <div class="form-group">
+                                    <input name="mobile" type="tel" class="form-control form-control-user"
+                                           placeholder="Mobile Number">
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="password" class="form-control form-control-user"
-                                            id="exampleInputPassword" placeholder="Password">
+                                        <input name="username" type="text" class="form-control form-control-user"
+                                               placeholder="Username" required>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="password" class="form-control form-control-user"
-                                            id="exampleRepeatPassword" placeholder="Repeat Password">
+                                        <input name="password" type="password" class="form-control form-control-user"
+                                            id="inputPassword" placeholder="Password" required>
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-user btn-block">
@@ -85,19 +104,6 @@
 
     </div>
 
-    <div class="modal fade" role="dialog" tabindex="-1" id="error-modal">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header" style="background-color: #e85e6c;">
-                    <h1 class="text-white">Ooops!</h1><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
-                <div class="modal-body">
-                    <p class="text-truncate text-primary" id="error-text"></p>
-                </div>
-                <div class="modal-footer"><button class="btn btn-warning btn-block" type="button" data-dismiss="modal">Try Again</button></div>
-            </div>
-        </div>
-    </div>
-
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -111,11 +117,26 @@
     <script src="js/app.js"></script>
 
     <script>
-        $(".user").submit(function( event ) {
-            event.preventDefault();
-            register($(".user"));
-            debugger;
+        $( document ).ready(function() {
+            $(".user").submit(function( event ) {
+                $('.alert .close').click();
+                event.preventDefault();
+                register($(".user"), function(result) {
+                    $('#success-alert').show();
+                    $(".user")[0].reset();
+                }, function (error) {
+                    $("#error-message").text(error);
+                    $('#error-alert').show();
+                })
+            });
+            $('.alert').alert()
+            $('.alert .close').on('click', function(e) {
+                $(this).parent().hide();
+            });
+            // hide alerts by default
+            $('.alert .close').click();
         });
+
     </script>
 
 </body>

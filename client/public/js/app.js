@@ -11,7 +11,6 @@ const ACCESS_TOKEN = 'accessToken';
  */
 const createHeadersFromOptions = (options) => {
     const requestHeaders = (options.headers || { Accept: 'application/json' });
-    debugger;
     // if (
     //     !requestHeaders.hasOwnProperty('Content-Type') &&
     //     !(options && (!options.method || options.method === 'GET')) &&
@@ -58,7 +57,7 @@ const fetchJson = (url, options = {}) => {
             }
             if (status < 200 || status >= 300) {
                 return Promise.reject(
-                    new HttpError(
+                    new Error(
                         (json && json.message) || statusText,
                         status,
                         json
@@ -168,8 +167,8 @@ const dataProvider = (apiUrl, client = fetchJson) => {
     };
 
     /**
-     * @param {string} type Request type, e.g GET_LIST
-     * @param {string} resource Resource name, e.g. "posts"
+     * @param {string} type Request type, e.g GET
+     * @param {string} resource Resource name, e.g. "users"
      * @param {Object} payload Request parameters. Depends on the request type
      * @returns {Promise} the Promise for a data response
      */
@@ -191,9 +190,9 @@ const register = (form, callbackSuccess, callbackError) => {
     const params = {};
     params.data = data;
     apiDataProvider(DataRequestType.CREATE, "user", params).then(response => {
-        return response;
-    }, {
-
+        return callbackSuccess(response);
+    }, error => {
+        return callbackError(error);
     })
 }
 const login = ({ username, password }) => {

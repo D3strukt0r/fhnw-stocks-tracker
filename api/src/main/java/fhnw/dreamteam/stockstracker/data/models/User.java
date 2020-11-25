@@ -20,10 +20,10 @@ public class User {
     @Setter
     private Long id;
 
-    @Getter
-    @Setter
     @Column(unique=true)
-    @NotEmpty(message = "Please enter a username.")
+    @Setter
+    @Getter
+    @NotEmpty(message = "Please provide a username")
     private String username;
 
     @Getter
@@ -43,9 +43,8 @@ public class User {
     @NotEmpty(message = "Please provide an e-mail.")
     private String email;
 
-    @Getter
     @Setter
-    @NotEmpty(message = "Please provide a mobile number.")
+    @org.springframework.data.annotation.Transient //will not be serialized
     private String mobile;
 
     @Setter
@@ -67,10 +66,15 @@ public class User {
         this.password = password;
     }
 
-
     public String getPassword() {
         String transientPassword = this.password;
         this.password = null;
         return transientPassword;
+    }
+
+    public String getMobile() {
+        String transientMobile = this.mobile;
+        this.mobile = null;
+        return transientMobile;
     }
 }

@@ -27,10 +27,10 @@ public class UserController {
     private UserService userService;
 
     @PostMapping(path = "/user", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<User> postRegister(@RequestBody User user) {
+    public ResponseEntity<Void> postRegister(@RequestBody User user) {
         try {
-            User cuUser =  userService.createOrUpdateUser(user);
-            return ResponseEntity.ok().body(cuUser);
+            userService.createOrUpdateUser(user);
+            return ResponseEntity.ok().build();
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
         }
