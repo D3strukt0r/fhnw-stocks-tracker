@@ -24,12 +24,7 @@
   <component name="ChangeListManager">
     <list default="true" id="013a9364-0f78-492d-95a7-27b5cb540684" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fhnw/dreamteam/stockstracker/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fhnw/dreamteam/stockstracker/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fhnw/dreamteam/stockstracker/data/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fhnw/dreamteam/stockstracker/data/models/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fhnw/dreamteam/stockstracker/data/seeddata/UserSeed.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fhnw/dreamteam/stockstracker/data/seeddata/UserSeed.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fhnw/dreamteam/stockstracker/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fhnw/dreamteam/stockstracker/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/../client/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/public/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/../client/public/register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fhnw/dreamteam/stockstracker/config/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fhnw/dreamteam/stockstracker/config/WebSecurityConfig.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -195,7 +190,7 @@
       <workItem from="1605530955132" duration="606000" />
       <workItem from="1606141517719" duration="1958000" />
       <workItem from="1606291031929" duration="2851000" />
-      <workItem from="1606300772478" duration="8834000" />
+      <workItem from="1606300772478" duration="10048000" />
     </task>
     <servers />
   </component>
