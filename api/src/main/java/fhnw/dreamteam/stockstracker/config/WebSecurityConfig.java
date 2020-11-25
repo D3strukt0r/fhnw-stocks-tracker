@@ -59,14 +59,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER).and()
             // If the X-Forwarded-Proto header is present, redirect to HTTPS (Heroku)
             .requiresChannel().requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null).requiresSecure().and()
-            /*.csrf()
+            .csrf()
                 .requireCsrfProtectionMatcher(new CSRFRequestMatcher())
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()*/
-            .csrf().disable()
+                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
+            //.csrf().disable()
             .authorizeRequests()
                 .antMatchers("/", "/assets/**", "/login/**", "/api/user").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/user").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/stock").permitAll() // TODO: Remove for production
                 .antMatchers(HttpMethod.GET, "/logout").permitAll()
                 .anyRequest().authenticated().and()
                     .addFilter(new TokenLoginFilter(authenticationManagerBean(), tokenService))

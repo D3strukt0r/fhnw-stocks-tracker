@@ -11,13 +11,18 @@ const ACCESS_TOKEN = 'accessToken';
  */
 const createHeadersFromOptions = (options) => {
     const requestHeaders = (options.headers || { Accept: 'application/json' });
-    if (
-        !requestHeaders.hasOwnProperty('Content-Type') &&
-        !(options && (!options.method || options.method === 'GET')) &&
-        !(options && options.body)
-    ) {
-        requestHeaders.set('Content-Type', 'application/json');
+    debugger;
+    // if (
+    //     !requestHeaders.hasOwnProperty('Content-Type') &&
+    //     !(options && (!options.method || options.method === 'GET')) &&
+    //     !(options && options.body)
+    // ) {
+    //     requestHeaders.set('Content-Type', 'application/json');
+    // }
+    if (options && options.method && options.method !== 'GET') {
+        options.headers.set('X-XSRF-TOKEN', getCookie("XSRF-TOKEN"));
     }
+    requestHeaders.set('Content-Type', 'application/json');
     if (options.user && options.user.authenticated && options.user.token) {
         requestHeaders.set('Authorization', options.user.token);
     }
@@ -70,15 +75,19 @@ const fetchJson = (url, options = {}) => {
  * @returns {Promise} The HTTP request
  */
 const httpClient = (url, options = {}) => {
+    options.headers = new Headers();
+    options.headers.set('Accept', 'application/json');
     if (localStorage.getItem(ACCESS_TOKEN)) {
-        if (!options.headers) {
-            options.headers.set('Accept', 'application/json');
-        }
         // add your own headers here
         options.headers.set('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN));
     }
     return fetchJson(url, options);
 };
+
+function getCookie(name) {
+    var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    if (match) return match[2];
+}
 
 const DataRequestType = {
     GET_LIST: 'GET_LIST',
@@ -147,6 +156,7 @@ const dataProvider = (apiUrl, client = fetchJson) => {
         switch (type) {
             case DataRequestType.GET_LIST:
             case DataRequestType.CREATE:
+                return {data: json};
             case DataRequestType.UPDATE:
             case DataRequestType.GET_ONE:
                 return {data: json};
@@ -174,16 +184,16 @@ const dataProvider = (apiUrl, client = fetchJson) => {
 // Initialize data provider
 const apiDataProvider = dataProvider(API_URL, httpClient);
 
-/**
- * TODO: Authentication functionality
- */
-const register = (form) => {
+
+const register = (form, callbackSuccess, callbackError) => {
+    var data = getFormData(form);
+
     const params = {};
-    params.data = form.serialize();
-    debugger;
+    params.data = data;
     apiDataProvider(DataRequestType.CREATE, "user", params).then(response => {
-        debugger;
         return response;
+    }, {
+
     })
 }
 const login = ({ username, password }) => {
@@ -257,3 +267,14 @@ const getIdentity = () => {
         avatar: localStorage.getItem('avatar'),
     };
 };
+
+function getFormData($form){
+    var unindexed_array = $form.serializeArray();
+    var indexed_array = {};
+
+    $.map(unindexed_array, function(n, i){
+        indexed_array[n['name']] = n['value'];
+    });
+
+    return indexed_array;
+}
