@@ -38,4 +38,11 @@ public class Stock {
     @Getter
     @Setter
     private Currency currency;
+
+    @ManyToOne
+    @JsonIgnore
+    private User user;
+
+    public Stock() {
+    }
 }

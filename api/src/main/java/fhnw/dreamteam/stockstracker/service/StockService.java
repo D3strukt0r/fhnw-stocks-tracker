@@ -82,6 +82,6 @@ public class StockService {
      * @return Returns all stocks.
      */
     public List<Stock> findAllStocks() {
-        return stockRepository.getAllBy();
+        return stockRepository.findAll();
     }
 }

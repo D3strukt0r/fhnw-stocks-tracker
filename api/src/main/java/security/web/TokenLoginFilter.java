@@ -65,7 +65,7 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
 
         return this.getAuthenticationManager().authenticate(
             new UsernamePasswordAuthenticationToken(
-                user.getEmail(),
+                user.getUsername(),
                 user.getPassword())
         );
     }
@@ -94,7 +94,7 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
             date = new Date(System.currentTimeMillis() + TokenSecurityProperties.SESSION_EXPIRATION_TIME);
         }
         String cookieToken = this.tokenService.issueToken(
-            this.user.getEmail(),
+            this.user.getUsername(),
             TokenSecurityProperties.COOKIE_TYPE, date
         );
         cookie = new Cookie(TokenSecurityProperties.COOKIE_NAME, cookieToken);
@@ -107,7 +107,7 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
 
         date = new Date(System.currentTimeMillis() + TokenSecurityProperties.BEARER_EXPIRATION_TIME);
         String bearerToken = this.tokenService.issueToken(
-            this.user.getEmail(),
+            this.user.getUsername(),
             TokenSecurityProperties.BEARER_TYPE, date
         );
         response.addHeader(

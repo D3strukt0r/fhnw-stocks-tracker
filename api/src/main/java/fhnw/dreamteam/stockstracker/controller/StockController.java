@@ -28,13 +28,6 @@ public class StockController {
     @Autowired
     private StockService stockService;
 
-    /**
-     * The response handler for adding a stock.
-     *
-     * @param stock The stock to add.
-     *
-     * @return Returns the created stock.
-     */
     @PostMapping(path = "/stock", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Stock> postCustomer(@RequestBody final Stock stock) {
         Stock newStock;
@@ -58,11 +51,6 @@ public class StockController {
         return ResponseEntity.created(location).body(newStock);
     }
 
-    /**
-     * The response handler to get all stocks.
-     *
-     * @return Returns all stocks.
-     */
     @GetMapping(path = "/stock", produces = "application/json")
     public List<Stock> getStocks() {
         return stockService.findAllStocks();

@@ -5,6 +5,7 @@
 
 package fhnw.dreamteam.stockstracker.config;
 
+import fhnw.dreamteam.stockstracker.data.seeddata.Seeder;
 import fhnw.dreamteam.stockstracker.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -61,8 +62,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .csrf()
                 .requireCsrfProtectionMatcher(new CSRFRequestMatcher())
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
+            //.csrf().disable()
             .authorizeRequests()
                 .antMatchers("/", "/assets/**", "/login/**").permitAll()
+                .antMatchers(HttpMethod.OPTIONS, "/api/user").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/user").permitAll()
                 .antMatchers(HttpMethod.GET, "/logout").permitAll()
                 .anyRequest().authenticated().and()
                     .addFilter(new TokenLoginFilter(authenticationManagerBean(), tokenService))
