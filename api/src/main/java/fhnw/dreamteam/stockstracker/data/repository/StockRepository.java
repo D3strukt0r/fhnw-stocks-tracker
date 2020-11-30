@@ -8,12 +8,6 @@ import java.util.List;
 
 @Repository
 public interface StockRepository extends JpaRepository<Stock, Long> {
-    /**
-     * Get all stocks by ...
-     *
-     * @return Returns all stocks by ...
-     */
-    List<Stock> getAllBy();
 
     /**
      * Find a stock by it's ID.

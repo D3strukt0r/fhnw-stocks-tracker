@@ -44,7 +44,8 @@ public class User {
     private String email;
 
     @Setter
-    @org.springframework.data.annotation.Transient //will not be serialized
+    @Getter
+    @Convert(converter = AttributeEncryptor.class)
     private String mobile;
 
     @Setter

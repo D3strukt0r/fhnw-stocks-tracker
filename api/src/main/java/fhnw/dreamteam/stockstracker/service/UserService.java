@@ -46,7 +46,6 @@ public class UserService {
             }
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setMobile(passwordEncoder.encode(user.getMobile()));
         userRepository.save(user);
     }
 
@@ -100,6 +99,6 @@ public class UserService {
      * @return Returns all users.
      */
     public List<User> getAll() {
-        return userRepository.getAllBy();
+        return userRepository.findAll();
     }
 }

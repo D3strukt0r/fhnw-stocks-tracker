@@ -9,8 +9,6 @@ import java.util.List;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    List<User> getAllBy();
-
     User findByEmail(String email);
 
     User findByEmailAndIdNot(String email, Long agentId);
