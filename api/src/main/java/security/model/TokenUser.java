@@ -31,9 +31,9 @@ public class TokenUser extends User {
     public TokenUser(
         @JsonProperty(value = "username", required = true) final String username,
         @JsonProperty(value = "password", required = true) final String password,
-        @JsonProperty(value = "remember", required = true) final String remember
+        @JsonProperty(value = "remember", required = false) final String remember
     ) {
         super(username, password, emptyList());
-        this.remember = remember;
+        this.remember = remember == "true" ? "true" : "false";
     }
 }
