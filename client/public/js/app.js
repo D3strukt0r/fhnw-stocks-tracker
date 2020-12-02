@@ -200,7 +200,6 @@ const register = (form, callbackSuccess, callbackError) => {
 
 const login = (form, callbackSuccess, callbackError) => {
     var data = getFormData(form);
-    //if data.includes("remember") === ""
 
     const params = {};
     params.data = data;
