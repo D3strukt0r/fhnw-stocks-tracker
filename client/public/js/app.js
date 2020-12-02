@@ -1,5 +1,6 @@
 const DEBUG = false;
-const API_URL = "http://localhost:8080/api"
+const API_URL = "http://localhost:8080/api";
+const BASE_URL = "http://localhost:8080";
 const ACCESS_TOKEN = 'accessToken';
 
 /**
@@ -182,6 +183,7 @@ const dataProvider = (apiUrl, client = fetchJson) => {
 
 // Initialize data provider
 const apiDataProvider = dataProvider(API_URL, httpClient);
+const baseDataProvider = dataProvider(BASE_URL, httpClient);
 
 
 const register = (form, callbackSuccess, callbackError) => {
@@ -195,6 +197,21 @@ const register = (form, callbackSuccess, callbackError) => {
         return callbackError(error);
     })
 }
+
+const login = (form, callbackSuccess, callbackError) => {
+    var data = getFormData(form);
+    //if data.includes("remember") === ""
+
+    const params = {};
+    params.data = data;
+    baseDataProvider(DataRequestType.CREATE, "login", params).then(response => {
+        return callbackSuccess(response);
+    }, error => {
+        return callbackError(error);
+    })
+}
+
+/*
 const login = ({ username, password }) => {
     if (username === 'login' && password === 'password') {
         localStorage.removeItem('not_authenticated');
@@ -232,7 +249,7 @@ const login = ({ username, password }) => {
     localStorage.setItem('not_authenticated', true);
     return Promise.reject();
 };
-
+*/
 const logout = () => {
     localStorage.setItem('not_authenticated', true);
     localStorage.removeItem('role');

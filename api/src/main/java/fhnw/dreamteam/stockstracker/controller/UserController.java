@@ -41,5 +41,6 @@ public class UserController {
         UserList userList = new UserList(userService.getAll());
         return userList;
     }
+
 }
 
