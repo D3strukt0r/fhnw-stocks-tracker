@@ -23,10 +23,11 @@ const createHeadersFromOptions = (options) => {
         options.headers.set('X-XSRF-TOKEN', getCookie("XSRF-TOKEN"));
     }
     requestHeaders.set('Content-Type', 'application/json');
+    /*
     if (options.user && options.user.authenticated && options.user.token) {
         requestHeaders.set('Authorization', options.user.token);
     }
-
+    */
     return requestHeaders;
 };
 
@@ -65,6 +66,7 @@ const fetchJson = (url, options = {}) => {
                     )
                 );
             }
+            localStorage.setItem(ACCESS_TOKEN, headers.authorization);
             return Promise.resolve({ status, headers, body, json });
         });
 };
@@ -77,10 +79,12 @@ const fetchJson = (url, options = {}) => {
 const httpClient = (url, options = {}) => {
     options.headers = new Headers();
     options.headers.set('Accept', 'application/json');
+    /*
     if (localStorage.getItem(ACCESS_TOKEN)) {
         // add your own headers here
         options.headers.set('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN));
     }
+     */
     return fetchJson(url, options);
 };
 
@@ -204,8 +208,11 @@ const login = (form, callbackSuccess, callbackError) => {
     const params = {};
     params.data = data;
     baseDataProvider(DataRequestType.CREATE, "login", params).then(response => {
+        //localStorage.removeItem('not_authenticated');
+        //localStorage.setItem(ACCESS_TOKEN, );
         return callbackSuccess(response);
     }, error => {
+        localStorage.setItem('not_authenticated', true);
         return callbackError(error);
     })
 }
