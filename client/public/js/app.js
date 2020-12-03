@@ -1,7 +1,7 @@
 const DEBUG = false;
 const API_URL = "http://localhost:8080/api";
 const BASE_URL = "http://localhost:8080";
-const ACCESS_TOKEN = 'accessToken';
+//const ACCESS_TOKEN = 'accessToken';
 
 /**
  * API Request functionality
@@ -66,7 +66,6 @@ const fetchJson = (url, options = {}) => {
                     )
                 );
             }
-            localStorage.setItem(ACCESS_TOKEN, headers.authorization);
             return Promise.resolve({ status, headers, body, json });
         });
 };
@@ -212,9 +211,39 @@ const login = (form, callbackSuccess, callbackError) => {
         //localStorage.setItem(ACCESS_TOKEN, );
         return callbackSuccess(response);
     }, error => {
-        localStorage.setItem('not_authenticated', true);
+        //localStorage.setItem('not_authenticated', true);
         return callbackError(error);
     })
+}
+
+function validateLogin(callback) {
+    $.ajax({
+        type: "HEAD",
+        url: API_URL + "/validate",
+        success: function (data, textStatus, response) {
+            callback(true);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            callback(false);
+        }
+    });
+}
+
+function logout(callback) {
+    $.ajax({
+        type: "GET",
+        contentType: "application/json",
+        headers: {
+            "X-XSRF-TOKEN": getCookie("XSRF-TOKEN")
+        },
+        url: API_URL + "/logout",
+        success: function (data, textStatus, response) {
+            callback(true);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            callback(false);
+        }
+    });
 }
 
 /*
@@ -256,6 +285,7 @@ const login = ({ username, password }) => {
     return Promise.reject();
 };
 */
+/*
 const logout = () => {
     localStorage.setItem('not_authenticated', true);
     localStorage.removeItem('role');
@@ -264,7 +294,7 @@ const logout = () => {
     localStorage.removeItem('avatar');
     return Promise.resolve();
 };
-
+*/
 const checkLoginError = ({ status }) => {
     return status === 401 || status === 403
         ? Promise.reject()
