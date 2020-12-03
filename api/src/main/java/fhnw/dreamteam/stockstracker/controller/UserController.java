@@ -37,7 +37,7 @@ public class UserController {
     }
 
     @GetMapping(path = "/user", produces = "application/json")
-    public UserList getStocks() {
+    public UserList getUsers() {
         UserList userList = new UserList(userService.getAll());
         return userList;
     }

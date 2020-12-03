@@ -1,7 +1,7 @@
 const DEBUG = false;
 const API_URL = "http://localhost:8080/api";
 const BASE_URL = "http://localhost:8080";
-//const ACCESS_TOKEN = 'accessToken';
+const ACCESS_TOKEN = 'accessToken';
 
 /**
  * API Request functionality
@@ -23,11 +23,11 @@ const createHeadersFromOptions = (options) => {
         options.headers.set('X-XSRF-TOKEN', getCookie("XSRF-TOKEN"));
     }
     requestHeaders.set('Content-Type', 'application/json');
-    /*
+
     if (options.user && options.user.authenticated && options.user.token) {
         requestHeaders.set('Authorization', options.user.token);
     }
-    */
+
     return requestHeaders;
 };
 
@@ -78,12 +78,13 @@ const fetchJson = (url, options = {}) => {
 const httpClient = (url, options = {}) => {
     options.headers = new Headers();
     options.headers.set('Accept', 'application/json');
-    /*
+    //options.withCredentials = true;
+
     if (localStorage.getItem(ACCESS_TOKEN)) {
         // add your own headers here
         options.headers.set('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN));
     }
-     */
+
     return fetchJson(url, options);
 };
 
@@ -216,10 +217,18 @@ const login = (form, callbackSuccess, callbackError) => {
     })
 }
 
+const stock = (callbackSuccess, callbackError) => {
+    apiDataProvider(DataRequestType.GET_LIST, "stock").then(response => {
+        return callbackSuccess(response);
+    }), error => {
+        return callbackError(error);
+    }
+}
+
 function validateLogin(callback) {
     $.ajax({
         type: "HEAD",
-        url: API_URL + "/validate",
+        url: BASE_URL + "/validate",
         success: function (data, textStatus, response) {
             callback(true);
         },
@@ -236,7 +245,7 @@ function logout(callback) {
         headers: {
             "X-XSRF-TOKEN": getCookie("XSRF-TOKEN")
         },
-        url: API_URL + "/logout",
+        url: BASE_URL + "/logout",
         success: function (data, textStatus, response) {
             callback(true);
         },
