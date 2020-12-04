@@ -139,7 +139,7 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Checking if logged in ...</h1>
+                    <h1 class="h3 mb-4 text-gray-800">No content yet</h1>
 
                 </div>
                 <!-- /.container-fluid -->
@@ -182,7 +182,8 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary logout-link" href="login.html">Logout</a>
+                    <!-- <a class="btn btn-primary logout-link">Logout</a> -->
+                    <button class="btn btn-primary logout-btn" type="button" data-dismiss="modal">Logout</button>
                 </div>
             </div>
         </div>
@@ -203,40 +204,54 @@
     <script>
 /*
         validateLogin(function (result) {
-            if (!result) {
-                window.location.replace("login.html");
+            console.log("Logged in");
+        }), function (error) {
+            window.location.replace("login.html");
+        }
+*/
+/*
+        validateLogin(function (result) {
+            if (result) {
+                window.location.replace("/customer");
+            } else {
+                window.location.replace("/login");
             }
-        });*/
-
-
+        });
+ */
     </script>
 
 
     <script>
 
-
-
-
         $( document ).ready(function() {
-            stock(function(result) {
+
+            getAllStock(function(result) {
                 console.log("success")
 
             }, function (error) {
+                if (error.message === "Access Denied") {
+                    $("#error-message").text("Not logged in anymore...");
+                    $('#error-alert').show();
+                    setTimeout(function (){
+                        window.location.replace("login.html")
+                    }, 2000);
+                }
                 console.log("error")
             });
 
-            // $('logout-link').onclick( logout(function (e) {
-            //     // Uncomment if you want to test if logout works
-            //
-            //     validateLogin(function (result) {
-            //         if (!result) {
-            //             window.location.replace("login.html");
-            //         }
-            //     });
-            //
-            //     window.location.replace("index.html")
-            //     window.location.replace("index.html")
-            // }));
+
+             $('.logout-btn').on("click", function (event) {
+
+                 event.preventDefault();
+                 logout(function (e) {
+                     console.log(e)
+                     window.location.replace("login.html")
+                     e("login.html")
+                 }, function (error) {
+                     console.log(error)
+                     window.location.replace("login.html")
+                 })
+             });
 
         });
 

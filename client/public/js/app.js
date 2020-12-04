@@ -79,6 +79,7 @@ const httpClient = (url, options = {}) => {
 };
 
 function getCookie(name) {
+
     var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
     if (match) return match[2];
 }
@@ -87,6 +88,7 @@ const DataRequestType = {
     GET_LIST: 'GET_LIST',
     GET_ONE: 'GET_ONE',
     UPDATE: 'UPDATE',
+
     CREATE: 'CREATE',
     DELETE: 'DELETE',
     HEAD: 'HEAD',
@@ -102,6 +104,7 @@ const DataRequestType = {
  * UPDATE       => PUT http://my.api.url/posts/123
  * CREATE       => POST http://my.api.url/posts
  * DELETE       => DELETE http://my.api.url/posts/123
+ * HEAD         => HEAD http://my.api.url/posts
  */
 const dataProvider = (apiUrl, client = fetchJson) => {
     /**
@@ -114,7 +117,9 @@ const dataProvider = (apiUrl, client = fetchJson) => {
         let url = "";
         const options = {};
         switch (type) {
-            case DataRequestType.GET_MANY_REFERENCE:
+            case DataRequestType.GET_ONE:
+                url = `${apiUrl}/${resource}`;
+                break;
             case DataRequestType.GET_LIST: {
                 url = `${apiUrl}/${resource}`
                 break;
@@ -132,6 +137,10 @@ const dataProvider = (apiUrl, client = fetchJson) => {
             case DataRequestType.DELETE:
                 url = `${apiUrl}/${resource}/${params.id}`;
                 options.method = "DELETE";
+                break;
+            case DataRequestType.HEAD:
+                url = `${apiUrl}/${resource}`;
+                options.method = "HEAD";
                 break;
             default:
                 throw new Error(`Unsupported fetch action type ${type}`);
@@ -157,6 +166,7 @@ const dataProvider = (apiUrl, client = fetchJson) => {
                 return {data: json};
             case DataRequestType.DELETE:
                 return {};
+            case DataRequestType.HEAD:
             default:
                 throw new Error(`Response for this operation (${type}) is not implemented in dataProvider - check it, please.`);
         }
@@ -208,26 +218,32 @@ const login = (form, callbackSuccess, callbackError) => {
     })
 }
 
-const stock = (callbackSuccess, callbackError) => {
-    apiDataProvider(DataRequestType.GET_LIST, "stock").then(response => {
+/*
+const validateLogin = (callbackSuccess, callbackError) => {
+    baseDataProvider(DataRequestType.HEAD, "validate").then(response => {
         return callbackSuccess(response);
-    }), error => {
+    }, error => {
         return callbackError(error);
-    }
+    })
+}
+*/
+const logout = (callbackSuccess, callbackError) => {
+    baseDataProvider(DataRequestType.GET_ONE, "logout").then(response => {
+        return callbackSuccess(response);
+    }, error => {
+        return callbackError(error);
+    })
 }
 
-function validateLogin(callback) {
-    $.ajax({
-        type: "HEAD",
-        url: BASE_URL + "/validate",
-        success: function (data, textStatus, response) {
-            callback(true);
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            callback(false);
-        }
-    });
+const getAllStock = (callbackSuccess, callbackError) => {
+    apiDataProvider(DataRequestType.GET_LIST, "stock").then(response => {
+        return callbackSuccess(response);
+    }, error => {
+        return callbackError(error);
+    })
 }
+
+
 /*
 function logout(callback) {
     $.ajax({
