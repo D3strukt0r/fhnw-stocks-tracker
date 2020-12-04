@@ -42,5 +42,11 @@ public class UserController {
         return userList;
     }
 
+    @GetMapping(path = "/clientUser", produces = "application/json")
+    public User getLoggendInUser() {
+        User username = userService.getCurrentUser();
+        return username;
+    }
+
 }
 

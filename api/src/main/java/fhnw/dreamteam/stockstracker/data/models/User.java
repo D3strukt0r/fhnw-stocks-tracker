@@ -22,7 +22,6 @@ public class User {
 
     @Column(unique=true)
     @Setter
-    @Getter
     @NotEmpty(message = "Please provide a username")
     private String username;
 
@@ -81,5 +80,9 @@ public class User {
         String transientMobile = this.mobile;
         this.mobile = null;
         return transientMobile;
+    }
+
+    public String getUsername() {
+        return this.username;
     }
 }

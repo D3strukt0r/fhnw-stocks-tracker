@@ -225,28 +225,37 @@
 
         $( document ).ready(function() {
 
-            getAllStock(function(result) {
+            // Request to get username
+            username(function(result) {
                 console.log("success")
-
+                var json = result.json;
+                localStorage.setItem("username", json.username);
             }, function (error) {
                 if (error.message === "Access Denied") {
-                    $("#error-message").text("Not logged in anymore...");
+                    $("#error-message").text("Not logged in anymore... Redirecting to login page");
                     $('#error-alert').show();
                     setTimeout(function (){
                         window.location.replace("login.html")
-                    }, 2000);
+                    }, 3000);
                 }
                 console.log("error")
             });
 
+            // Test request to get stocks
+            getAllStock(function(result) {
+                console.log("success")
+
+            }, function (error) {
+
+                console.log("error")
+            });
 
              $('.logout-btn').on("click", function (event) {
-
+                 localStorage.removeItem("username");
                  event.preventDefault();
                  logout(function (e) {
                      console.log(e)
                      window.location.replace("login.html")
-                     e("login.html")
                  }, function (error) {
                      console.log(error)
                      window.location.replace("login.html")

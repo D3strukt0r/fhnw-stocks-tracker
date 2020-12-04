@@ -218,6 +218,14 @@ const login = (form, callbackSuccess, callbackError) => {
     })
 }
 
+const username = (callbackSuccess, callbackError) => {
+    apiDataProvider(DataRequestType.GET_ONE, "clientUser").then(response => {
+        return callbackSuccess(response);
+    }, error => {
+        return callbackError(error);
+    })
+}
+
 /*
 const validateLogin = (callbackSuccess, callbackError) => {
     baseDataProvider(DataRequestType.HEAD, "validate").then(response => {

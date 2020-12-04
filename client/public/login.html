@@ -120,7 +120,7 @@
                 event.preventDefault();
                 login($(".userCredentials"), function(result) {
                     $('#success-alert').show();
-                    localStorage.setItem('user', $("#name").val());
+                    localStorage.setItem('username', $("#name").val());
                     setTimeout(function (){
                         window.location.replace("index.html")
                     }, 1000);
