@@ -93,9 +93,8 @@ function getCookie(name) {
 
 const DataRequestType = {
     GET_LIST: 'GET_LIST',
-    GET_ONE: 'GET_ONE',
+    GET: 'GET',
     UPDATE: 'UPDATE',
-
     CREATE: 'CREATE',
     DELETE: 'DELETE',
     HEAD: 'HEAD',
@@ -106,12 +105,11 @@ const DataRequestType = {
  *
  * @example
  * GET_LIST     => GET http://my.api.url/posts?pageNumber=0&pageSize=10
- * GET_ONE      => GET http://my.api.url/posts/123
+ * GET      => GET http://my.api.url/posts/123
  * GET_MANY     => GET http://my.api.url/posts?id=1234&id=5678
  * UPDATE       => PUT http://my.api.url/posts/123
  * CREATE       => POST http://my.api.url/posts
  * DELETE       => DELETE http://my.api.url/posts/123
- * HEAD         => HEAD http://my.api.url/posts
  */
 const dataProvider = (apiUrl, client = fetchJson) => {
     /**
@@ -124,7 +122,7 @@ const dataProvider = (apiUrl, client = fetchJson) => {
         let url = "";
         const options = {};
         switch (type) {
-            case DataRequestType.GET_ONE:
+            case DataRequestType.GET:
                 url = `${apiUrl}/${resource}`;
                 options.method = "GET";
                 break;
@@ -147,10 +145,6 @@ const dataProvider = (apiUrl, client = fetchJson) => {
                 url = `${apiUrl}/${resource}/${params.id}`;
                 options.method = "DELETE";
                 break;
-            case DataRequestType.HEAD:
-                url = `${apiUrl}/${resource}`;
-                options.method = "HEAD";
-                break;
             default:
                 throw new Error(`Unsupported fetch action type ${type}`);
         }
@@ -171,11 +165,10 @@ const dataProvider = (apiUrl, client = fetchJson) => {
             case DataRequestType.CREATE:
                 return {data: json};
             case DataRequestType.UPDATE:
-            case DataRequestType.GET_ONE:
+            case DataRequestType.GET:
                 return {data: json};
             case DataRequestType.DELETE:
                 return {};
-            case DataRequestType.HEAD:
             default:
                 throw new Error(`Response for this operation (${type}) is not implemented in dataProvider - check it, please.`);
         }
@@ -228,24 +221,15 @@ const login = (form, callbackSuccess, callbackError) => {
 }
 
 const username = (callbackSuccess, callbackError) => {
-    apiDataProvider(DataRequestType.GET_ONE, "clientUser").then(response => {
+    apiDataProvider(DataRequestType.GET, "clientUser").then(response => {
         return callbackSuccess(response);
     }, error => {
         return callbackError(error);
     })
 }
 
-/*
-const validateLogin = (callbackSuccess, callbackError) => {
-    baseDataProvider(DataRequestType.HEAD, "validate").then(response => {
-        return callbackSuccess(response);
-    }, error => {
-        return callbackError(error);
-    })
-}
-*/
 const logout = (callbackSuccess, callbackError) => {
-    baseDataProvider(DataRequestType.GET_ONE, "logout").then(response => {
+    baseDataProvider(DataRequestType.GET, "logout").then(response => {
         return callbackSuccess(response);
     }, error => {
         return callbackError(error);

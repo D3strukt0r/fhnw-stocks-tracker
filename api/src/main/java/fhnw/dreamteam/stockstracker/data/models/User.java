@@ -2,6 +2,7 @@ package fhnw.dreamteam.stockstracker.data.models;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -46,8 +47,8 @@ public class User {
     @Convert(converter = AttributeEncryptor.class)
     private String mobile;
 
-    @JsonIgnore
     @Setter
+    @JsonProperty( value = "password", access = JsonProperty.Access.WRITE_ONLY)
     @org.springframework.data.annotation.Transient //will not be serialized
     private String password;
 
