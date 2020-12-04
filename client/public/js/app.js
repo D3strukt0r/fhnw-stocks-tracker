@@ -119,9 +119,11 @@ const dataProvider = (apiUrl, client = fetchJson) => {
         switch (type) {
             case DataRequestType.GET_ONE:
                 url = `${apiUrl}/${resource}`;
+                options.method = "GET";
                 break;
             case DataRequestType.GET_LIST: {
                 url = `${apiUrl}/${resource}`
+                options.method = "GET";
                 break;
             }
             case DataRequestType.UPDATE:

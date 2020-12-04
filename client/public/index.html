@@ -116,7 +116,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small username-label"></span>
+                                <span class="mr-2 d-inline text-gray-600 small username-label"></span>
                                 <img class="img-profile rounded-circle"
                                     src="img/undraw_profile.svg">
                             </a>
@@ -231,9 +231,9 @@
             // Request to get username
             username(function(result) {
                 console.log("success")
-                var json = result.json;
-                localStorage.setItem("username", json.username);
-                $(".username-label").text(json.username)
+                var data = result.data;
+                localStorage.setItem("username", data.username);
+                $(".username-label").text(data.username)
             }, function (error) {
                 if (error.message === "Access Denied") {
                     $("#error-message").text("Not logged in anymore... Redirecting to login page");
