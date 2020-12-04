@@ -24,10 +24,6 @@ const createHeadersFromOptions = (options) => {
     }
     requestHeaders.set('Content-Type', 'application/json');
 
-    if (options.user && options.user.authenticated && options.user.token) {
-        requestHeaders.set('Authorization', options.user.token);
-    }
-
     return requestHeaders;
 };
 
@@ -41,7 +37,7 @@ const createHeadersFromOptions = (options) => {
 const fetchJson = (url, options = {}) => {
     const requestHeaders = createHeadersFromOptions(options);
 
-    return fetch(url, { ...options, headers: requestHeaders })
+    return fetch(url, { ...options, credentials: "include", headers: requestHeaders })
         .then(response =>
             response.text().then(text => ({
                 status: response.status,
@@ -78,12 +74,6 @@ const fetchJson = (url, options = {}) => {
 const httpClient = (url, options = {}) => {
     options.headers = new Headers();
     options.headers.set('Accept', 'application/json');
-    //options.withCredentials = true;
-
-    if (localStorage.getItem(ACCESS_TOKEN)) {
-        // add your own headers here
-        options.headers.set('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN));
-    }
 
     return fetchJson(url, options);
 };
@@ -99,6 +89,7 @@ const DataRequestType = {
     UPDATE: 'UPDATE',
     CREATE: 'CREATE',
     DELETE: 'DELETE',
+    HEAD: 'HEAD',
 }
 
 /**
@@ -237,7 +228,7 @@ function validateLogin(callback) {
         }
     });
 }
-
+/*
 function logout(callback) {
     $.ajax({
         type: "GET",
@@ -254,7 +245,7 @@ function logout(callback) {
         }
     });
 }
-
+*/
 /*
 const login = ({ username, password }) => {
     if (username === 'login' && password === 'password') {
