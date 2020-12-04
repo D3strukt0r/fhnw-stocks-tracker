@@ -46,6 +46,7 @@ public class User {
     @Convert(converter = AttributeEncryptor.class)
     private String mobile;
 
+    @JsonIgnore
     @Setter
     @org.springframework.data.annotation.Transient //will not be serialized
     private String password;
