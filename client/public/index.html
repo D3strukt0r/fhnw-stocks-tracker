@@ -202,22 +202,13 @@
     <script src="js/app.js"></script>
 
     <script>
-/*
-        validateLogin(function (result) {
-            console.log("Logged in");
-        }), function (error) {
-            window.location.replace("login.html");
-        }
-*/
-/*
-        validateLogin(function (result) {
-            if (result) {
-                window.location.replace("/customer");
-            } else {
-                window.location.replace("/login");
-            }
+        username(function(result) {
+            console.log("success")
+            var data = result.data;
+            localStorage.setItem("username", data.username);
+        }, function (error) {
+            console.log(error.message)
         });
- */
     </script>
 
 
@@ -228,30 +219,11 @@
 
             $(".username-label").text(localStorage.getItem("username"))
 
-            // Request to get username
-            username(function(result) {
-                console.log("success")
-                var data = result.data;
-                localStorage.setItem("username", data.username);
-                $(".username-label").text(data.username)
-            }, function (error) {
-                if (error.message === "Access Denied") {
-                    $("#error-message").text("Not logged in anymore... Redirecting to login page");
-                    $('#error-alert').show();
-                    setTimeout(function (){
-                        window.location.replace("login.html")
-                    }, 3000);
-                }
-                console.log("error")
-            });
-
             // Test request to get stocks
             getAllStock(function(result) {
                 console.log("success")
-
             }, function (error) {
-
-                console.log("error")
+                console.log(error.message)
             });
 
              $('.logout-btn').on("click", function (event) {
@@ -261,7 +233,7 @@
                      console.log(e)
                      window.location.replace("login.html")
                  }, function (error) {
-                     console.log(error)
+                     console.log(error.message)
                      window.location.replace("login.html")
                  })
              });

@@ -701,11 +701,13 @@
     <script src="vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-    <script language="JavaScript">
-        validateLogin(function (result) {
-            if (!result) {
-                window.location.replace("login.html");
-            }
+    <script>
+        username(function(result) {
+            console.log("success")
+            var data = result.data;
+            localStorage.setItem("username", data.username);
+        }, function (error) {
+            console.log(error.message)
         });
     </script>
 

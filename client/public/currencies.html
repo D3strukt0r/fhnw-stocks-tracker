@@ -702,13 +702,13 @@
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <script>
-
-        validateLogin(function (result) {
-            console.log("Logged in");
-        }), function (error) {
-            window.location.replace("login.html");
-        }
-
+        username(function(result) {
+            console.log("success")
+            var data = result.data;
+            localStorage.setItem("username", data.username);
+        }, function (error) {
+            console.log(error.message)
+        });
     </script>
 
     <!-- Page level custom scripts -->
