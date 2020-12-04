@@ -55,9 +55,11 @@ const fetchJson = (url, options = {}) => {
             }
             // if user is unauthenticated then take back to login and clear storage
             if (status === 401 || status === 403) {
-                localStorage.removeItem("username");
-                window.location.replace("login.html");
-                return;
+                if (localStorage.getItem("username") !== null) {
+                    localStorage.removeItem("username");
+                    window.location.replace("login.html");
+                    return;
+                }
             }
             if (status < 200 || status >= 300) {
                 return Promise.reject(
