@@ -233,6 +233,7 @@
                 console.log("success")
                 var json = result.json;
                 localStorage.setItem("username", json.username);
+                $(".username-label").text(json.username)
             }, function (error) {
                 if (error.message === "Access Denied") {
                     $("#error-message").text("Not logged in anymore... Redirecting to login page");
