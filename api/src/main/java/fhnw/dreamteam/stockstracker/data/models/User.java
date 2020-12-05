@@ -2,6 +2,7 @@ package fhnw.dreamteam.stockstracker.data.models;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,7 +23,6 @@ public class User {
 
     @Column(unique=true)
     @Setter
-    @Getter
     @NotEmpty(message = "Please provide a username")
     private String username;
 
@@ -44,13 +44,18 @@ public class User {
     private String email;
 
     @Setter
-    @Getter
     @Convert(converter = AttributeEncryptor.class)
     private String mobile;
 
     @Setter
+    @JsonProperty( value = "password", access = JsonProperty.Access.WRITE_ONLY)
     @org.springframework.data.annotation.Transient //will not be serialized
     private String password;
+
+    @Setter
+    @Getter
+    @javax.persistence.Transient // will not be stored in DB
+    private String remember;
 
     @Getter
     @Setter
@@ -77,5 +82,9 @@ public class User {
         String transientMobile = this.mobile;
         this.mobile = null;
         return transientMobile;
+    }
+
+    public String getUsername() {
+        return this.username;
     }
 }

@@ -34,6 +34,21 @@
 <body class="bg-gradient-primary">
 
     <div class="container">
+        <div class="alert alert-success alert-dismissible fade show my-5" role="alert" id="success-alert">
+            <h4 class="alert-heading">Success</h4>
+            <p class="text-break">Logging in...</p>
+            <button type="button" class="close" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="alert alert-danger alert-dismissible fade show my-5" role="alert" id="error-alert">
+            <h4 class="alert-heading">Error</h4>
+            <p class="text-break" id="error-message"></p>
+            <button type="button" class="close" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
 
         <!-- Outer Row -->
         <div class="row justify-content-center">
@@ -49,26 +64,25 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                     </div>
-                                    <form class="user">
+                                    <form class="userCredentials">
                                         <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
-                                                id="exampleInputEmail" aria-describedby="emailHelp"
-                                                placeholder="Enter Email Address...">
+                                            <input id="name" name="username" type="text" class="form-control form-control-user"
+                                                   placeholder="Username" required>
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
-                                                id="exampleInputPassword" placeholder="Password">
+                                            <input name="password" type="password" class="form-control form-control-user"
+                                                   placeholder="Password" required>
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                <label class="custom-control-label" for="customCheck">Remember
+                                                <input name="remember" type="checkbox" class="custom-control-input" id="rememberCheck" value="true">
+                                                <label class="custom-control-label" for="rememberCheck">Remember
                                                     Me</label>
                                             </div>
                                         </div>
-                                        <a href="index.html" class="btn btn-primary btn-user btn-block">
+                                        <button type="submit" class="btn btn-primary btn-user btn-block">
                                             Login
-                                        </a>
+                                        </button>
                                     </form>
                                     <hr>
                                     <div class="text-center">
@@ -97,6 +111,34 @@
     <script src="js/sb-admin-2.min.js"></script>
 
     <script src="js/app.js"></script>
+
+    <script>
+        $( document ).ready(function() {
+
+            $(".userCredentials").submit(function( event ) {
+                $('.alert .close').click();
+                event.preventDefault();
+                login($(".userCredentials"), function(result) {
+                    $('#success-alert').show();
+                    localStorage.setItem('username', $("#name").val());
+                    setTimeout(function (){
+                        window.location.replace("index.html")
+                    }, 1000);
+                }, function (error) {
+                    $("#error-message").text("Bad credentials!");
+                    $('#error-alert').show();
+                })
+            });
+
+
+            $('.alert').alert()
+            $('.alert .close').on('click', function(e) {
+                $(this).parent().hide();
+            });
+            // hide alerts by default
+            $('.alert .close').click();
+        });
+    </script>
 
 </body>
 

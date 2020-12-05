@@ -3,6 +3,7 @@ package fhnw.dreamteam.stockstracker.service;
 import fhnw.dreamteam.stockstracker.data.models.User;
 import fhnw.dreamteam.stockstracker.data.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -101,4 +102,10 @@ public class UserService {
     public List<User> getAll() {
         return userRepository.findAll();
     }
+
+    public User getCurrentUser() {
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return userRepository.findByUsername(username);
+    }
+
 }

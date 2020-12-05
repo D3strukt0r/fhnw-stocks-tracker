@@ -116,7 +116,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ USERNAME }}</span>
+                                <span class="mr-2 d-inline text-gray-600 small username-label"></span>
                                 <img class="img-profile rounded-circle"
                                     src="img/undraw_profile.svg">
                             </a>
@@ -139,7 +139,7 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Checking if logged in ...</h1>
+                    <h1 class="h3 mb-4 text-gray-800">No content yet</h1>
 
                 </div>
                 <!-- /.container-fluid -->
@@ -182,7 +182,8 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <!-- <a class="btn btn-primary logout-link">Logout</a> -->
+                    <button class="btn btn-primary logout-btn" type="button" data-dismiss="modal">Logout</button>
                 </div>
             </div>
         </div>
@@ -199,6 +200,32 @@
     <script src="js/sb-admin-2.min.js"></script>
 
     <script src="js/app.js"></script>
+
+
+    <script>
+
+        $( document ).ready(function() {
+
+            // Set username and checks if user is logged in when page opens
+            username(function(result) {
+                console.log("success")
+                var data = result.data;
+                localStorage.setItem("username", data.username);
+                $(".username-label").text(data.username);
+            }, function (error) {
+                console.log(error.message)
+            });
+
+            // Test request to get stocks
+            getAllStock(function(result) {
+                console.log("success")
+            }, function (error) {
+                console.log(error.message)
+            });
+
+        });
+
+    </script>
 
 </body>
 
