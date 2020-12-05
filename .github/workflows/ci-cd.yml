@@ -14,13 +14,8 @@ on:
       - .github/workflows/ci-cd.yml
       - "client/docker/**"
       - "client/public/**"
-      - "client/src/**"
       - client/.dockerignore
-      - client/.yarnrc.yml
       - client/Dockerfile
-      - client/package.json
-      - client/tsconfig.json
-      - client/yarn.lock
       - "api/src/**"
       - api/build.gradle
       - api/settings.gradle
@@ -55,40 +50,6 @@ jobs:
         working-directory: ./api
         run: |
           ./gradlew test
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: "14"
-
-      # https://github.com/actions/cache/blob/main/examples.md#node---yarn-2
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
-      - name: Cache local yarn repository
-        id: yarn-cache
-        uses: actions/cache@v2
-        with:
-          # A list of files, directories, and wildcard patterns to cache and restore. See @actions/glob for supported patterns.
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          # An explicit key for restoring and saving the cache
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          # An ordered list of keys to use for restoring the cache if no cache hit occurred for key
-          restore-keys: |
-            ${{ runner.os }}-yarn-
-
-      - name: Install dependencies
-        working-directory: ./client
-        run: yarn install --immutable
-
-      - name: Build
-        working-directory: ./client
-        run: yarn run build
-
-      # TODO: Add tests and remove --passWithNoTests
-      - name: Run tests
-        working-directory: ./client
-        run: yarn run test --passWithNoTests
 
       - name: Setup QEMU
         id: qemu
@@ -236,6 +197,7 @@ jobs:
           echo "::set-output name=tagsApi::${TAGS_API}"
           echo "::set-output name=tagsClient::${TAGS_CLIENT}"
           echo "::set-output name=created::$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+
       - name: Setup QEMU
         id: qemu
         uses: docker/setup-qemu-action@v1
