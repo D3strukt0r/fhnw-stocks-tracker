@@ -206,7 +206,7 @@
 
         $( document ).ready(function() {
 
-            // Set username and check if user is loggend in
+            // Set username and checks if user is logged in when page opens
             username(function(result) {
                 console.log("success")
                 var data = result.data;
@@ -222,18 +222,6 @@
             }, function (error) {
                 console.log(error.message)
             });
-
-             $('.logout-btn').on("click", function (event) {
-                 localStorage.removeItem("username");
-                 event.preventDefault();
-                 logout(function (e) {
-                     console.log(e)
-                     window.location.replace("login.html")
-                 }, function (error) {
-                     console.log(error.message)
-                     window.location.replace("login.html")
-                 })
-             });
 
         });
 

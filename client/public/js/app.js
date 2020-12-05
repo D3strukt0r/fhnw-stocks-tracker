@@ -258,3 +258,21 @@ function getFormData($form){
 
     return indexed_array;
 }
+
+
+$(document).ready(function() {
+
+    // Logout function to be called on each html page on logout button click
+    $('.logout-btn').on("click", function (event) {
+        localStorage.removeItem("username");
+        event.preventDefault();
+        logout(function (e) {
+            console.log(e)
+            window.location.replace("login.html")
+        }, function (error) {
+            console.log(error.message)
+            window.location.replace("login.html")
+        })
+    });
+
+});

@@ -701,11 +701,13 @@
     <script src="vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
+    <script src="js/app.js"></script>
+
     <!-- Page level custom scripts -->
     <script>
         $(document).ready(function() {
 
-            // Set username and check if user is loggend in
+            // Set username and checks if user is logged in when page opens
             username(function(result) {
                 console.log("success")
                 var data = result.data;
@@ -718,22 +720,8 @@
 
             $('#dataTable').DataTable();
 
-
-            $('.logout-btn').on("click", function (event) {
-                localStorage.removeItem("username");
-                event.preventDefault();
-                logout(function (e) {
-                    console.log(e)
-                    window.location.replace("login.html")
-                }, function (error) {
-                    console.log(error.message)
-                    window.location.replace("login.html")
-                })
-            });
         });
     </script>
-
-    <script src="js/app.js"></script>
 
 </body>
 
