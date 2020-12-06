@@ -23,10 +23,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="013a9364-0f78-492d-95a7-27b5cb540684" name="Default Changelist" comment="Create Stocks functionality in backend">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/fhnw/dreamteam/stockstracker/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fhnw/dreamteam/stockstracker/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/public/currencies.html" beforeDir="false" afterPath="$PROJECT_DIR$/../client/public/currencies.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/public/edit_profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/../client/public/edit_profile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../client/public/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/../client/public/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/public/stocks.html" beforeDir="false" afterPath="$PROJECT_DIR$/../client/public/stocks.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
