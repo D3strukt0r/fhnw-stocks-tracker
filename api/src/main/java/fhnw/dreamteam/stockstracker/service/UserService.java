@@ -28,9 +28,7 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
     public void createOrUpdateUser(@Valid final User user) throws Exception {
-        if(userRepository.findByEmail(user.getEmail()) != null) {
-            passwordEncoder.matches(user.getUsername(), userRepository.findByEmail(user.getEmail()).getPassword());
-        }
+
         if (user.getId() == null) {
             if (userRepository.findByEmail(user.getEmail()) != null) {
                 throw new Exception("Email address " + user.getEmail() + " already assigned to another user.");
@@ -39,12 +37,12 @@ public class UserService {
                 throw new Exception("Username " + user.getUsername() + " already assigned to another user.");
             }
         } else {
-            if (userRepository.findByEmailAndIdNot(user.getEmail(), user.getId()) != null) {
-                throw new Exception("Email address " + user.getEmail() + " already assigned another user.");
-            }
-            if (userRepository.findByUsernameAndIdNot(user.getUsername(), user.getId()) != null) {
-                throw new Exception("Username " + user.getUsername() + " already assigned another user.");
-            }
+                if (userRepository.findByEmailAndIdNot(user.getEmail(), user.getId()) != null) {
+                    throw new Exception("Email address " + user.getEmail() + " already assigned to anther user.");
+                }
+                if (userRepository.findByUsernameAndIdNot(user.getUsername(), user.getId()) != null) {
+                    throw new Exception("Username " + user.getUsername() + " already assigned to another user.");
+                }
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
