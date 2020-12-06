@@ -22,18 +22,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="013a9364-0f78-492d-95a7-27b5cb540684" name="Default Changelist" comment="Created the stock model in the backend">
-      <change afterPath="$PROJECT_DIR$/src/main/java/fhnw/dreamteam/stockstracker/data/repository/CurrencyRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fhnw/dreamteam/stockstracker/data/seeddata/CurrencySeeder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fhnw/dreamteam/stockstracker/data/seeddata/StocksSeeder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/fhnw/dreamteam/stockstracker/service/CurrencyService.java" afterDir="false" />
+    <list default="true" id="013a9364-0f78-492d-95a7-27b5cb540684" name="Default Changelist" comment="Create Stocks functionality in backend">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fhnw/dreamteam/stockstracker/controller/StockController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fhnw/dreamteam/stockstracker/controller/StockController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fhnw/dreamteam/stockstracker/data/models/Currency.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fhnw/dreamteam/stockstracker/data/models/Currency.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fhnw/dreamteam/stockstracker/data/models/Stock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fhnw/dreamteam/stockstracker/data/models/Stock.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fhnw/dreamteam/stockstracker/data/repository/StockRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fhnw/dreamteam/stockstracker/data/repository/StockRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fhnw/dreamteam/stockstracker/data/seeddata/Seeder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fhnw/dreamteam/stockstracker/data/seeddata/Seeder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fhnw/dreamteam/stockstracker/service/StockService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fhnw/dreamteam/stockstracker/service/StockService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/public/stocks.html" beforeDir="false" afterPath="$PROJECT_DIR$/../client/public/stocks.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -254,7 +245,14 @@
       <option name="project" value="LOCAL" />
       <updated>1607254208446</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Create Stocks functionality in backend">
+      <created>1607260544338</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1607260544338</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -274,7 +272,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Created the stock model in the backend" />
-    <option name="LAST_COMMIT_MESSAGE" value="Created the stock model in the backend" />
+    <MESSAGE value="Created Stocks functionality in backend" />
+    <MESSAGE value="Create Stocks functionality in backend" />
+    <option name="LAST_COMMIT_MESSAGE" value="Create Stocks functionality in backend" />
   </component>
   <component name="WindowStateProjectService">
     <state x="552" y="181" key="#Project_Structure" timestamp="1603293002307">
@@ -294,6 +294,10 @@
     </state>
     <state x="-1155" y="238" key="#com.intellij.ide.util.MemberChooser/-5760.0.1536.848/-1920.0.1920.1040/0.0.1920.1040@-1920.0.1920.1040" timestamp="1605459715517" />
     <state x="765" y="238" key="#com.intellij.ide.util.MemberChooser/-5760.0.1536.848/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1605097182548" />
+    <state x="1321" y="-609" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1607260651810">
+      <screen x="826" y="-1080" width="1920" height="1080" />
+    </state>
+    <state x="1321" y="-609" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.1440.900/-1094.-1080.1920.1080/826.-1080.1920.1080@826.-1080.1920.1080" timestamp="1607260651810" />
     <state x="1567" y="-696" key="#com.intellij.refactoring.move.moveInstanceMethod.MoveInstanceMethodDialog" timestamp="1607254813476">
       <screen x="826" y="-1080" width="1920" height="1080" />
     </state>
@@ -395,10 +399,10 @@
     <state x="-1210" y="168" key="SettingsEditor/-5760.0.1536.848/-1920.0.1920.1040/0.0.1920.1040@-1920.0.1920.1040" timestamp="1603286642478" />
     <state x="710" y="168" key="SettingsEditor/-5760.0.1536.848/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1605088931970" />
     <state x="1536" y="-906" key="SettingsEditor/0.0.1440.900/-1094.-1080.1920.1080/826.-1080.1920.1080@826.-1080.1920.1080" timestamp="1607255326932" />
-    <state x="1386" y="-800" key="Vcs.Push.Dialog.v2" timestamp="1607254536455">
+    <state x="1386" y="-800" key="Vcs.Push.Dialog.v2" timestamp="1607260548707">
       <screen x="826" y="-1080" width="1920" height="1080" />
     </state>
-    <state x="1386" y="-800" key="Vcs.Push.Dialog.v2/0.0.1440.900/-1094.-1080.1920.1080/826.-1080.1920.1080@826.-1080.1920.1080" timestamp="1607254536455" />
+    <state x="1386" y="-800" key="Vcs.Push.Dialog.v2/0.0.1440.900/-1094.-1080.1920.1080/826.-1080.1920.1080@826.-1080.1920.1080" timestamp="1607260548707" />
     <state x="126" y="346" width="592" height="478" key="find.popup" timestamp="1606905680687">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
