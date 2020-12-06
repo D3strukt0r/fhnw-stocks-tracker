@@ -308,8 +308,14 @@
                 event.preventDefault();
 
                 const params = {};
-                params.data = getFormData($('.stockInformation'));
-                console.log(params.data);
+                params.data = {
+                    name: $('input[name=name]').val(),
+                    price: $('input[name=price]').val(),
+                    quantity: $('input[name=quantity]').val(),
+                    currency: {
+                        id: $('select[name=currency]').val(),
+                    }
+                }
                 apiDataProvider(DataRequestType.CREATE, 'stock', params).then(response => {
                     $('#success-alert').show();
                     // setTimeout(function (){

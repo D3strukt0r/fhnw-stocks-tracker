@@ -321,7 +321,16 @@
 
                 const params = {};
                 params.id = stockId;
-                params.data = getFormData($('.stockInformation'));
+                params.data = {
+                    name: $('input[name=name]').val(),
+                    price: $('input[name=price]').val(),
+                    quantity: $('input[name=quantity]').val(),
+                    currency: {
+                        id: $('select[name=currency]').val(),
+                    }
+                }
+                // params.data = getFormData($('.stockInformation'));
+                // params.data.currency = {id: params.data.currency};
                 console.log(params.data);
                 apiDataProvider(DataRequestType.UPDATE, 'stock', params).then(response => {
                     $('#success-alert').show();
