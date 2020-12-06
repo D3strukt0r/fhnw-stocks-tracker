@@ -237,7 +237,6 @@ const updateUser = (form, id, callbackSuccess, callbackError) => {
 
     const params = {};
     params.id = id;
-    debugger;
     params.data = data;
     apiDataProvider(DataRequestType.UPDATE, "user", params).then(response => {
         return callbackSuccess(response);

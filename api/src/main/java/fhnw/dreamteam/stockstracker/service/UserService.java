@@ -60,6 +60,11 @@ public class UserService {
         Optional<User> dbUser = userRepository.findById(user.getId());
         if (user.getId() != null && dbUser != null && dbUser.isPresent()) {
             dbUser.get().setUsername(user.getUsername());
+            dbUser.get().setFirstname(user.getFirstname());
+            dbUser.get().setLastname(user.getLastname());
+            dbUser.get().setEmail(user.getEmail());
+            dbUser.get().setMobile(user.getMobile());
+            dbUser.get().setPassword(user.getPassword());
             return userRepository.save(dbUser.get());
         } else {
             throw new Exception("User could not be found.");

@@ -24,7 +24,8 @@
   <component name="ChangeListManager">
     <list default="true" id="013a9364-0f78-492d-95a7-27b5cb540684" name="Default Changelist" comment="Create Stocks functionality in backend">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/fhnw/dreamteam/stockstracker/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fhnw/dreamteam/stockstracker/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fhnw/dreamteam/stockstracker/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fhnw/dreamteam/stockstracker/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/public/edit_profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/../client/public/edit_profile.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/../client/public/js/app.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -128,18 +129,6 @@
       <command value="gradle assemble" />
     </option>
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
-  </component>
   <component name="RunManager" selected="Gradle.api [bootRun]">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
@@ -224,7 +213,7 @@
       </list>
     </recent_temporary>
   </component>
-  <component name="SpellCheckerSettings" BundledDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="false" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -276,13 +265,12 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Created the stock model in the backend" />
@@ -327,36 +315,36 @@
     <state x="-1180" y="277" key="FileChooserDialogImpl/-5760.0.1536.848/-1920.0.1920.1040/0.0.1920.1040@-1920.0.1920.1040" timestamp="1606299014640" />
     <state x="740" y="277" key="FileChooserDialogImpl/-5760.0.1536.848/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1606304507462" />
     <state x="592" y="219" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1606904963814" />
-    <state width="1878" height="305" key="GridCell.Tab.0.bottom" timestamp="1607280471978">
+    <state width="1878" height="305" key="GridCell.Tab.0.bottom" timestamp="1607284510616">
       <screen x="826" y="-1080" width="1920" height="1080" />
     </state>
     <state width="1877" height="343" key="GridCell.Tab.0.bottom/-5760.0.1536.848/-1920.0.1920.1040/0.0.1920.1040@-1920.0.1920.1040" timestamp="1606299040989" />
     <state width="1877" height="178" key="GridCell.Tab.0.bottom/-5760.0.1536.848/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1607087932883" />
-    <state width="1878" height="305" key="GridCell.Tab.0.bottom/0.0.1440.900/-1094.-1080.1920.1080/826.-1080.1920.1080@826.-1080.1920.1080" timestamp="1607280471977" />
+    <state width="1878" height="305" key="GridCell.Tab.0.bottom/0.0.1440.900/-1094.-1080.1920.1080/826.-1080.1920.1080@826.-1080.1920.1080" timestamp="1607284510616" />
     <state width="1493" height="304" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1606907253758" />
     <state width="2517" height="397" key="GridCell.Tab.0.bottom/0.0.2560.1400/2560.0.2560.1400@0.0.2560.1400" timestamp="1607251901543" />
-    <state width="1878" height="305" key="GridCell.Tab.0.center" timestamp="1607280471976">
+    <state width="1878" height="305" key="GridCell.Tab.0.center" timestamp="1607284510613">
       <screen x="826" y="-1080" width="1920" height="1080" />
     </state>
     <state width="1877" height="343" key="GridCell.Tab.0.center/-5760.0.1536.848/-1920.0.1920.1040/0.0.1920.1040@-1920.0.1920.1040" timestamp="1606299040989" />
     <state width="1877" height="178" key="GridCell.Tab.0.center/-5760.0.1536.848/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1607087932883" />
-    <state width="1878" height="305" key="GridCell.Tab.0.center/0.0.1440.900/-1094.-1080.1920.1080/826.-1080.1920.1080@826.-1080.1920.1080" timestamp="1607280471976" />
+    <state width="1878" height="305" key="GridCell.Tab.0.center/0.0.1440.900/-1094.-1080.1920.1080/826.-1080.1920.1080@826.-1080.1920.1080" timestamp="1607284510613" />
     <state width="1493" height="304" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1606907253757" />
     <state width="2517" height="397" key="GridCell.Tab.0.center/0.0.2560.1400/2560.0.2560.1400@0.0.2560.1400" timestamp="1607251901543" />
-    <state width="1878" height="305" key="GridCell.Tab.0.left" timestamp="1607280471974">
+    <state width="1878" height="305" key="GridCell.Tab.0.left" timestamp="1607284510612">
       <screen x="826" y="-1080" width="1920" height="1080" />
     </state>
     <state width="1877" height="343" key="GridCell.Tab.0.left/-5760.0.1536.848/-1920.0.1920.1040/0.0.1920.1040@-1920.0.1920.1040" timestamp="1606299040989" />
     <state width="1877" height="178" key="GridCell.Tab.0.left/-5760.0.1536.848/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1607087932882" />
-    <state width="1878" height="305" key="GridCell.Tab.0.left/0.0.1440.900/-1094.-1080.1920.1080/826.-1080.1920.1080@826.-1080.1920.1080" timestamp="1607280471974" />
+    <state width="1878" height="305" key="GridCell.Tab.0.left/0.0.1440.900/-1094.-1080.1920.1080/826.-1080.1920.1080@826.-1080.1920.1080" timestamp="1607284510612" />
     <state width="1493" height="304" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1606907253757" />
     <state width="2517" height="397" key="GridCell.Tab.0.left/0.0.2560.1400/2560.0.2560.1400@0.0.2560.1400" timestamp="1607251901543" />
-    <state width="1878" height="305" key="GridCell.Tab.0.right" timestamp="1607280471977">
+    <state width="1878" height="305" key="GridCell.Tab.0.right" timestamp="1607284510614">
       <screen x="826" y="-1080" width="1920" height="1080" />
     </state>
     <state width="1877" height="343" key="GridCell.Tab.0.right/-5760.0.1536.848/-1920.0.1920.1040/0.0.1920.1040@-1920.0.1920.1040" timestamp="1606299040989" />
     <state width="1877" height="178" key="GridCell.Tab.0.right/-5760.0.1536.848/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1607087932883" />
-    <state width="1878" height="305" key="GridCell.Tab.0.right/0.0.1440.900/-1094.-1080.1920.1080/826.-1080.1920.1080@826.-1080.1920.1080" timestamp="1607280471977" />
+    <state width="1878" height="305" key="GridCell.Tab.0.right/0.0.1440.900/-1094.-1080.1920.1080/826.-1080.1920.1080@826.-1080.1920.1080" timestamp="1607284510614" />
     <state width="1493" height="304" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1606907253758" />
     <state width="2517" height="397" key="GridCell.Tab.0.right/0.0.2560.1400/2560.0.2560.1400@0.0.2560.1400" timestamp="1607251901543" />
     <state width="1493" height="304" key="GridCell.Tab.1.bottom" timestamp="1606907275631">
