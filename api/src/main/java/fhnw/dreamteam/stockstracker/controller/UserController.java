@@ -28,8 +28,9 @@ public class UserController {
         }
     }
 
-    @PutMapping(path = "/user", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Void> updateUser(@RequestBody User user) {
+    @PutMapping(path = "/user/{id}", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Void> updateUser(@RequestBody User user, @PathVariable(value = "id") String id) {
+
         try {
             userService.editUser(user);
             return ResponseEntity.ok().build();

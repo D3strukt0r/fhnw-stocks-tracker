@@ -303,7 +303,8 @@
         $(".user").submit(function (event) {
             $('.alert .close').click();
             event.preventDefault();
-            updateUser($(".user"), function (result) {
+            var id = $(".userID-input").val();
+            updateUser($(".user"), id,  function (result) {
                 $('#success-alert').show();
                 $(".user")[0].reset();
             }, function (error) {

@@ -232,8 +232,14 @@ const username = (callbackSuccess, callbackError) => {
     })
 }
 
-const updateUser = (callbackSuccess, callbackError) => {
-    apiDataProvider(DataRequestType.UPDATE, "user").then(response => {
+const updateUser = (form, id, callbackSuccess, callbackError) => {
+    var data = getFormData(form);
+
+    const params = {};
+    params.id = id;
+    debugger;
+    params.data = data;
+    apiDataProvider(DataRequestType.UPDATE, "user", params).then(response => {
         return callbackSuccess(response);
     }, error => {
         return callbackError(error);
