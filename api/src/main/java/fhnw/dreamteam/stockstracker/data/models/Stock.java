@@ -31,6 +31,20 @@ public class Stock {
     private String name;
 
     /**
+     * The price that the stock was bought for.
+     */
+    @Getter
+    @Setter
+    private Integer price;
+
+    /**
+     * The quantity of the bought stock.
+     */
+    @Getter
+    @Setter
+    private Integer quantity;
+
+    /**
      * The currency used for the stock.
      */
     @ManyToOne

@@ -17,4 +17,13 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
      * @return Returns the stock.
      */
     Stock findById(int id);
+
+     /**
+     * Find a stock by it's name.
+     *
+     * @param name The ID of the stock.
+     *
+     * @return Returns the stock.
+     */
+    // Stock findByName(String name);
 }
