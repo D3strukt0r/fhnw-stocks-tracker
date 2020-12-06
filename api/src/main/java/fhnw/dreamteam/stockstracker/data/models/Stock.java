@@ -20,6 +20,7 @@ public class Stock {
     @Id
     @GeneratedValue
     @Getter
+    @Setter
     private Long id;
 
     /**
@@ -35,7 +36,7 @@ public class Stock {
      */
     @Getter
     @Setter
-    private Integer price;
+    private Double price;
 
     /**
      * The quantity of the bought stock.
@@ -54,11 +55,13 @@ public class Stock {
 
     @ManyToOne
     @JsonIgnore
+    @Setter
+    @Getter
     private User user;
 
     public Stock(
         @NotEmpty(message = "Please enter a name.") String name,
-        @NotEmpty(message = "Please provide the price.") Integer price,
+        @NotEmpty(message = "Please provide the price.") Double price,
         @NotEmpty(message = "Please provide the quantity.") Integer quantity,
         @NotEmpty(message = "Please provide the currency.") Currency currency,
         @NotEmpty(message = "Please provide the user.") User user
