@@ -10,6 +10,12 @@ public class Seeder {
     @Autowired
     private UserSeed userSeed;
 
+    @Autowired
+    private CurrencySeeder currencySeeder;
+
+    @Autowired
+    private StocksSeeder stocksSeeder;
+
     @PostConstruct
     public void init() {
         seedData();
@@ -19,6 +25,8 @@ public class Seeder {
         try {
             // add seed code here
             userSeed.seedUsers();
+            currencySeeder.seedCurrency();
+            stocksSeeder.seedStocks();
         } catch (Exception e) {
             System.out.println(e);
         }

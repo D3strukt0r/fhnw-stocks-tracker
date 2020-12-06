@@ -5,15 +5,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-// import javax.validation.constraints.Email;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
 public class Stock {
+
+    public Stock(){
+    }
+
     /**
      * The ID of the stock.
      */
@@ -48,7 +48,6 @@ public class Stock {
      * The currency used for the stock.
      */
     @ManyToOne
-    @JsonIgnore
     @Getter
     @Setter
     private Currency currency;
@@ -57,6 +56,17 @@ public class Stock {
     @JsonIgnore
     private User user;
 
-    public Stock() {
+    public Stock(
+        @NotEmpty(message = "Please enter a name.") String name,
+        @NotEmpty(message = "Please provide the price.") Integer price,
+        @NotEmpty(message = "Please provide the quantity.") Integer quantity,
+        @NotEmpty(message = "Please provide the currency.") Currency currency,
+        @NotEmpty(message = "Please provide the user.") User user
+    ) {
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+        this.currency = currency;
+        this.user = user;
     }
 }

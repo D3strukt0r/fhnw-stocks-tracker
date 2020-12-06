@@ -2,6 +2,7 @@ package fhnw.dreamteam.stockstracker.service;
 
 import fhnw.dreamteam.stockstracker.data.models.Stock;
 import fhnw.dreamteam.stockstracker.data.repository.StockRepository;
+import fhnw.dreamteam.stockstracker.data.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -18,6 +19,12 @@ public class StockService {
      */
     @Autowired
     private StockRepository stockRepository;
+
+    /**
+     * The user service.
+     */
+    @Autowired
+    private UserService userService;
 
     /**
      * Create a new {@link Stock}.
@@ -77,11 +84,20 @@ public class StockService {
     // }
 
     /**
-     * Find all stocks.
+     * Get all stocks.
      *
      * @return Returns all stocks.
      */
-    public List<Stock> findAllStocks() {
+    public List<Stock> getAll() {
         return stockRepository.findAll();
+    }
+
+    /**
+     * Get all stocks by current user.
+     *
+     * @return Returns all stocks of a current user.
+     */
+    public List<Stock> getAllByUser() {
+        return stockRepository.findAllByUser(userService.getCurrentUser().getId());
     }
 }
