@@ -232,6 +232,14 @@ const username = (callbackSuccess, callbackError) => {
     })
 }
 
+const updateUser = (callbackSuccess, callbackError) => {
+    apiDataProvider(DataRequestType.UPDATE, "user").then(response => {
+        return callbackSuccess(response);
+    }, error => {
+        return callbackError(error);
+    })
+}
+
 const logout = (callbackSuccess, callbackError) => {
     baseDataProvider(DataRequestType.GET, "logout").then(response => {
         return callbackSuccess(response);
