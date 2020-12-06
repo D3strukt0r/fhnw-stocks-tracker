@@ -36,6 +36,9 @@ public class StockService {
      * @throws Exception
      */
     public Stock createStock(@Valid final Stock stock) throws Exception {
+        if (stock.getUser() == null) {
+            stock.setUser(userService.getCurrentUser());
+        }
         return stockRepository.save(stock);
     }
 
@@ -51,6 +54,8 @@ public class StockService {
         Optional<Stock> dbStock = stockRepository.findById(stock.getId());
         if (stock.getId() != null && dbStock != null && dbStock.isPresent()) {
             dbStock.get().setName(stock.getName());
+            dbStock.get().setPrice(stock.getPrice());
+            dbStock.get().setQuantity(stock.getQuantity());
             return stockRepository.save(dbStock.get());
         } else {
             throw new Exception("Stock could not be found.");
