@@ -368,9 +368,9 @@
                     }
                 }).then(response => {
                     $('#success-alert').show();
-                    // setTimeout(function (){
-                    //     window.location.href = "stocks-view.html?id=" + stockId;
-                    // }, 1000);
+                    setTimeout(function (){
+                        window.location.href = "stocks-view.html?id=" + stockId;
+                    }, 1000);
                 }, error => {
                     $("#error-message").text(error);
                     $('#error-alert').show();
