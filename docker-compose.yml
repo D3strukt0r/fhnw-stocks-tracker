@@ -17,7 +17,7 @@ services:
       - database:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: laravel
+      MYSQL_DATABASE: stocks_tracker
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -30,6 +30,30 @@ services:
     environment:
       UPLOAD_LIMIT: 100M
 
+  api:
+    build:
+      context: ./api
+    depends_on:
+      - db
+    networks:
+      - internal
+    ports:
+      - 8080:8080
+    environment:
+      # https://stackoverflow.com/questions/46057625/externalising-spring-boot-properties-when-deploying-to-docker
+      # https://howtodoinjava.com/spring-boot2/datasource-configuration/
+      SPRING_APPLICATION_JSON: '{
+        "spring.profiles.active": "dev",
+        "spring.datasource.url": "jdbc:mysql://db:3306/stocks_tracker",
+        "spring.datasource.username": "root",
+        "spring.datasource.password": "password",
+        "spring.datasource.driver-class-name": "com.mysql.jdbc.Driver",
+        "spring.jpa.database-platform": "org.hibernate.dialect.MySQL5InnoDBDialect",
+        "spring.jpa.hibernate.ddl-auto": "update",
+        "security.token.secret": "c7mJbWz5s1iY5JfIaOXrRxQt3oeKnfotc7mJbWz5s1iY5JfIaOXrRxQt3oeKnfotc7mJbWz5s1iY5JfIaOXrRxQt3oeKnfot",
+        "server.port": 8080
+      }'
+
   client:
     build:
       context: ./client
@@ -39,7 +63,7 @@ services:
     ports:
       - 80:80
     volumes:
-      - ./client:/app:rw,cached
+      - ./client/public:/app:rw,cached
 
 networks:
   internal:
