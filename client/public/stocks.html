@@ -122,8 +122,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-inline text-gray-600 small username-label"></span>
-                                <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -149,7 +148,6 @@
                         <div class="card-header py-3">
                             <div class="row">
                                 <div class="col-md-10">
-                                    <!-- <h3 class="w-75 p-3">{{categorie.name}}</h3> -->
                                     <h6 class="m-0 font-weight-bold text-primary">Your stocks</h6>
                                 </div>
                                 <div class="col-md-2 float-right">
@@ -164,7 +162,17 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0"></table>
+                                <table class="table table-bordered" id="stocksTable" width="100%" cellspacing="0"></table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Your inactive stocks</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="inactiveStocksTable" width="100%" cellspacing="0"></table>
                             </div>
                         </div>
                     </div>
@@ -247,20 +255,36 @@
             });
 
             apiDataProvider(DataRequestType.GET_LIST, 'stock', {}).then(response => {
+                // Convert data into a usable array
                 let result = [];
+                let resultInactive = [];
 
                 for (let i in response.data) {
-                    result.push(
-                        [
-                            response.data[i]["id"],
-                            response.data[i]["name"],
-                            response.data[i]["price"],
-                            response.data[i]["quantity"],
-                            response.data[i]["currency"] !== null ? response.data[i]["currency"]["name"] : 'Not selected',
-                        ]
-                    )
+                    if (response.data[i].isActive) {
+                        result.push(
+                            [
+                                response.data[i].id,
+                                response.data[i].name,
+                                response.data[i].price,
+                                response.data[i].quantity,
+                                response.data[i].currency !== null ? response.data[i].currency.name : 'Not selected',
+                            ]
+                        )
+                    } else {
+                        resultInactive.push(
+                            [
+                                response.data[i].id,
+                                response.data[i].name,
+                                response.data[i].price,
+                                response.data[i].quantity,
+                                response.data[i].currency !== null ? response.data[i].currency.name : 'Not selected',
+                            ]
+                        )
+                    }
                 }
-                var table = $('#dataTable').DataTable({
+
+                // Show table
+                var table = $('#stocksTable').DataTable({
                     data: result,
                     columns: [
                         { title: "ID" },
@@ -268,6 +292,7 @@
                         { title: "Price" },
                         { title: "Quantity" },
                         { title: "Currency" },
+                        { title: "Total" },
                         { title: "Actions" }
                     ],
                     columnDefs: [
@@ -276,11 +301,69 @@
                             visible: false
                         },
                         {
+                            targets: -2,
+                            render: (data, type, column) => {
+                                return `${column[2] * column[3]} ${column[4]}`
+                            }
+                        },
+                        {
+                            targets: -1,
+                            data: null,
+                            render: (data, type, column) => {
+                                return `
+                                <a href="/stocks-view.html?id=${column[0]}" class="btn btn-primary btn-icon-split btn-sm action-view" data-id="${column[0]}">
+                                    <span class="icon text-white-50">
+                                        <i class="fas fa-arrow-right"></i>
+                                    </span>
+                                    <span class="text">View</span>
+                                </a>
+                                <a href="/stocks-edit.html?id=${column[0]}" class="btn btn-primary btn-icon-split btn-sm action-edit" data-id="${column[0]}">
+                                    <span class="icon text-white-50">
+                                        <i class="fas fa-pen"></i>
+                                    </span>
+                                    <span class="text">Edit</span>
+                                </a>
+                                <a href="#" class="btn btn-warning btn-icon-split btn-sm action-archive" data-id="${column[0]}">
+                                    <span class="icon text-white-50">
+                                        <i class="fas fa-trash"></i>
+                                    </span>
+                                    <span class="text">Archive</span>
+                                </a>
+                                `
+                            }
+                        }
+                    ]
+                });
+
+                // Show table
+                var tableInactive = $('#inactiveStocksTable').DataTable({
+                    data: resultInactive,
+                    columns: [
+                        { title: "ID" },
+                        { title: "Name" },
+                        { title: "Price" },
+                        { title: "Quantity" },
+                        { title: "Currency" },
+                        { title: "Total" },
+                        { title: "Actions" }
+                    ],
+                    columnDefs: [
+                        {
+                            targets: 0,
+                            visible: false
+                        },
+                        {
+                            targets: -2,
+                            render: (data, type, column) => {
+                                return `${column[2] * column[3]} ${column[4]}`
+                            }
+                        },
+                        {
                             targets: -1,
                             data: null,
                             render: (data, type, row) => {
                                 return `
-                                <a href="#" class="btn btn-primary btn-icon-split btn-sm action-view" data-id="${row[0]}">
+                                <a href="/stocks-view.html?id=${row[0]}" class="btn btn-primary btn-icon-split btn-sm action-view" data-id="${row[0]}">
                                     <span class="icon text-white-50">
                                         <i class="fas fa-arrow-right"></i>
                                     </span>
@@ -288,7 +371,7 @@
                                 </a>
                                 <a href="/stocks-edit.html?id=${row[0]}" class="btn btn-primary btn-icon-split btn-sm action-edit" data-id="${row[0]}">
                                     <span class="icon text-white-50">
-                                        <i class="fas fa-arrow-right"></i>
+                                        <i class="fas fa-pen"></i>
                                     </span>
                                     <span class="text">Edit</span>
                                 </a>
@@ -304,7 +387,7 @@
                     ]
                 });
 
-                $('#dataTable .action-view').each(function () {
+                $('#stocksTable .action-archive').each(function () {
                     var $this = $(this);
                     $this.on('click', function () {
                         event.preventDefault();
@@ -312,18 +395,7 @@
                     })
                 })
 
-                // $('#dataTable .action-edit').each(function () {
-                //     var $this = $(this);
-                //     $this.on('click', function () {
-                //         event.preventDefault();
-
-                //         let queryParams = new URLSearchParams(window.location.search);
-                //         queryParams.set('id', $(this).data('id'));
-                //         window.location.href = '/stocks-edit.html?' + queryParams.toString();
-                //     })
-                // })
-
-                $('#dataTable .action-delete').each(function () {
+                $('#stocksTable .action-delete').each(function () {
                     var $this = $(this);
                     $this.on('click', function () {
                         event.preventDefault();
