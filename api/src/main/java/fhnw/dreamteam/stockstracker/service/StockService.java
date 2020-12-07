@@ -57,6 +57,9 @@ public class StockService {
             dbStock.get().setPrice(stock.getPrice());
             dbStock.get().setQuantity(stock.getQuantity());
             dbStock.get().setCurrency(stock.getCurrency());
+            dbStock.get().setPurchaseDate(stock.getPurchaseDate());
+            dbStock.get().setIsActive(stock.getIsActive());
+            dbStock.get().setConversionRate(stock.getConversionRate());
             return stockRepository.save(dbStock.get());
         } else {
             throw new Exception("Stock could not be found.");
