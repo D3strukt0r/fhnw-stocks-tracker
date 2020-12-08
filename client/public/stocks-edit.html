@@ -215,6 +215,12 @@
                                                 <input type="datetime-local" class="form-control" id="purchaseDate" name="purchaseDate" placeholder="Ex.: 2020-12-07 20:34:00" required>
                                             </div>
                                         </div>
+                                        <div class="form-group row">
+                                            <label for="total" class="col-sm-3 col-form-label">Total</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" type="text" id="total" placeholder="0" readonly>
+                                            </div>
+                                        </div>
                                         <div class="form-group">
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" id="isActive" name="isActive">
@@ -313,6 +319,26 @@
             // hide alerts by default
             $('.alert .close').click();
 
+            // "Total" functionality
+            function updateTotal() {
+                if ($('#price').val() && $('#quantity').val() && $('#currency option:selected').val()) {
+                    let newTotal = parseFloat($('#price').val()) * parseFloat($('#quantity').val());
+                    let newTotalRounded = (Math.round(newTotal * 100)) / 100;
+                    $('#total').val(newTotalRounded + " " + $('#currency option:selected').text());
+                } else {
+                    $('#total').val("");
+                }
+            }
+            $('#price').change(function () {
+                updateTotal();
+            });
+            $('#quantity').change(function () {
+                updateTotal();
+            });
+            $('#currency').change(function () {
+                updateTotal();
+            });
+
             // Update the form with the existing information
             let queryParams = new URLSearchParams(window.location.search);
             if (!queryParams.has('id')) {
@@ -350,6 +376,7 @@
                     $('#purchaseDate').val(getLocalDate(response.data.purchaseDate));
                     $('#conversionRate').val(response.data.conversionRate);
                     $('input[name=isActive]').prop('checked', response.data.isActive)
+                    updateTotal();
                 })
             });
 
