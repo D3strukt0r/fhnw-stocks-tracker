@@ -289,7 +289,7 @@
                     columns: [
                         { title: "ID" },
                         { title: "Name" },
-                        { title: "Price" },
+                        { title: "Price per stock" },
                         { title: "Quantity" },
                         { title: "Currency" },
                         { title: "Total" },
@@ -303,7 +303,7 @@
                         {
                             targets: -2,
                             render: (data, type, column) => {
-                                return `${column[2] * column[3]} ${column[4]}`
+                                return `${(Math.round((column[2] * column[3]) * 100)) / 100} ${column[4]}`
                             }
                         },
                         {
@@ -341,7 +341,7 @@
                     columns: [
                         { title: "ID" },
                         { title: "Name" },
-                        { title: "Price" },
+                        { title: "Price per stock" },
                         { title: "Quantity" },
                         { title: "Currency" },
                         { title: "Total" },
@@ -355,7 +355,7 @@
                         {
                             targets: -2,
                             render: (data, type, column) => {
-                                return `${column[2] * column[3]} ${column[4]}`
+                                return `${(Math.round((column[2] * column[3]) * 100)) / 100} ${column[4]}`
                             }
                         },
                         {
