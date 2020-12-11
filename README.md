@@ -4,25 +4,21 @@ Tracks stocks owned on different platforms
 
 Project
 
-[![License](https://img.shields.io/github/license/D3strukt0r/fhnw-stocks-tracker)][license]
-<!-- [![Docker Stars](https://img.shields.io/docker/stars/d3strukt0r/fhnw-stocks-tracker-api-php.svg?label=docker%20stars%20(php))][docker-php]
-[![Docker Pulls](https://img.shields.io/docker/pulls/d3strukt0r/fhnw-stocks-tracker-api-php.svg?label=docker%20pulls%20(php))][docker-php]
-[![Docker Stars](https://img.shields.io/docker/stars/d3strukt0r/fhnw-stocks-tracker-api-nginx.svg?label=docker%20stars%20(nginx))][docker-nginx]
-[![Docker Pulls](https://img.shields.io/docker/pulls/d3strukt0r/fhnw-stocks-tracker-api-nginx.svg?label=docker%20pulls%20(nginx))][docker-nginx] -->
+[![License](https://img.shields.io/github/license/FHNW-Dream-Team/stocks-tracker)][license]
+[![Docker Stars](https://img.shields.io/docker/stars/d3strukt0r/fhnw-stocks-tracker-api.svg?label=docker%20stars%20(api))][docker-api]
+[![Docker Pulls](https://img.shields.io/docker/pulls/d3strukt0r/fhnw-stocks-tracker-api.svg?label=docker%20pulls%20(api))][docker-api]
 [![Docker Stars](https://img.shields.io/docker/stars/d3strukt0r/fhnw-stocks-tracker-client.svg?label=docker%20stars%20(client))][docker-client]
 [![Docker Pulls](https://img.shields.io/docker/pulls/d3strukt0r/fhnw-stocks-tracker-client.svg?label=docker%20pulls%20(client))][docker-client]
 
 master-branch (alias stable, latest)
 
-[![GH Action CI/CD](https://github.com/D3strukt0r/fhnw-stocks-tracker/workflows/CI/CD/badge.svg?branch=master)][gh-action]
-<!-- [![Codacy grade](https://img.shields.io/codacy/grade/6695eaec0c6047abae98cbda78f9873f/master)][codacy] -->
+[![GH Action CI/CD](https://github.com/FHNW-Dream-Team/stocks-tracker/workflows/CI/CD/badge.svg?branch=master)][gh-action]
+[![Codacy grade](https://img.shields.io/codacy/grade/6695eaec0c6047abae98cbda78f9873f/master)][codacy]
 
-<!--
 develop-branch (alias nightly)
 
-[![GH Action CI/CD](https://github.com/D3strukt0r/fhnw-stocks-tracker/workflows/CI/CD/badge.svg?branch=develop)][gh-action]
-[![Codacy grade](https://img.shields.io/codacy/grade/6695eaec0c6047abae98cbda78f9873f/develop)][codacy]
--->
+[![GH Action CI/CD](https://github.com/FHNW-Dream-Team/stocks-tracker/workflows/CI/CD/badge.svg?branch=develop)][gh-action]
+[![Codacy grade](https://img.shields.io/codacy/grade/0e799065d4724438828fc852bf0336d4/develop)][codacy]
 
 ## Getting Started
 
@@ -31,6 +27,14 @@ These instructions will get you a copy of the project up and running on your loc
 ### Usage of Docker images
 
 #### Environment Variables
+
+All environment variables support Docker Secrets. To learn more about Docker Secrets, read [here](https://docs.docker.com/engine/swarm/secrets/).
+
+Basically, after creating a secret, append a `_FILE` (e. g. `DB_PASSWORD_FILE`) after the environment variable and set the path to something like `/run/secrets/<something>`.
+
+##### API Envs
+
+-   `SPRING_APPLICATION_JSON` - Configuration to pass to spring boot (JSON)
 
 ##### Client Envs
 
@@ -43,9 +47,11 @@ These instructions will get you a copy of the project up and running on your loc
 
 ## Built With
 
--   [TypeScript](https://www.typescriptlang.org/) - Programming language
--   [Yarn](https://yarnpkg.com/) - Dependency management
--   [React.js](https://reactjs.org/) - Web framework
+-   [JavaScript](https://www.ecma-international.org/publications/standards/Ecma-262.htm) - Programming language
+-   [Bootstrap](https://getbootstrap.com/) - Frontend framework
+-   [SB Admin 2](https://startbootstrap.com/theme/sb-admin-2) - Theme for client
+-   [Java](https://docs.oracle.com/en/java/) - Programming language
+-   [Spring Boot](https://spring.io/projects/spring-boot) - Java web framework
 -   [Github Actions](https://github.com/features/actions) - Automatic CI (Testing) / CD (Deployment)
 -   [Docker](https://www.docker.com/) - Containerized image
 
@@ -55,16 +61,16 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduc
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/D3strukt0r/fhnw-stocks-tracker/tags).
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/FHNW-Dream-Team/stocks-tracker/tags).
 
 ## Authors
 
--   **Manuele Vaccari** - [D3strukt0r](https://github.com/D3strukt0r) - _Initial work_
--   **Victor Hargrave** - [jokerengine](https://github.com/jokerengine) - _TO DO_
--   **Sasa Trajkova** - [sasatrajkova](https://github.com/sasatrajkova) - _TO DO_
--   **Thomas Weber** - [tjw52](https://github.com/tjw52) - _TO DO_
+-   **Manuele Vaccari** - [D3strukt0r](https://github.com/D3strukt0r) - _Initial work, Setup client, Create stocks, Edit stocks_
+-   **Victor Hargrave** - [jokerengine](https://github.com/jokerengine) - _Setup backend, Register_
+-   **Sasa Trajkova** - [sasatrajkova](https://github.com/sasatrajkova) - _Stocks overview_
+-   **Thomas Weber** - [tjw52](https://github.com/tjw52) - _Login, Logout_
 
-See also the list of [contributors](https://github.com/D3strukt0r/fhnw-stocks-tracker/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/FHNW-Dream-Team/stocks-tracker/contributors) who participated in this project.
 
 ## License
 
@@ -76,9 +82,8 @@ This project is licensed under the GNU General Public License v3.0 - see the [LI
 -   Inspiration
 -   etc
 
-[license]: https://github.com/D3strukt0r/fhnw-stocks-tracker/blob/master/LICENSE.txt
-<!-- [docker-php]: https://hub.docker.com/repository/docker/d3strukt0r/fhnw-stocks-tracker-api-php
-[docker-nginx]: https://hub.docker.com/repository/docker/d3strukt0r/fhnw-stocks-tracker-api-nginx -->
+[license]: https://github.com/FHNW-Dream-Team/stocks-tracker/blob/master/LICENSE.txt
+[docker-api]: https://hub.docker.com/repository/docker/d3strukt0r/fhnw-stocks-tracker-api
 [docker-client]: https://hub.docker.com/repository/docker/d3strukt0r/fhnw-stocks-tracker-client
-[gh-action]: https://github.com/D3strukt0r/fhnw-stocks-tracker/actions
-[codacy]: https://www.codacy.com/manual/D3strukt0r/fhnw-stocks-tracker
+[gh-action]: https://github.com/FHNW-Dream-Team/stocks-tracker/actions
+[codacy]: https://app.codacy.com/gh/FHNW-Dream-Team/stocks-tracker
