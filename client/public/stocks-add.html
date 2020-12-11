@@ -317,7 +317,10 @@
 
             // Date picker
             function formatDateOnlyDate(date) {
-                return `${date.getFullYear()}-${(date.getMonth() < 10 ? '0' : '')}${date.getMonth()}-${(date.getDay() < 10 ? '0' : '')}${date.getDay()}`;
+                let year = date.getFullYear();
+                let month = (date.getMonth() + 1 < 10 ? '0' : '') + (date.getMonth() + 1);
+                let day = (date.getDate() < 10 ? '0' : '') + (date.getDate());
+                return `${year}-${month}-${day}`;
             }
             $('#purchaseDate').datepicker({
                 format: 'yyyy-mm-dd'
