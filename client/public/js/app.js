@@ -97,6 +97,7 @@ function getCookie(name) {
 
 const DataRequestType = {
     GET_LIST: 'GET_LIST',
+    GET_ONE: 'GET_ONE',
     GET: 'GET',
     UPDATE: 'UPDATE',
     CREATE: 'CREATE',
@@ -128,6 +129,10 @@ const dataProvider = (apiUrl, client = fetchJson) => {
         switch (type) {
             case DataRequestType.GET:
                 url = `${apiUrl}/${resource}`;
+                options.method = "GET";
+                break;
+            case DataRequestType.GET_ONE:
+                url = `${apiUrl}/${resource}/${params.id}`;
                 options.method = "GET";
                 break;
             case DataRequestType.GET_LIST: {
@@ -166,6 +171,7 @@ const dataProvider = (apiUrl, client = fetchJson) => {
         const {json} = response;
         switch (type) {
             case DataRequestType.GET_LIST:
+            case DataRequestType.GET_ONE:
             case DataRequestType.CREATE:
                 return {data: json};
             case DataRequestType.UPDATE:

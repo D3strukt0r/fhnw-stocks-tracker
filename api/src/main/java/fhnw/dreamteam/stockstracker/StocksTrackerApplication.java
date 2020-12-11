@@ -28,7 +28,8 @@ public class StocksTrackerApplication {
                 // allow for development from the local client
                 registry
                     .addMapping("/**")
-                    .allowedOrigins("http://localhost:8082", "http://localhost:63342", "http://localhost:8080", "http://127.0.0.1:8082", "http://localhost:63343")
+                    .allowedMethods("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
+                    .allowedOrigins("http://stocks-tracker.manuele-vaccari.ch", "http://localhost", "http://localhost:8082", "http://localhost:63342", "http://localhost:8080", "http://127.0.0.1:8082", "http://localhost:63343")
                     .allowCredentials(true);
             }
         };
