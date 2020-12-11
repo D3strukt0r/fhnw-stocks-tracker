@@ -316,11 +316,14 @@
             $('.alert .close').click();
 
             // Date picker
+            function formatDateOnlyDate(date) {
+                return `${date.getFullYear()}-${(date.getMonth() < 10 ? '0' : '')}${date.getMonth()}-${(date.getDay() < 10 ? '0' : '')}${date.getDay()}`;
+            }
             $('#purchaseDate').datepicker({
                 format: 'yyyy-mm-dd'
             });
             let date = new Date();
-            $('#purchaseDate').val(`${date.getFullYear()}-${date.getMonth()}-${date.getUTCDay()}`)
+            $('#purchaseDate').val(formatDateOnlyDate(date));
 
             // "Total" functionality
             function updateTotal() {

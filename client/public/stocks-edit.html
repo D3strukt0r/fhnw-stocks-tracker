@@ -324,11 +324,14 @@
             $('.alert .close').click();
 
             // Date picker
+            function formatDateOnlyDate(date) {
+                return `${date.getFullYear()}-${(date.getMonth() < 10 ? '0' : '')}${date.getMonth()}-${(date.getDay() < 10 ? '0' : '')}${date.getDay()}`;
+            }
             $('#purchaseDate').datepicker({
                 format: 'yyyy-mm-dd'
             });
-            let date = new Date();
-            $('#purchaseDate').val(`${date.getFullYear()}-${date.getMonth()}-${date.getUTCDay()}`)
+            let dateNow = new Date();
+            $('#purchaseDate').val(formatDateOnlyDate(dateNow));
 
             // "Total" functionality
             function updateTotal() {
@@ -386,7 +389,7 @@
                     $('#currency option[value="' + (response.data.currency !== null ? response.data.currency.id : 'null') + '"]').attr("selected", "selected");
 
                     let date = new Date(getLocalDate(response.data.purchaseDate));
-                    $('#purchaseDate').val(`${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`);
+                    $('#purchaseDate').val(formatDateOnlyDate(date));
                     $('#conversionRate').val(response.data.conversionRate);
                     $('input[name=isActive]').prop('checked', response.data.isActive)
                     updateTotal();
