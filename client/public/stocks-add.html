@@ -148,18 +148,18 @@
                         <h1 class="h3 mb-0 text-gray-800">Add Stock</h1>
                     </div>
 
-                    <div class="alert alert-success alert-dismissible fade show my-2" role="alert" id="success-alert">
+                    <div class="alert alert-success alert-dismissible fade show my-2" role="alert" id="success-alert" style="display: none;">
                         <h4 class="alert-heading">Success</h4>
-                        <p class="text-break"></p>
-                        <button type="button" class="close" aria-label="Close">
+                        <p class="mb-0" id="success-message"></p>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
 
-                    <div class="alert alert-danger alert-dismissible fade show my-2" role="alert" id="error-alert">
+                    <div class="alert alert-danger alert-dismissible fade show my-2" role="alert" id="error-alert" style="display: none;">
                         <h4 class="alert-heading">Error</h4>
-                        <p class="text-break" id="error-message"></p>
-                        <button type="button" class="close" aria-label="Close">
+                        <p class="mb-0" id="error-message"></p>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -307,14 +307,6 @@
                 console.log(error.message)
             });
 
-            // Alert functionality
-            $('.alert').alert()
-            $('.alert .close').on('click', function(e) {
-                $(this).parent().hide();
-            });
-            // hide alerts by default
-            $('.alert .close').click();
-
             // Date picker
             function formatDateOnlyDate(date) {
                 let year = date.getFullYear();
@@ -381,9 +373,10 @@
                         isActive: true
                     }
                 }).then(response => {
+                    $("#success-message").text("Stock created");
                     $('#success-alert').show();
                     setTimeout(function (){
-                        window.location.href = "stocks-view.html?id=" + stockId;
+                        window.location.href = "stocks-view.html?id=" + response.data.id;
                     }, 1000);
                 }, error => {
                     $("#error-message").text(error);
