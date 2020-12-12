@@ -1,6 +1,4 @@
 const DEBUG = false;
-const API_URL = "http://localhost:8080/api";
-const BASE_URL = "http://localhost:8080";
 const ACCESS_TOKEN = 'accessToken';
 
 /**
@@ -199,10 +197,18 @@ const dataProvider = (apiUrl, client = fetchJson) => {
 };
 
 // Initialize data provider
+function isLocal() {
+    if (window.location.host === 'localhost' || window.location.host == '127.0.0.1') {
+        return true;
+    }
+    return false;
+}
+const API_URL = isLocal() ? 'http://' + window.location.host + ':8080/api' : 'https://stocks-tracker-api.manuele-vaccari.ch/api';
+const BASE_URL = isLocal() ? 'http://' + window.location.host + ':8080' : 'https://stocks-tracker-api.manuele-vaccari.ch';
 const apiDataProvider = dataProvider(API_URL, httpClient);
 const baseDataProvider = dataProvider(BASE_URL, httpClient);
 
-
+// Utility functions
 const register = (form, callbackSuccess, callbackError) => {
     var data = getFormData(form);
 
