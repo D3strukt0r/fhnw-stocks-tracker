@@ -46,6 +46,8 @@ public class AttributeEncryptor implements AttributeConverter<String, String> {
     @Override
     public String convertToDatabaseColumn(String attribute) {
         try {
+            if (attribute == null)
+                return null;
             cipher.init(Cipher.ENCRYPT_MODE, key);
             return Base64.getEncoder().encodeToString(cipher.doFinal(attribute.getBytes()));
         } catch (IllegalBlockSizeException | BadPaddingException | InvalidKeyException e) {
@@ -56,6 +58,8 @@ public class AttributeEncryptor implements AttributeConverter<String, String> {
     @Override
     public String convertToEntityAttribute(String dbData) {
         try {
+            if (dbData == null)
+                return null;
             cipher.init(Cipher.DECRYPT_MODE, key);
             return new String(cipher.doFinal(Base64.getDecoder().decode(dbData)));
         } catch (InvalidKeyException | BadPaddingException | IllegalBlockSizeException e) {
