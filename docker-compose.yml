@@ -51,6 +51,8 @@ services:
         "spring.jpa.database-platform": "org.hibernate.dialect.MySQL5InnoDBDialect",
         "spring.jpa.hibernate.ddl-auto": "update",
         "security.token.secret": "c7mJbWz5s1iY5JfIaOXrRxQt3oeKnfotc7mJbWz5s1iY5JfIaOXrRxQt3oeKnfotc7mJbWz5s1iY5JfIaOXrRxQt3oeKnfot",
+        "logging.level.org.root": "DEBUG",
+        "logging.level.org.hibernate": "ERROR",
         "server.port": 8080
       }'
 
