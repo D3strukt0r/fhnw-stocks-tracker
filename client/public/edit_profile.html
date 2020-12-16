@@ -276,7 +276,7 @@
 
     $(document).ready(function () {
 
-        // Set username and checks if user is logged in when page opens
+        // Set username, form fields and checks if user is logged in when page opens
         username(function (result) {
             console.log("success")
             var data = result.data;
@@ -292,13 +292,6 @@
             console.log(error.message)
         });
 
-        // Test request to get stocks
-        getAllStock(function (result) {
-            console.log("success")
-        }, function (error) {
-            console.log(error.message)
-        });
-
         // Submit function
         $(".user").submit(function (event) {
             $('.alert .close').click();
@@ -306,12 +299,12 @@
             var id = $(".userID-input").val();
             updateUser($(".user"), id,  function (result) {
                 $('#success-alert').show();
-                $(".user")[0].reset();
             }, function (error) {
                 $("#error-message").text(error);
                 $('#error-alert').show();
             })
         });
+
         $('.alert').alert()
         $('.alert .close').on('click', function (e) {
             $(this).parent().hide();

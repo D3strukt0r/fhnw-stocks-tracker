@@ -27,21 +27,21 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public void createOrUpdateUser(@Valid final User user) throws Exception {
+    public void createUser(@Valid final User user) throws Exception {
 
         if (user.getId() == null) {
             if (userRepository.findByEmail(user.getEmail()) != null) {
-                throw new Exception("Email address " + user.getEmail() + " already assigned to another user.");
+                throw new Exception("Email address " + user.getEmail() + " is already assigned to another user.");
             }
             if (userRepository.findByUsername(user.getUsername()) != null) {
-                throw new Exception("Username " + user.getUsername() + " already assigned to another user.");
+                throw new Exception("Username " + user.getUsername() + " is already assigned to another user.");
             }
         } else {
                 if (userRepository.findByEmailAndIdNot(user.getEmail(), user.getId()) != null) {
-                    throw new Exception("Email address " + user.getEmail() + " already assigned to anther user.");
+                    throw new Exception("Email address " + user.getEmail() + " is already assigned to anther user.");
                 }
                 if (userRepository.findByUsernameAndIdNot(user.getUsername(), user.getId()) != null) {
-                    throw new Exception("Username " + user.getUsername() + " already assigned to another user.");
+                    throw new Exception("Username " + user.getUsername() + " is already assigned to another user.");
                 }
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -57,18 +57,25 @@ public class UserService {
      * @throws Exception
      */
     public User editUser(@Valid final User user) throws Exception {
+
         Optional<User> dbUser = userRepository.findById(user.getId());
+
         if (user.getId() != null && dbUser != null && dbUser.isPresent()) {
             dbUser.get().setUsername(user.getUsername());
             dbUser.get().setFirstname(user.getFirstname());
             dbUser.get().setLastname(user.getLastname());
             dbUser.get().setEmail(user.getEmail());
             dbUser.get().setMobile(user.getMobile());
-            dbUser.get().setPassword(user.getPassword());
-            return userRepository.save(dbUser.get());
-        } else {
-            throw new Exception("User could not be found.");
+            dbUser.get().setPassword(passwordEncoder.encode(user.getPassword()));
         }
+        //Exceptions
+        if (userRepository.findByEmailAndIdNot(user.getEmail(), user.getId()) != null) {
+            throw new Exception("Email address " + user.getEmail() + " is already assigned to anther user.");
+        }
+        if (userRepository.findByUsernameAndIdNot(user.getUsername(), user.getId()) != null) {
+            throw new Exception("Username " + user.getUsername() + " is already assigned to another user.");
+        }
+        return userRepository.save(dbUser.get());
     }
 
     /**

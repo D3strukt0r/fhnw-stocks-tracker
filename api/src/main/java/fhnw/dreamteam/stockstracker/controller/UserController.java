@@ -21,7 +21,7 @@ public class UserController {
     @PostMapping(path = "/user", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Void> postRegister(@RequestBody User user) {
         try {
-            userService.createOrUpdateUser(user);
+            userService.createUser(user);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
