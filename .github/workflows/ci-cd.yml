@@ -19,6 +19,8 @@ on:
       - "api/src/**"
       - api/build.gradle
       - api/settings.gradle
+      - api/.dockerignore
+      - api/Dockerfile
 
   pull_request:
 
@@ -91,10 +93,43 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
 
-      - name: Build (Docker)
-        working-directory: ./api
-        run: |
-          ./gradlew bootBuildImage --imageName=d3strukt0r/fhnw-stocks-tracker-api
+      - name: Build API (Docker)
+        uses: docker/build-push-action@v2
+        with:
+          # Builder instance (see setup-buildx action)
+          # builder: # optional
+          # Build's context is the set of files located in the specified PATH or URL
+          context: ./api # optional, default is git context
+          # Path to the Dockerfile
+          file: ./api/Dockerfile # optional, default is "Dockerfile"
+          # List of build-time variables
+          # build-args: # optional
+          # List of metadata for an image
+          # labels: # optional
+          # List of tags
+          tags: localhost:5000/stocks-tracker/api:latest # optional
+          # Always attempt to pull a newer version of the image
+          # pull: false # optional, default is "false"
+          # Sets the target stage to build
+          # target: # optional
+          # List of extra privileged entitlement (eg. network.host,security.insecure)
+          # allow: # optional
+          # Do not use cache when building the image
+          # no-cache: false # optional, default is "false"
+          # List of target platforms for build
+          platforms: linux/amd64,linux/arm64,linux/ppc64le,linux/s390x,linux/386,linux/arm/v7,linux/arm/v6 # optional
+          # Load is a shorthand for --output=type=docker
+          # load: false # optional, default is "false"
+          # Push is a shorthand for --output=type=registry
+          push: true # optional, default is "false"
+          # List of output destinations (format: type=local,dest=path)
+          # outputs: # optional
+          # List of external cache sources (eg. type=local,src=path/to/dir)
+          cache-from: type=local,src=/tmp/.buildx-cache/api # optional
+          # List of cache export destinations (eg. type=local,dest=path/to/dir)
+          cache-to: type=local,dest=/tmp/.buildx-cache/api # optional
+          # List of secrets to expose to the build (eg. key=value, GIT_AUTH_TOKEN=mytoken)
+          # secrets: # optional
 
       - name: Build Client (Docker)
         uses: docker/build-push-action@v2
@@ -136,7 +171,7 @@ jobs:
 
       - name: Inspect
         run: |
-          # docker buildx imagetools inspect localhost:5000/stocks-tracker/api:latest
+          docker buildx imagetools inspect localhost:5000/stocks-tracker/api:latest
           docker buildx imagetools inspect localhost:5000/stocks-tracker/client:latest
 
   deploy:
@@ -260,10 +295,53 @@ jobs:
           architecture: x64 # (x64 or x86) - defaults to x64
 
       - name: Build and push API
-        working-directory: ./api
-        run: |
-          ./gradlew bootBuildImage --imageName=${{ secrets.DOCKER_USERNAME }}/$IMAGE_NAME_API:${{ steps.prep.outputs.version }}
-          docker push ${{ secrets.DOCKER_USERNAME }}/$IMAGE_NAME_API:${{ steps.prep.outputs.version }}
+        id: docker_build_api
+        uses: docker/build-push-action@v2
+        with:
+          # Builder instance (see setup-buildx action)
+          # builder:
+          # Build's context is the set of files located in the specified PATH or URL
+          context: ./api # default is "<Git context>"
+          # Path to the Dockerfile
+          file: ./api/Dockerfile # default is "Dockerfile"
+          # List of build-time variables
+          # build-args: # optional
+          # List of metadata for an image
+          # https://github.com/opencontainers/image-spec/blob/master/annotations.md
+          labels: | # optional
+            maintainer=Manuele Vaccari <manuele.vaccari@gmail.com>
+            org.opencontainers.image.created=${{ steps.prep.outputs.created }}
+            org.opencontainers.image.url=${{ github.event.repository.html_url }}
+            org.opencontainers.image.source=${{ github.event.repository.clone_url }}
+            org.opencontainers.image.version=${{ steps.prep.outputs.version }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.title=${{ github.event.repository.name }}
+            org.opencontainers.image.description=${{ github.event.repository.description }}
+            org.opencontainers.image.licenses=${{ github.event.repository.license.spdx_id }}
+          # List of tags
+          tags: ${{ steps.prep.outputs.tagsApi }}
+          # Always attempt to pull a newer version of the image
+          # pull: false # optional, default is "false"
+          # Sets the target stage to build
+          # target: # optional
+          # List of extra privileged entitlement (eg. network.host,security.insecure)
+          # allow: # optional
+          # Do not use cache when building the image
+          # no-cache: false # optional, default is "false"
+          # List of target platforms for build
+          platforms: linux/amd64,linux/arm64,linux/ppc64le,linux/s390x,linux/386,linux/arm/v7,linux/arm/v6 # optional
+          # Load is a shorthand for --output=type=docker
+          # load: false # optional, default is "false"
+          # Push is a shorthand for --output=type=registry
+          push: ${{ github.event_name != 'pull_request' }} # optional, default is "false"
+          # List of output destinations (format: type=local,dest=path)
+          # outputs: # optional
+          # List of external cache sources (eg. type=local,src=path/to/dir)
+          cache-from: type=local,src=/tmp/.buildx-cache/api # optional
+          # List of cache export destinations (eg. type=local,dest=path/to/dir)
+          cache-to: type=local,dest=/tmp/.buildx-cache/api # optional
+          # List of secrets to expose to the build (eg. key=value, GIT_AUTH_TOKEN=mytoken)
+          # secrets: # optional
 
       - name: Build and push client
         id: docker_build_client

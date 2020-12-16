@@ -13,6 +13,8 @@ public class CurrencySeeder {
 
     public void seedCurrency() throws Exception {
         Currency currency1 = new Currency("CHF");
+        Currency currency2 = new Currency("USD");
         currencyService.createCurrency(currency1);
+        currencyService.createCurrency(currency2);
     }
 }

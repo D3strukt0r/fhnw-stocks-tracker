@@ -1,6 +1,4 @@
 const DEBUG = false;
-const API_URL = "http://localhost:8080/api";
-const BASE_URL = "http://localhost:8080";
 const ACCESS_TOKEN = 'accessToken';
 
 /**
@@ -97,6 +95,7 @@ function getCookie(name) {
 
 const DataRequestType = {
     GET_LIST: 'GET_LIST',
+    GET_ONE: 'GET_ONE',
     GET: 'GET',
     UPDATE: 'UPDATE',
     CREATE: 'CREATE',
@@ -128,6 +127,10 @@ const dataProvider = (apiUrl, client = fetchJson) => {
         switch (type) {
             case DataRequestType.GET:
                 url = `${apiUrl}/${resource}`;
+                options.method = "GET";
+                break;
+            case DataRequestType.GET_ONE:
+                url = `${apiUrl}/${resource}/${params.id}`;
                 options.method = "GET";
                 break;
             case DataRequestType.GET_LIST: {
@@ -166,6 +169,7 @@ const dataProvider = (apiUrl, client = fetchJson) => {
         const {json} = response;
         switch (type) {
             case DataRequestType.GET_LIST:
+            case DataRequestType.GET_ONE:
             case DataRequestType.CREATE:
                 return {data: json};
             case DataRequestType.UPDATE:
@@ -193,10 +197,18 @@ const dataProvider = (apiUrl, client = fetchJson) => {
 };
 
 // Initialize data provider
+function isLocal() {
+    if (window.location.hostname === 'localhost' || window.location.hostname == '127.0.0.1') {
+        return true;
+    }
+    return false;
+}
+const API_URL = isLocal() ? 'http://' + window.location.hostname + ':8080/api' : 'https://stocks-tracker-api.manuele-vaccari.ch/api';
+const BASE_URL = isLocal() ? 'http://' + window.location.hostname + ':8080' : 'https://stocks-tracker-api.manuele-vaccari.ch';
 const apiDataProvider = dataProvider(API_URL, httpClient);
 const baseDataProvider = dataProvider(BASE_URL, httpClient);
 
-
+// Utility functions
 const register = (form, callbackSuccess, callbackError) => {
     var data = getFormData(form);
 
