@@ -224,6 +224,26 @@
         </div>
     </div>
 
+    <!-- Delete Modal-->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-primary delete-btn" type="button" data-dismiss="modal">Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -323,11 +343,11 @@
                                     </span>
                                     <span class="text">Edit</span>
                                 </a>
-                                <a href="#" class="btn btn-warning btn-icon-split btn-sm action-archive" data-id="${column[0]}">
+                                <a href="#" class="btn btn-danger btn-icon-split btn-sm action-delete" data-toggle="modal" data-target="#deleteModal" data-id="${column[0]} ">
                                     <span class="icon text-white-50">
                                         <i class="fas fa-trash"></i>
                                     </span>
-                                    <span class="text">Archive</span>
+                                    <span class="text">Delete</span>
                                 </a>
                                 `
                             }
@@ -375,7 +395,7 @@
                                     </span>
                                     <span class="text">Edit</span>
                                 </a>
-                                <a href="#" class="btn btn-danger btn-icon-split btn-sm action-delete" data-id="${row[0]}">
+                                <a href="#" class="btn btn-danger btn-icon-split btn-sm action-delete" data-toggle="modal" data-target="#deleteModal" data-id="${column[0]} ">
                                     <span class="icon text-white-50">
                                         <i class="fas fa-trash"></i>
                                     </span>
@@ -395,13 +415,23 @@
                     })
                 })
 
+                var deleteIdStock;
+
                 $('#stocksTable .action-delete').each(function () {
                     var $this = $(this);
                     $this.on('click', function () {
+                        debugger;
+                        deleteIdStock = $this.data('id');
                         event.preventDefault();
-                        alert($(this).data('id'));
                     })
                 })
+
+                $('.delete-btn').on("click", function (event) {
+                    apiDataProvider(DataRequestType.DELETE, 'stock', {id: deleteIdStock}).then(response => {
+                    })
+                    event.preventDefault();
+                    window.location.reload();
+                });
             })
         });
     </script>
