@@ -294,7 +294,6 @@
 
         // Submit function
         $(".user").submit(function (event) {
-            $('.alert .close').click();
             event.preventDefault();
             var id = $(".userID-input").val();
             updateUser($(".user"), id,  function (result) {
