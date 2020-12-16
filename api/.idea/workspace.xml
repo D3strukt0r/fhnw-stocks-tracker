@@ -24,8 +24,18 @@
   <component name="ChangeListManager">
     <list default="true" id="013a9364-0f78-492d-95a7-27b5cb540684" name="Default Changelist" comment="Create Stocks functionality in backend">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/src/main/java/fhnw/dreamteam/stockstracker/controller/StockController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fhnw/dreamteam/stockstracker/controller/StockController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/public/stocks.html" beforeDir="false" afterPath="$PROJECT_DIR$/../client/public/stocks.html" afterDir="false" />
+=======
+<<<<<<< HEAD
+      <change beforePath="$PROJECT_DIR$/src/main/java/fhnw/dreamteam/stockstracker/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fhnw/dreamteam/stockstracker/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fhnw/dreamteam/stockstracker/data/seeddata/UserSeed.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fhnw/dreamteam/stockstracker/data/seeddata/UserSeed.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/fhnw/dreamteam/stockstracker/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/fhnw/dreamteam/stockstracker/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/public/edit_profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/../client/public/edit_profile.html" afterDir="false" />
+=======
+>>>>>>> develop
+>>>>>>> edit-profile
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -201,7 +211,13 @@
       </list>
     </recent_temporary>
   </component>
+<<<<<<< HEAD
 <<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="false" />
+=======
+>>>>>>> edit-profile
   <component name="ServiceViewManager">
     <option name="viewStates">
       <list>
@@ -215,9 +231,13 @@
     </option>
   </component>
   <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
+<<<<<<< HEAD
 =======
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="false" />
 >>>>>>> Stashed changes
+=======
+>>>>>>> develop
+>>>>>>> edit-profile
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -326,6 +346,7 @@
     <state x="-1180" y="277" key="FileChooserDialogImpl/-5760.0.1536.848/-1920.0.1920.1040/0.0.1920.1040@-1920.0.1920.1040" timestamp="1606299014640" />
     <state x="740" y="277" key="FileChooserDialogImpl/-5760.0.1536.848/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1606304507462" />
     <state x="592" y="219" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1606904963814" />
+<<<<<<< HEAD
 <<<<<<< Updated upstream
     <state width="1877" height="178" key="GridCell.Tab.0.bottom" timestamp="1607873764648">
       <screen x="-1920" y="0" width="1920" height="1040" />
@@ -339,10 +360,30 @@
     <state width="1878" height="305" key="GridCell.Tab.0.bottom/0.0.1440.900/-1094.-1080.1920.1080/826.-1080.1920.1080@826.-1080.1920.1080" timestamp="1608143992827" />
     <state width="1493" height="304" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1606907253758" />
 <<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+    <state width="1878" height="305" key="GridCell.Tab.0.bottom" timestamp="1608153134545">
+      <screen x="826" y="-1080" width="1920" height="1080" />
+=======
+    <state width="1877" height="178" key="GridCell.Tab.0.bottom" timestamp="1607873764648">
+      <screen x="-1920" y="0" width="1920" height="1040" />
+>>>>>>> develop
+    </state>
+    <state width="1877" height="178" key="GridCell.Tab.0.bottom/-5760.0.1536.848/-1920.0.1920.1040/0.0.1920.1040@-1920.0.1920.1040" timestamp="1607873764648" />
+    <state width="1877" height="178" key="GridCell.Tab.0.bottom/-5760.0.1536.848/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1607087932883" />
+    <state width="1878" height="305" key="GridCell.Tab.0.bottom/0.0.1440.900/-1094.-1080.1920.1080/826.-1080.1920.1080@826.-1080.1920.1080" timestamp="1608153134545" />
+    <state width="1493" height="304" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1606907253758" />
+<<<<<<< HEAD
+    <state width="2517" height="397" key="GridCell.Tab.0.bottom/0.0.2560.1400/2560.0.2560.1400@0.0.2560.1400" timestamp="1607251901543" />
+    <state width="1878" height="305" key="GridCell.Tab.0.center" timestamp="1608153134543">
+      <screen x="826" y="-1080" width="1920" height="1080" />
+=======
+>>>>>>> edit-profile
     <state width="2517" height="489" key="GridCell.Tab.0.bottom/0.0.2560.1400/2560.0.2560.1400@0.0.2560.1400" timestamp="1607301820559" />
     <state width="2517" height="344" key="GridCell.Tab.0.bottom/0.0.2560.1400/2560.0.2560.1400@2560.0.2560.1400" timestamp="1607304438930" />
     <state width="1877" height="178" key="GridCell.Tab.0.center" timestamp="1607873764648">
       <screen x="-1920" y="0" width="1920" height="1040" />
+<<<<<<< HEAD
 =======
     <state width="2517" height="397" key="GridCell.Tab.0.bottom/0.0.2560.1400/2560.0.2560.1400@0.0.2560.1400" timestamp="1607251901543" />
     <state width="1878" height="305" key="GridCell.Tab.0.center" timestamp="1608143992823">
@@ -354,10 +395,24 @@
     <state width="1878" height="305" key="GridCell.Tab.0.center/0.0.1440.900/-1094.-1080.1920.1080/826.-1080.1920.1080@826.-1080.1920.1080" timestamp="1608143992823" />
     <state width="1493" height="304" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1606907253757" />
 <<<<<<< Updated upstream
+=======
+>>>>>>> develop
+    </state>
+    <state width="1877" height="178" key="GridCell.Tab.0.center/-5760.0.1536.848/-1920.0.1920.1040/0.0.1920.1040@-1920.0.1920.1040" timestamp="1607873764648" />
+    <state width="1877" height="178" key="GridCell.Tab.0.center/-5760.0.1536.848/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1607087932883" />
+    <state width="1878" height="305" key="GridCell.Tab.0.center/0.0.1440.900/-1094.-1080.1920.1080/826.-1080.1920.1080@826.-1080.1920.1080" timestamp="1608153134543" />
+    <state width="1493" height="304" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1606907253757" />
+<<<<<<< HEAD
+    <state width="2517" height="397" key="GridCell.Tab.0.center/0.0.2560.1400/2560.0.2560.1400@0.0.2560.1400" timestamp="1607251901543" />
+    <state width="1878" height="305" key="GridCell.Tab.0.left" timestamp="1608153134541">
+      <screen x="826" y="-1080" width="1920" height="1080" />
+=======
+>>>>>>> edit-profile
     <state width="2517" height="489" key="GridCell.Tab.0.center/0.0.2560.1400/2560.0.2560.1400@0.0.2560.1400" timestamp="1607301820559" />
     <state width="2517" height="344" key="GridCell.Tab.0.center/0.0.2560.1400/2560.0.2560.1400@2560.0.2560.1400" timestamp="1607304438930" />
     <state width="1877" height="178" key="GridCell.Tab.0.left" timestamp="1607873764648">
       <screen x="-1920" y="0" width="1920" height="1040" />
+<<<<<<< HEAD
 =======
     <state width="2517" height="397" key="GridCell.Tab.0.center/0.0.2560.1400/2560.0.2560.1400@0.0.2560.1400" timestamp="1607251901543" />
     <state width="1878" height="305" key="GridCell.Tab.0.left" timestamp="1608143992821">
@@ -369,10 +424,24 @@
     <state width="1878" height="305" key="GridCell.Tab.0.left/0.0.1440.900/-1094.-1080.1920.1080/826.-1080.1920.1080@826.-1080.1920.1080" timestamp="1608143992821" />
     <state width="1493" height="304" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1606907253757" />
 <<<<<<< Updated upstream
+=======
+>>>>>>> develop
+    </state>
+    <state width="1877" height="178" key="GridCell.Tab.0.left/-5760.0.1536.848/-1920.0.1920.1040/0.0.1920.1040@-1920.0.1920.1040" timestamp="1607873764648" />
+    <state width="1877" height="178" key="GridCell.Tab.0.left/-5760.0.1536.848/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1607087932882" />
+    <state width="1878" height="305" key="GridCell.Tab.0.left/0.0.1440.900/-1094.-1080.1920.1080/826.-1080.1920.1080@826.-1080.1920.1080" timestamp="1608153134541" />
+    <state width="1493" height="304" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1606907253757" />
+<<<<<<< HEAD
+    <state width="2517" height="397" key="GridCell.Tab.0.left/0.0.2560.1400/2560.0.2560.1400@0.0.2560.1400" timestamp="1607251901543" />
+    <state width="1878" height="305" key="GridCell.Tab.0.right" timestamp="1608153134544">
+      <screen x="826" y="-1080" width="1920" height="1080" />
+=======
+>>>>>>> edit-profile
     <state width="2517" height="489" key="GridCell.Tab.0.left/0.0.2560.1400/2560.0.2560.1400@0.0.2560.1400" timestamp="1607301820559" />
     <state width="2517" height="344" key="GridCell.Tab.0.left/0.0.2560.1400/2560.0.2560.1400@2560.0.2560.1400" timestamp="1607304438930" />
     <state width="1877" height="178" key="GridCell.Tab.0.right" timestamp="1607873764648">
       <screen x="-1920" y="0" width="1920" height="1040" />
+<<<<<<< HEAD
 =======
     <state width="2517" height="397" key="GridCell.Tab.0.left/0.0.2560.1400/2560.0.2560.1400@0.0.2560.1400" timestamp="1607251901543" />
     <state width="1878" height="305" key="GridCell.Tab.0.right" timestamp="1608143992825">
@@ -382,6 +451,13 @@
     <state width="1877" height="178" key="GridCell.Tab.0.right/-5760.0.1536.848/-1920.0.1920.1040/0.0.1920.1040@-1920.0.1920.1040" timestamp="1607873764648" />
     <state width="1877" height="178" key="GridCell.Tab.0.right/-5760.0.1536.848/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1607087932883" />
     <state width="1878" height="305" key="GridCell.Tab.0.right/0.0.1440.900/-1094.-1080.1920.1080/826.-1080.1920.1080@826.-1080.1920.1080" timestamp="1608143992825" />
+=======
+>>>>>>> develop
+    </state>
+    <state width="1877" height="178" key="GridCell.Tab.0.right/-5760.0.1536.848/-1920.0.1920.1040/0.0.1920.1040@-1920.0.1920.1040" timestamp="1607873764648" />
+    <state width="1877" height="178" key="GridCell.Tab.0.right/-5760.0.1536.848/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1607087932883" />
+    <state width="1878" height="305" key="GridCell.Tab.0.right/0.0.1440.900/-1094.-1080.1920.1080/826.-1080.1920.1080@826.-1080.1920.1080" timestamp="1608153134544" />
+>>>>>>> edit-profile
     <state width="1493" height="304" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1606907253758" />
     <state width="2517" height="397" key="GridCell.Tab.0.right/0.0.2560.1400/2560.0.2560.1400@0.0.2560.1400" timestamp="1607251901543" />
     <state width="1493" height="304" key="GridCell.Tab.1.bottom" timestamp="1606907275631">
