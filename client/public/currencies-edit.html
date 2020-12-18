@@ -145,7 +145,7 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Add Currency</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Edit Currency</h1>
                     </div>
 
                     <div class="alert alert-success alert-dismissible fade show my-2" role="alert" id="success-alert" style="display: none;">
@@ -186,7 +186,7 @@
                                                 <input type="text" class="form-control" id="name" name="name" placeholder="Ex.: EUR" required>
                                             </div>
                                         </div>
-                                        <button type="submit" class="btn btn-primary">Add currency</button>
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
                                     </form>
                                 </div>
                             </div>
@@ -271,19 +271,29 @@
                 console.log(error.message)
             });
 
+            // Update form with data from server
+            let queryParams = new URLSearchParams(window.location.search);
+            if (!queryParams.has('id')) {
+                window.location.href = '/currencies.html';
+            }
+            const currencyId = queryParams.get('id');
 
+            apiDataProvider(DataRequestType.GET_ONE, 'currency', {id: currencyId}).then(response => {
+                $('#name').val(response.data.name);
+            })
 
             // Send the form
             $('.currencyInformation').submit(function () {
                 event.preventDefault();
 
-                apiDataProvider(DataRequestType.CREATE, 'currency', {
+                apiDataProvider(DataRequestType.UPDATE, 'currency', {
+                    id: currencyId,
                     data: {
                         name: $('input[name=name]').val(),
                         isActive: true
                     }
                 }).then(response => {
-                    $("#success-message").text("Currency created");
+                    $("#success-message").text("Currency updated");
                     $('#success-alert').show();
                     setTimeout(function (){
                         window.location.href = "currencies.html";
