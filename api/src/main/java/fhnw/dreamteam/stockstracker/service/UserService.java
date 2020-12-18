@@ -1,6 +1,8 @@
 package fhnw.dreamteam.stockstracker.service;
 
+import fhnw.dreamteam.stockstracker.data.models.Currency;
 import fhnw.dreamteam.stockstracker.data.models.User;
+import fhnw.dreamteam.stockstracker.data.repository.CurrencyRepository;
 import fhnw.dreamteam.stockstracker.data.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,10 +26,11 @@ public class UserService {
 
     @Autowired
     Validator validator;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public void createUser(@Valid final User user) throws Exception {
+    public void createUser(@Valid final User user, CurrencyService currencyService) throws Exception {
 
         if (user.getId() == null) {
             if (userRepository.findByEmail(user.getEmail()) != null) {
@@ -47,6 +50,10 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
 
+        Currency currency1 = new Currency("CHF", true, user);
+        Currency currency2 = new Currency("USD", true, user);
+        currencyService.createCurrency(currency1);
+        currencyService.createCurrency(currency2);
     }
 
     /**
