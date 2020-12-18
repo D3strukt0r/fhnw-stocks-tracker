@@ -79,4 +79,16 @@ public class CurrencyController {
         return ResponseEntity.accepted().body(newCurrency);
     }
 
+    @DeleteMapping(path = "/currency/{currencyId}", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Void> deleteStock(
+        @PathVariable (value = "currencyId") final String currencyId
+    ) {
+        try {
+            currencyService.deleteCurrency(Long.parseLong(currencyId));
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
+        }
+        return ResponseEntity.accepted().build();
+    }
+
 }
