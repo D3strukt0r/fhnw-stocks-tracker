@@ -244,6 +244,19 @@ const username = (callbackSuccess, callbackError) => {
     })
 }
 
+const updateUser = (form, id, callbackSuccess, callbackError) => {
+    var data = getFormData(form);
+
+    const params = {};
+    params.id = id;
+    params.data = data;
+    apiDataProvider(DataRequestType.UPDATE, "user", params).then(response => {
+        return callbackSuccess(response);
+    }, error => {
+        return callbackError(error);
+    })
+}
+
 const logout = (callbackSuccess, callbackError) => {
     baseDataProvider(DataRequestType.GET, "logout").then(response => {
         return callbackSuccess(response);
