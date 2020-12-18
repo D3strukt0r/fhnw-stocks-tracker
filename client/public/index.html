@@ -143,7 +143,7 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">No content yet</h1>
+                    <h1 class="h3 mb-4 text-gray-800"></h1>
 
                 </div>
                 <!-- /.container-fluid -->
@@ -208,6 +208,8 @@
 
     <script>
 
+        window.location.href = "stocks.html";
+
         $( document ).ready(function() {
 
             // Set username and checks if user is logged in when page opens
@@ -216,13 +218,6 @@
                 var data = result.data;
                 localStorage.setItem("username", data.username);
                 $(".username-label").text(data.username);
-            }, function (error) {
-                console.log(error.message)
-            });
-
-            // Test request to get stocks
-            getAllStock(function(result) {
-                console.log("success")
             }, function (error) {
                 console.log(error.message)
             });
