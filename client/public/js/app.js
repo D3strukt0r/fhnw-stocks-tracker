@@ -260,6 +260,14 @@ const getAllStock = (callbackSuccess, callbackError) => {
     })
 }
 
+const getAllCurrencies = (callbackSuccess, callbackError) => {
+    apiDataProvider(DataRequestType.GET_LIST, "currency").then(response=> {
+        return callbackSuccess(response);
+    }), error => {
+        return callbackError(error);
+    }
+}
+
 function getFormData($form){
     var unindexed_array = $form.serializeArray();
     var indexed_array = {};

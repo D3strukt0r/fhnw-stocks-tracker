@@ -31,6 +31,7 @@
 
     <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
 
 </head>
 
@@ -122,8 +123,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-inline text-gray-600 small username-label"></span>
-                                <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -140,50 +140,59 @@
                 </nav>
                 <!-- End of Topbar -->
 
-                <div class="alert alert-danger alert-dismissible fade show my-5" role="alert" id="error-alert">
-                    <h4 class="alert-heading">Error</h4>
-                    <p class="text-break" id="error-message"></p>
-                    <button type="button" class="close" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Currencies</h1>
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <div class="row">
-                                <div class="col-md-10">
-                                    <h6 class="m-0 font-weight-bold text-primary">Your currencies</h6>
-                                </div>
-                                <div class="col-md-2 float-right">
-                                    <a href="currencies-add.html" class="btn btn-success btn-icon-split btn-sm">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-plus"></i>
-                                        </span>
-                                        <span class="text">Add</span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="currenciesTable" width="100%" cellspacing="0"></table>
-                            </div>
-                        </div>
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Add Currency</h1>
                     </div>
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Your inactive currencies</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="inactiveCurrenciesTable" width="100%" cellspacing="0"></table>
+
+                    <div class="alert alert-success alert-dismissible fade show my-2" role="alert" id="success-alert" style="display: none;">
+                        <h4 class="alert-heading">Success</h4>
+                        <p class="mb-0" id="success-message"></p>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="alert alert-danger alert-dismissible fade show my-2" role="alert" id="error-alert" style="display: none;">
+                        <h4 class="alert-heading">Error</h4>
+                        <p class="mb-0" id="error-message"></p>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-lg-6">
+
+                            <!-- Basic Card Example -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Currency information</h6>
+                                </div>
+                                <div class="card-body">
+                                    <form class="currencyInformation">
+                                        <style>
+                                            input::placeholder {
+                                                font-style: italic;
+                                            }
+                                        </style>
+                                        <div class="form-group row">
+                                            <label for="name" class="col-sm-3 col-form-label">Name</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="name" name="name" placeholder="Ex.: EUR" required>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Add currency</button>
+                                    </form>
+                                </div>
                             </div>
+
                         </div>
+
                     </div>
 
                 </div>
@@ -244,8 +253,7 @@
     <script src="js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 
     <script src="js/app.js"></script>
 
@@ -263,112 +271,28 @@
                 console.log(error.message)
             });
 
-            getAllCurrencies(function (response) {
-                // Convert data into a usable array
-                let result = [];
-                let resultInactive = [];
 
-                for (let i in response.data) {
-                    if (response.data[i].isActive) {
-                        result.push(
-                            [
-                                response.data[i].id,
-                                response.data[i].name,
-                            ]
-                        )
-                    } else {
-                        resultInactive.push(
-                            [
-                                response.data[i].id,
-                                response.data[i].name,
-                            ]
-                        )
+
+            // Send the form
+            $('.currencyInformation').submit(function () {
+                event.preventDefault();
+
+                apiDataProvider(DataRequestType.CREATE, 'currency', {
+                    data: {
+                        name: $('input[name=name]').val(),
+                        isActive: true
                     }
-                }
-
-                // Insert data into tables
-                var table = $('#currenciesTable').DataTable({
-                    data: result,
-                    columns: [
-                        { title: "ID" },
-                        { title: "Name"},
-                        { title: "Actions" }
-                    ],
-                    columnDefs: [
-                        {
-                            targets: 0,
-                            visible: false
-                        },
-                        {
-                            targets: -1,
-                            data: null,
-                            render: (data, type, column) => {
-                                return `
-                                <a href="stocks-edit.html?id=${column[0]}" class="btn btn-primary btn-icon-split btn-sm action-edit" data-id="${column[0]}">
-                                    <span class="icon text-white-50">
-                                        <i class="fas fa-pen"></i>
-                                    </span>
-                                    <span class="text">Edit</span>
-                                </a>
-                                <a href="#" class="btn btn-warning btn-icon-split btn-sm action-archive" data-id="${column[0]}">
-                                    <span class="icon text-white-50">
-                                        <i class="fas fa-trash"></i>
-                                    </span>
-                                    <span class="text">Archive</span>
-                                </a>
-                                `
-                            }
-                        }
-                    ]
-                })
-
-                var table = $('#inactiveCurrenciesTable').DataTable({
-                    data: resultInactive,
-                    columns: [
-                        { title: "ID" },
-                        { title: "Name"},
-                        { title: "Actions" }
-                    ],
-                    columnDefs: [
-                        {
-                            targets: 0,
-                            visible: false
-                        },
-                        {
-                            targets: -1,
-                            data: null,
-                            render: (data, type, column) => {
-                                return `
-                                <a href="stocks-edit.html?id=${column[0]}" class="btn btn-primary btn-icon-split btn-sm action-edit" data-id="${column[0]}">
-                                    <span class="icon text-white-50">
-                                        <i class="fas fa-pen"></i>
-                                    </span>
-                                    <span class="text">Edit</span>
-                                </a>
-                                <a href="#" class="btn btn-warning btn-icon-split btn-sm action-archive" data-id="${column[0]}">
-                                    <span class="icon text-white-50">
-                                        <i class="fas fa-trash"></i>
-                                    </span>
-                                    <span class="text">Archive</span>
-                                </a>
-                                `
-                            }
-                        }
-                    ]
-                })
-
-            }, function (error) {
-                $("#error-message").text(error);
-                $('#error-alert').show();
+                }).then(response => {
+                    $("#success-message").text("Currency created");
+                    $('#success-alert').show();
+                    setTimeout(function (){
+                        window.location.href = "currencies.html";
+                    }, 1000);
+                }, error => {
+                    $("#error-message").text(error);
+                    $('#error-alert').show();
+                });
             });
-
-            $('.alert').alert()
-            $('.alert .close').on('click', function(e) {
-                $(this).parent().hide();
-            });
-            // hide alerts by default
-            $('.alert .close').click();
-
 
         });
     </script>

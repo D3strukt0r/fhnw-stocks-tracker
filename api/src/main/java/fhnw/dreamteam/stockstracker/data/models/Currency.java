@@ -21,6 +21,7 @@ public class Currency {
     @Id
     @GeneratedValue
     @Getter
+    @Setter
     private Long id;
 
     /**
@@ -28,7 +29,13 @@ public class Currency {
      */
     @Getter
     @Setter
+    @NotEmpty(message = "Please provide a name.")
     private String name;
+
+    @Getter
+    @Setter
+    @NotNull(message = "Please provide say if it is active or not.")
+    private Boolean isActive;
 
     /**
      * The user which the currency belongs to.
@@ -36,17 +43,23 @@ public class Currency {
     @OneToOne
     @Setter
     @Getter
-    @NotNull
+    @JsonIgnore
     private User user;
 
     @Getter
     @Setter
     @OneToMany(mappedBy = "currency")
+    @JsonIgnore
     private List<Stock> stocks;
 
     public Currency(
-        @NotEmpty(message = "Please provide the name.") String name
+        @NotEmpty(message = "Please provide the name.") String name,
+        @NotEmpty(message = "Please provide information if currency is active or not.") Boolean isActive,
+        @NotEmpty(message = "User not found.") User user
     ) {
         this.name = name;
+        this.isActive = isActive;
+        this.user = user;
     }
+
 }
