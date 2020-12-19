@@ -16,6 +16,7 @@ public class CurrencySeeder {
     private UserRepository userRepository;
 
     public void seedCurrency() throws Exception {
+        /*
         Currency currency1 = new Currency("CHF", true, userRepository.findByUsername("testuser1"));
         Currency currency2 = new Currency("USD", true, userRepository.findByUsername("testuser1"));
         Currency currency3 = new Currency("CHF", true, userRepository.findByUsername("testuser2"));
@@ -28,5 +29,7 @@ public class CurrencySeeder {
         currencyService.createCurrency(currency4);
         currencyService.createCurrency(currency5);
         currencyService.createCurrency(currency6);
+
+         */
     }
 }
