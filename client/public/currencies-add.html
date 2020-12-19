@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Stocks Tracker - Dashboard</title>
+    <title>Stocks Tracker - Currencies</title>
 
     <!-- Icons -->
     <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
@@ -20,14 +20,18 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
 
-    <!-- Custom fonts for this template-->
+    <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
-    <!-- Custom styles for this template-->
+    <!-- Custom styles for this template -->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this page -->
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
 
 </head>
 
@@ -62,7 +66,7 @@
                 </a>
             </li>
 
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="currencies.html">
                     <i class="fas fa-fw fa-dollar-sign"></i>
                     <span>Currencies</span>
@@ -105,9 +109,11 @@
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
                     <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button>
+                    <form class="form-inline">
+                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                    </form>
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -117,16 +123,11 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-inline text-gray-600 small username-label"></span>
-                                <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="edit_profile.html">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
-                                </a>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
@@ -143,7 +144,56 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800"></h1>
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Add Currency</h1>
+                    </div>
+
+                    <div class="alert alert-success alert-dismissible fade show my-2" role="alert" id="success-alert" style="display: none;">
+                        <h4 class="alert-heading">Success</h4>
+                        <p class="mb-0" id="success-message"></p>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="alert alert-danger alert-dismissible fade show my-2" role="alert" id="error-alert" style="display: none;">
+                        <h4 class="alert-heading">Error</h4>
+                        <p class="mb-0" id="error-message"></p>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-lg-6">
+
+                            <!-- Basic Card Example -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Currency information</h6>
+                                </div>
+                                <div class="card-body">
+                                    <form class="currencyInformation">
+                                        <style>
+                                            input::placeholder {
+                                                font-style: italic;
+                                            }
+                                        </style>
+                                        <div class="form-group row">
+                                            <label for="name" class="col-sm-3 col-form-label">Name</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="name" name="name" placeholder="Ex.: EUR" required>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Add currency</button>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
 
                 </div>
                 <!-- /.container-fluid -->
@@ -186,7 +236,6 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <!-- <a class="btn btn-primary logout-link">Logout</a> -->
                     <button class="btn btn-primary logout-btn" type="button" data-dismiss="modal">Logout</button>
                 </div>
             </div>
@@ -203,14 +252,14 @@
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
 
+    <!-- Page level plugins -->
+    <script src="vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+
     <script src="js/app.js"></script>
 
-
+    <!-- Page level custom scripts -->
     <script>
-
-        window.location.href = "stocks.html";
-
-        $( document ).ready(function() {
+        $(document).ready(function() {
 
             // Set username and checks if user is logged in when page opens
             username(function(result) {
@@ -222,8 +271,30 @@
                 console.log(error.message)
             });
 
-        });
 
+
+            // Send the form
+            $('.currencyInformation').submit(function () {
+                event.preventDefault();
+
+                apiDataProvider(DataRequestType.CREATE, 'currency', {
+                    data: {
+                        name: $('input[name=name]').val(),
+                        isActive: true
+                    }
+                }).then(response => {
+                    $("#success-message").text("Currency created");
+                    $('#success-alert').show();
+                    setTimeout(function (){
+                        window.location.href = "currencies.html";
+                    }, 1000);
+                }, error => {
+                    $("#error-message").text(error);
+                    $('#error-alert').show();
+                });
+            });
+
+        });
     </script>
 
 </body>

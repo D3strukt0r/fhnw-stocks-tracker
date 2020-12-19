@@ -20,15 +20,16 @@ public class CurrencyService {
     private CurrencyRepository currencyRepository;
 
     /**
-     * Create a new {@link fhnw.dreamteam.stockstracker.data.models.Currency}.
-     *
-     * @param currency The currency to be added
-     *
-     * @return Returns the newly added currency.
-     *
-     * @throws Exception
+     * The user service.
      */
+    @Autowired
+    private UserService userService;
+
     public Currency createCurrency(@Valid final Currency currency) throws Exception {
+        if (currency.getUser() == null) {
+            currency.setUser(userService.getCurrentUser());
+        }
+
         return currencyRepository.save(currency);
     }
 
@@ -83,5 +84,14 @@ public class CurrencyService {
      */
     public List<Currency> getAll() {
         return currencyRepository.findAll();
+    }
+
+    /**
+     * Get all currencies by current user.
+     *
+     * @return Returns all stocks of a current user.
+     */
+    public List<Currency> getAllByUser() {
+        return currencyRepository.findAllByUser(userService.getCurrentUser().getId());
     }
 }

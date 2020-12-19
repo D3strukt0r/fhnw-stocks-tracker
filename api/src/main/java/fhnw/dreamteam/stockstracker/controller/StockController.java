@@ -102,6 +102,28 @@ public class StockController {
          return ResponseEntity.accepted().body(newStock);
      }
 
+    /**
+     * The response handler to edit a customer's existing information.
+     *
+     * @param stock   The new customer information.
+     * @param stockId The customer's ID.
+     *
+     * @return The new customer information.
+     */
+    @PutMapping(path = "/stockArchive/{stockId}", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Stock> putStock(
+        @PathVariable(value = "stockId") final String stockId
+    ) {
+        Stock newStock = null;
+        try {
+            Long stockIdLong = new Long(Long.parseLong(stockId));
+            newStock = stockService.editStock(stockIdLong, false);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
+        }
+        return ResponseEntity.accepted().body(newStock);
+    }
+
      /**
       * The response handler to delete a stock.
       *

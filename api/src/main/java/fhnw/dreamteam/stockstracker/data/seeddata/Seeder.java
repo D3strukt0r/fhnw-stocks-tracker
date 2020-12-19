@@ -9,10 +9,13 @@ import javax.annotation.PostConstruct;
 public class Seeder {
     @Autowired
     private UserSeed userSeed;
-
+    /**
+     *
+     * Currency seeder not needed anymore - currency is being created at user creation
+     *
     @Autowired
     private CurrencySeeder currencySeeder;
-
+    */
     @Autowired
     private StocksSeeder stocksSeeder;
 
@@ -25,7 +28,7 @@ public class Seeder {
         try {
             // add seed code here
             userSeed.seedUsers();
-            currencySeeder.seedCurrency();
+            //currencySeeder.seedCurrency();
             stocksSeeder.seedStocks();
         } catch (Exception e) {
             System.out.println(e);

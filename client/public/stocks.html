@@ -186,6 +186,16 @@
                             </div>
                         </div>
                     </div>
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Your sold stocks</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="inactiveStocksTable" width="100%" cellspacing="0"></table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- /.container-fluid -->
 
@@ -352,6 +362,65 @@
                                     </span>
                                     <span class="text">Edit</span>
                                 </a>
+                                <a href="#" class="btn btn-warning btn-icon-split btn-sm action-archive" data-id="${column[0]}">
+                                    <span class="icon text-white-50">
+                                        <i class="fas fa-trash"></i>
+                                    </span>
+                                    <span class="text">Archive</span>
+                                </a>
+                                <!--
+                                <a href="#" class="btn btn-danger btn-icon-split btn-sm action-delete" data-toggle="modal" data-target="#deleteModal" data-id="${column[0]} ">
+                                    <span class="icon text-white-50">
+                                        <i class="fas fa-trash"></i>
+                                    </span>
+                                    <span class="text">Delete</span>
+                                </a>
+                                -->
+                                `
+                            }
+                        }
+                    ]
+                });
+
+                var table = $('#inactiveStocksTable').DataTable({
+                    data: resultInactive,
+                    columns: [
+                        { title: "ID" },
+                        { title: "Name" },
+                        { title: "Price per stock" },
+                        { title: "Quantity" },
+                        { title: "Currency" },
+                        { title: "Total" },
+                        { title: "Actions" }
+                    ],
+                    columnDefs: [
+                        {
+                            targets: 0,
+                            visible: false
+                        },
+                        {
+                            targets: -2,
+                            render: (data, type, column) => {
+                                return `${(Math.round((column[2] * column[3]) * 100)) / 100} ${column[4]}`
+                            }
+                        },
+                        {
+                            targets: -1,
+                            data: null,
+                            render: (data, type, column) => {
+                                return `
+                                <a href="stocks-view.html?id=${column[0]}" class="btn btn-primary btn-icon-split btn-sm action-view" data-id="${column[0]}">
+                                    <span class="icon text-white-50">
+                                        <i class="fas fa-arrow-right"></i>
+                                    </span>
+                                    <span class="text">View</span>
+                                </a>
+                                <a href="stocks-edit.html?id=${column[0]}" class="btn btn-primary btn-icon-split btn-sm action-edit" data-id="${column[0]}">
+                                    <span class="icon text-white-50">
+                                        <i class="fas fa-pen"></i>
+                                    </span>
+                                    <span class="text">Edit</span>
+                                </a>
                                 <a href="#" class="btn btn-danger btn-icon-split btn-sm action-delete" data-toggle="modal" data-target="#deleteModal" data-id="${column[0]} ">
                                     <span class="icon text-white-50">
                                         <i class="fas fa-trash"></i>
@@ -368,16 +437,27 @@
                     var $this = $(this);
                     $this.on('click', function () {
                         event.preventDefault();
-                        alert($(this).data('id'));
+                        apiDataProvider(DataRequestType.UPDATE, 'stockArchive', {
+                            id: $this.data('id')
+                        }).then(response => {
+                            debugger;
+                            $("#success-message").text("Stock archived");
+                            $('#success-alert').show();
+                            setTimeout(function (){
+                                window.location.reload();
+                            }, 1000);
+                        }, error => {
+                            $("#error-message").text(error);
+                            $('#error-alert').show();
+                        });
                     })
                 })
 
                 var deleteIdStock;
 
-                $('#stocksTable .action-delete').each(function () {
+                $('#inactiveStocksTable .action-delete').each(function () {
                     var $this = $(this);
                     $this.on('click', function () {
-                        debugger;
                         deleteIdStock = $this.data('id');
                         event.preventDefault();
                     })

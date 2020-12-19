@@ -67,6 +67,25 @@ public class StockService {
     }
 
     /**
+     * Archive an existing {@link Stock}.
+     * @param stockId The Id of the stock
+     * @param archive Archive the stock
+     *
+     * @return Returns the edited stock.
+     *
+     * @throws Exception
+     */
+    public Stock editStock(Long stockId, Boolean isActive) throws Exception {
+        Optional<Stock> dbStock = stockRepository.findById(stockId);
+        if (stockId != null && dbStock != null && dbStock.isPresent()) {
+            dbStock.get().setIsActive(isActive);
+            return stockRepository.save(dbStock.get());
+        } else {
+            throw new Exception("Stock could not be found.");
+        }
+    }
+
+    /**
      * Deletes a {@link Stock}.
      *
      * @param stockId The stock's ID to delete.
