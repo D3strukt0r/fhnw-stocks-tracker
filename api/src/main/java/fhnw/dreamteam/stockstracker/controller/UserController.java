@@ -2,6 +2,7 @@ package fhnw.dreamteam.stockstracker.controller;
 
 import fhnw.dreamteam.stockstracker.data.dtos.UserList;
 import fhnw.dreamteam.stockstracker.data.models.User;
+import fhnw.dreamteam.stockstracker.service.CurrencyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +18,13 @@ import fhnw.dreamteam.stockstracker.service.UserService;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private CurrencyService currencyService;
 
     @PostMapping(path = "/user", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Void> postRegister(@RequestBody User user) {
         try {
-            userService.createUser(user);
+            userService.createUser(user, currencyService);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());

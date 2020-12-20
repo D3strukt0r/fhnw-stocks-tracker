@@ -101,21 +101,45 @@ public class StockController {
          }
          return ResponseEntity.accepted().body(newStock);
      }
-//
-//     /**
-//      * The response handler to delete a customer.
-//      *
-//      * @param customerId The customer's ID.
-//      *
-//      * @return Returns a successful response.
-//      */
-//     @DeleteMapping(path = "/customer/{customerId}")
-//     public ResponseEntity<Void> deleteCustomer(@PathVariable(value = "customerId") final String customerId) {
-//         try {
-//             stockService.deleteCustomer(Long.parseLong(customerId));
-//         } catch (Exception e) {
-//             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
-//         }
-//         return ResponseEntity.accepted().build();
-//     }
+
+    /**
+     * The response handler to edit a customer's existing information.
+     *
+     * @param stock   The new customer information.
+     * @param stockId The customer's ID.
+     *
+     * @return The new customer information.
+     */
+    @PutMapping(path = "/stockArchive/{stockId}", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Stock> putStock(
+        @PathVariable(value = "stockId") final String stockId
+    ) {
+        Stock newStock = null;
+        try {
+            Long stockIdLong = new Long(Long.parseLong(stockId));
+            newStock = stockService.editStock(stockIdLong, false);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
+        }
+        return ResponseEntity.accepted().body(newStock);
+    }
+
+     /**
+      * The response handler to delete a stock.
+      *
+      * @param stockId The stock's ID.
+      *
+      * @return Returns a successful response.
+      */
+     @DeleteMapping(path = "/stock/{stockId}", consumes = "application/json", produces = "application/json")
+     public ResponseEntity<Void> deleteStock(
+         @PathVariable (value = "stockId") final String stockId
+     ) {
+         try {
+             stockService.deleteStock(Long.parseLong(stockId));
+         } catch (Exception e) {
+             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, e.getMessage());
+         }
+         return ResponseEntity.accepted().build();
+     }
 }
