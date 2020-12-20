@@ -20,11 +20,42 @@ develop-branch (alias nightly)
 [![GH Action CI/CD](https://github.com/FHNW-Dream-Team/stocks-tracker/workflows/CI/CD/badge.svg?branch=develop)][gh-action]
 [![Codacy grade](https://img.shields.io/codacy/grade/0e799065d4724438828fc852bf0336d4/develop)][codacy]
 
-## Getting Started
+## Getting Started (Development)
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
+```shell
+git clone https://github.com/FHNW-Dream-Team/stocks-tracker.git
+```
+
+Please further read on the [wiki](https://github.com/FHNW-Dream-Team/stocks-tracker/wiki/Development-environment-setup).
+
+## Getting Started (Production)
+
+In order to run this container you'll need docker installed.
+
+-   [Windows](https://docs.docker.com/docker-for-windows/install/)
+-   [OS X](https://docs.docker.com/docker-for-mac/install/)
+-   [Linux](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
+
 ### Usage of Docker images
+
+#### Container Parameters
+
+```shell
+docker run \
+    -p 8080:8080
+    -e <all the keys>
+    d3strukt0r/fhnw-stocks-tracker-client
+```
+
+```shell
+docker run \
+    -p 80:80
+    d3strukt0r/fhnw-stocks-tracker-api
+```
+
+For a full example with `Docker Compose` please check the [wiki](https://github.com/FHNW-Dream-Team/stocks-tracker/wiki/Production-setup).
 
 #### Environment Variables
 
@@ -66,9 +97,9 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 ## Authors
 
 -   **Manuele Vaccari** - [D3strukt0r](https://github.com/D3strukt0r) - _Initial work, Setup client, Create stocks, Edit stocks_
--   **Victor Hargrave** - [jokerengine](https://github.com/jokerengine) - _Setup backend, Register_
--   **Sasa Trajkova** - [sasatrajkova](https://github.com/sasatrajkova) - _Stocks overview_
--   **Thomas Weber** - [tjw52](https://github.com/tjw52) - _Login, Logout_
+-   **Victor Hargrave** - [jokerengine](https://github.com/jokerengine) - _Setup backend, Register, Detail stock_
+-   **Sasa Trajkova** - [sasatrajkova](https://github.com/sasatrajkova) - _Stocks overview, Edit profile, Delete stock_
+-   **Thomas Weber** - [tjw52](https://github.com/tjw52) - _Login, Logout, CRUD Currency_
 
 See also the list of [contributors](https://github.com/FHNW-Dream-Team/stocks-tracker/contributors) who participated in this project.
 
