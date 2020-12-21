@@ -52,6 +52,11 @@ public class StockService {
      */
     public Stock editStock(@Valid final Stock stock) throws Exception {
         Optional<Stock> dbStock = stockRepository.findById(stock.getId());
+
+        if(dbStock.isPresent() && userService.getCurrentUser().getUsername() != dbStock.get().getUser().getUsername()) {
+            throw new Exception("You are not permitted to edit this stock");
+        }
+
         if (stock.getId() != null && dbStock != null && dbStock.isPresent()) {
             dbStock.get().setName(stock.getName());
             dbStock.get().setPrice(stock.getPrice());
@@ -69,14 +74,19 @@ public class StockService {
     /**
      * Archive an existing {@link Stock}.
      * @param stockId The Id of the stock
-     * @param archive Archive the stock
+     * @param isActive the is archived flag
      *
      * @return Returns the edited stock.
      *
      * @throws Exception
      */
-    public Stock editStock(Long stockId, Boolean isActive) throws Exception {
+    public Stock archiveStock(Long stockId, Boolean isActive) throws Exception {
         Optional<Stock> dbStock = stockRepository.findById(stockId);
+
+        if(dbStock.isPresent() && userService.getCurrentUser().getUsername() != dbStock.get().getUser().getUsername()) {
+            throw new Exception("You are not permitted to archive this stock");
+        }
+
         if (stockId != null && dbStock != null && dbStock.isPresent()) {
             dbStock.get().setIsActive(isActive);
             return stockRepository.save(dbStock.get());
@@ -90,26 +100,15 @@ public class StockService {
      *
      * @param stockId The stock's ID to delete.
      */
-    public void deleteStock(final Long stockId) {
+    public void deleteStock(final Long stockId) throws Exception {
+        Optional<Stock> dbStock = stockRepository.findById(stockId);
+
+        if(dbStock.isPresent() && userService.getCurrentUser().getUsername() != dbStock.get().getUser().getUsername()) {
+            throw new Exception("You are not permitted to delete this stock");
+        }
+
         stockRepository.deleteById(stockId);
     }
-
-    // /**
-    //  * Find a stock by it's ID.
-    //  *
-    //  * @param stockId The {@link Stock}'s ID.
-    //  *
-    //  * @return Returns the stock.
-    //  *
-    //  * @throws Exception Throws if nothing found.
-    //  */
-    // public Stock findStockById(final Long stockId) throws Exception {
-    //     List<Stock> stockList = stockRepository.findById(stockId);
-    //     if (stockList.isEmpty()) {
-    //         throw new Exception("No customer with ID " + stockId + " found.");
-    //     }
-    //     return stockList.get(0);
-    // }
 
     /**
      * Get all stocks.

@@ -65,8 +65,11 @@ public class UserService {
      * @throws Exception
      */
     public User editUser(@Valid final User user) throws Exception {
-
         Optional<User> dbUser = userRepository.findById(user.getId());
+
+        if(dbUser.isPresent() && getCurrentUser().getUsername() != dbUser.get().getUsername()) {
+            throw new Exception("You are not permitted to edit this profile");
+        }
 
         if (user.getId() != null && dbUser != null && dbUser.isPresent()) {
             dbUser.get().setUsername(user.getUsername());
@@ -85,32 +88,6 @@ public class UserService {
         }
         return userRepository.save(dbUser.get());
     }
-
-    /**
-     * Deletes a {@link User}.
-     *
-     * @param userId The user's ID to delete.
-     */
-    public void deleteUser(final Long userId) {
-        userRepository.deleteById(userId);
-    }
-
-    // /**
-    //  * Find a user by it's ID.
-    //  *
-    //  * @param userId The {@link User}'s ID.
-    //  *
-    //  * @return Returns the user.
-    //  *
-    //  * @throws Exception Throws if nothing found.
-    //  */
-    // public User findUserById(final Long userId) throws Exception {
-    //     List<User> userList = userRepository.findById(userId);
-    //     if (userList.isEmpty()) {
-    //         throw new Exception("No customer with ID " + userId + " found.");
-    //     }
-    //     return userList.get(0);
-    // }
 
     /**
      * Find all users.
