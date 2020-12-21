@@ -251,6 +251,10 @@ const updateUser = (form, id, callbackSuccess, callbackError) => {
     params.id = id;
     params.data = data;
     apiDataProvider(DataRequestType.UPDATE, "user", params).then(response => {
+        setTimeout(function (){
+            window.location.reload();
+            return callbackSuccess(response);
+        }, 1000);
         return callbackSuccess(response);
     }, error => {
         return callbackError(error);

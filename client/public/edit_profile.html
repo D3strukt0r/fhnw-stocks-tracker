@@ -157,60 +157,87 @@
                 </div>
 
                 <!-- Page Heading -->
-                <h1 class="h3 mb-4 text-gray-800">Edit Profile</h1>
-                <div class="card o-hidden border-0 shadow-lg my-5">
-                    <div class="card-body p-0">
-                        <!-- Nested Row within Card Body -->
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="p-5">
-                                    <form class="user">
-                                        <div class="form-group">
-                                            <input name="id" type="hidden"
-                                                   class="form-control form-control-user userID-input">
-                                        </div>
-                                        <div class="form-group">
-                                            <input name="username" type="text"
-                                                   class="form-control form-control-user username-input"
-                                                   placeholder="Username" required>
-                                        </div>
-                                        <div class="form-group row">
-                                            <div class="col-sm-6 mb-3 mb-sm-0">
-                                                <input name="firstname" type="text"
-                                                       class="form-control form-control-user firstname-input"
-                                                       placeholder="First Name" required>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <input name="lastname" type="text"
-                                                       class="form-control form-control-user lastname-input"
-                                                       placeholder="Last Name" required>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <input name="email" type="email"
-                                                   class="form-control form-control-user email-input"
-                                                   placeholder="Email Address" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <input name="mobile" type="tel"
-                                                   class="form-control form-control-user mobile-input"
-                                                   placeholder="Mobile Number">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <input name="password" type="password"
-                                                   class="form-control form-control-user password-input"
-                                                   placeholder="New Password" required>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary btn-user btn-block">
-                                            Save Changes
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h1 class="h3 mb-0 text-gray-800">Edit profile</h1>
                 </div>
+
+                        <!-- Basic Card Example -->
+                        <div class="row">
+                            <div class="col-lg-6">
+
+                                <!-- Basic Card Example -->
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">Profile information</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <form class="user">
+                                            <style>
+                                                input::placeholder {
+                                                    font-style: italic;
+                                                }
+                                            </style>
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Username</label>
+                                                <div class="col-sm-9">
+                                                <input name="username" type="text" READONLY
+                                                       class="form-control username-input" required>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">First name</label>
+                                                <div class="col-sm-9">
+                                                    <input name="firstname" type="text"
+                                                           class="form-control firstname-input" required>
+                                                </div>
+                                            </div>
+                                                <div class="form-group row">
+                                                    <label class="col-sm-3 col-form-label">Last name</label>
+                                                    <div class="col-sm-9">
+                                                    <input name="lastname" type="text"
+                                                           class="form-control lastname-input" required>
+                                                    </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Email address</label>
+                                                <div class="col-sm-9">
+                                                <input name="email" type="email"
+                                                       class="form-control email-input" required>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Mobile number</label>
+                                                <div class="col-sm-9">
+                                                <input name="mobile" type="tel"
+                                                       class="form-control mobile-input">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">New password</label>
+                                                <div class="col-sm-9">
+                                                <input name="password" type="password"
+                                                       class="form-control password-input" required>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <input name="id" type="hidden"
+                                                       class="form-control userID-input">
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                        </form>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!-- /.container-fluid -->
+
+                </div>
+                <!-- End of Main Content -->
 
             </div>
             <!-- /.container-fluid -->
@@ -294,7 +321,6 @@
 
         // Submit function
         $(".user").submit(function (event) {
-            $('.alert .close').click();
             event.preventDefault();
             var id = $(".userID-input").val();
             updateUser($(".user"), id,  function (result) {
